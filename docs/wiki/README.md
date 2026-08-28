@@ -96,12 +96,51 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 | [`el_ganadero`](../WIKI.md#252-el_ganadero) | El Ganadero | nada (rompe) — pero su nombre es la amenaza | terrestre | evento mid-game (noche ~10, por definir) | 🧪 propuesta | 1 |
 | [`nave_nodriza`](../WIKI.md#253-nave_nodriza) | Nave Nodriza | n/a — es el OBJETIVO FINAL, no ataca el pueblo | estatica (campo cercano, visible desde el inicio del run) | presente desde la noche 1 (meta visible) | ✅ canon | 1 |
 
+## Armas
+
+→ [Sección completa](../WIKI.md#4-armas)
+
+Solo las armas ya referenciadas por el `arma_base` de alguna unidad; el resto del árbol tecnológico sigue pendiente ([GDD §8.1](../GDD.md#81-árbol-tecnológico-in-run)).
+
+| Ficha | Nombre | Tier | Montaje | Fabricación | Estado | TBD |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`revolver`](../WIKI.md#41-revolver) | Revólver | T1_humano | unidad | Se fabrica en la Armería | 🧪 propuesta | 6 |
+| [`rifle_largo`](../WIKI.md#42-rifle_largo) | Rifle largo | T1_humano | unidad | Se fabrica en la Armería (arma humana, GDD §6.2) | 🧪 propuesta | 5 |
+| [`lazo`](../WIKI.md#43-lazo) | Lazo | TBD | unidad | Equipo propio del vaquero; llega con el Establo | 🧪 propuesta | 6 |
+| [`dinamita`](../WIKI.md#44-dinamita) | Dinamita | T1_humano | unidad | Por definir — llega con el dinamitero (recluta especial / edificio minero) | 🧪 propuesta | 6 |
+| [`revolver_doble`](../WIKI.md#45-revolver_doble) | Revólver doble | TBD | unidad | No se fabrica — llega con el sheriff (evento / nivel de pueblo alto) | 🧪 propuesta | 7 |
+
+## Edificios
+
+→ [Sección completa](../WIKI.md#5-edificios)
+
+| Ficha | Nombre | Función | Slot | Desbloquea | Estado | TBD |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`town_center`](../WIKI.md#51-town_center) | Town Center | Núcleo del rancho y almacén principal; el nivel del pueblo marca los desbloqueos | centro | TBD | 🧪 propuesta | 3 |
+| [`taberna`](../WIKI.md#52-taberna) | Taberna / Inn | Atrae y aloja reclutas; asignación de roles | lateral | peon | 🧪 propuesta | 5 |
+| [`establo`](../WIKI.md#53-establo) | Establo / Corral | Aloja ganado y produce comida pasiva | lateral | vaquero_ganado, lazo | 🧪 propuesta | 4 |
+| [`armeria`](../WIKI.md#54-armeria) | Armería / Herrería | Fabrica y mejora armas humanas; equipa unidades | lateral | pistolero, revolver, rifle_largo | 🧪 propuesta | 5 |
+| [`laboratorio`](../WIKI.md#55-laboratorio) | Laboratorio del Profesor | Investiga tecnología alien y desbloquea las recetas del árbol tecnológico | lateral | chatarrero | 🧪 propuesta | 5 |
+| [`torre_vigilancia`](../WIKI.md#56-torre_vigilancia) | Torre de vigilancia | Slot de torre defensiva; recibe las armas del árbol tecnológico | linea_defensa | TBD | 🧪 propuesta | 5 |
+| [`granja`](../WIKI.md#57-granja) | Granja | Comida activa (cultivos), complementa al ganado | lateral | n/a | 🧪 propuesta | 5 |
+| [`barricada`](../WIKI.md#58-barricada) | Barricadas / Muros | Línea defensiva por niveles | linea_defensa | n/a | 🧪 propuesta | 4 |
+
+## Oleadas
+
+→ [Sección completa](../WIKI.md#6-oleadas)
+
+La curva real de presupuesto por noche está pendiente ([TECH §3.3](../TECH.md#33-wavedirector)).
+
+| Ficha | Nombre | Noche | Fase lunar | Presupuesto | Estado | TBD |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`oleada_ejemplo`](../WIKI.md#61-oleada_ejemplo) | Oleada de ejemplo | TBD | cualquiera | TBD | 🧪 propuesta | 5 |
+
 ## Componentes (drops)
 
 La tabla canónica de componentes vive en [WIKI §3](../WIKI.md#3-registro-de-componentes-drops). Los componentes son la moneda del árbol tecnológico ([GDD §8](../GDD.md#81-árbol-tecnológico-in-run)).
 
 ## Estado de completitud
 
-- **25** fichas (9 unidades, 16 enemigos).
-- **5** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `sheriff`, `el_ganadero`.
-- **13** fichas con campos `TBD` pendientes de balance (39 campos en total).
+- **39** fichas (9 unidades, 16 enemigos, 5 armas, 8 edificios, 1 oleada).
+- **19** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `sheriff`, `el_ganadero`, `revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`, `town_center`, `taberna`, `establo`, `armeria`, `laboratorio`, `torre_vigilancia`, `granja`, `barricada`, `oleada_ejemplo`.
+- **27** fichas con campos `TBD` pendientes de balance (110 campos en total).

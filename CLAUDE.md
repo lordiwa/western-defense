@@ -8,7 +8,8 @@ Este archivo define cómo trabajar en este repo.
 - **GDD:** `docs/GDD.md` — diseño, visión, mecánicas
 - **TECH:** `docs/TECH.md` — arquitectura, stack, plan de implementación
 - **WIKI:** `docs/WIKI.md` — **fuente canónica** de todas las entidades
-  (unidades, enemigos, componentes). Fichas YAML con esquema fijo.
+  (unidades, enemigos, armas, edificios, oleadas, componentes). Fichas YAML con
+  esquema fijo (cinco esquemas, definidos en §0).
 - **Índice de la wiki:** `docs/wiki/README.md` — navegación por categoría.
   **Generado** desde la wiki; no lo edites a mano, regeneralo.
 

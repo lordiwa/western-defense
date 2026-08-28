@@ -1,6 +1,6 @@
 # COWBOY DEFENSE — Wiki de Entidades v0.1
 
-> **Propósito:** Fuente canónica de todas las entidades del juego (unidades del jugador, enemigos, edificios, armas). Este documento está estructurado para ser **consumido por sistemas de IA** que generen la wiki pública, assets, código de datos (ScriptableObjects / Resources) o contenido de balance.
+> **Propósito:** Fuente canónica de todas las entidades del juego (unidades del jugador, enemigos, armas, edificios, oleadas). Este documento está estructurado para ser **consumido por sistemas de IA** que generen la wiki pública, assets, código de datos (ScriptableObjects / Resources) o contenido de balance.
 > **Documentos hermanos:** [`GDD.md`](GDD.md) (diseño general) · [`TECH.md`](TECH.md) (técnico)
 > **Navegación:** [índice de la wiki](wiki/README.md) — tablas por categoría con enlaces a cada ficha (generado, no editar a mano).
 
@@ -52,6 +52,59 @@ comportamiento_amanecer: huye con lo que cargue  # default
 notas_diseno:
 estado:
 ```
+
+### Esquema de ficha — Arma
+```yaml
+id:            # snake_case canónico
+nombre:        # nombre en español
+tipo: arma
+tier:          # T1_humano | T2_hibrido | T3_alien (GDD §8.1)
+montaje:       # unidad | torre | trampa — quién o qué la lleva
+fabricacion:   # dónde y con qué se consigue (edificio + requisito de investigación)
+efecto:        # qué hace en combate
+stats: {dano: TBD, cadencia: TBD, rango: TBD, area: TBD}
+costo: {madera: TBD, chatarra: TBD, componentes: TBD}
+mejoras:       # lista de mejoras posibles
+notas_diseno:  # intención de diseño
+estado:        # canon | propuesta
+```
+> Los `stats` del arma están todos en `TBD`: hoy los valores cualitativos que existen viven en la ficha de la unidad que la porta (`pistolero.stats.rango`, etc.). Qué lado manda cuando haya números es una decisión de balance pendiente.
+
+### Esquema de ficha — Edificio
+```yaml
+id:            # snake_case canónico
+nombre:        # nombre en español
+tipo: edificio
+funcion:       # para qué sirve (GDD §6.2)
+slot:          # centro | lateral | linea_defensa (layout del rancho, GDD §6.1)
+obtencion:     # cómo se habilita o se construye
+desbloquea:    # SOLO ids de esta wiki, en lista. Si lo que habilita todavía no
+               # es una ficha, va `TBD`; si no habilita entidades, va `n/a`.
+               # Lo que quede fuera se explica en `notas_diseno`. Esta lista es
+               # verificable por referencia cruzada (TASK-009): nada de prosa.
+niveles:       # progresión de mejora del edificio
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno:  # intención de diseño
+estado:        # canon | propuesta
+```
+
+### Esquema de ficha — Oleada
+```yaml
+id:                # snake_case canónico
+nombre:            # nombre en español
+tipo: oleada
+noche:             # noche o rango de noches al que aplica
+fase_lunar:        # cualquiera | nueva | creciente | llena | menguante (GDD §9)
+presupuesto:       # puntos de la noche antes del modificador (TECH §3.3)
+modificador_lunar: # multiplicador del presupuesto según la fase
+enemigos:          # qué enemigos son elegibles esa noche
+spawn: {flancos: TBD, paths_voladores: TBD}
+determinista: true # la composición se resuelve con el seed del run (TECH §3.3)
+notas_diseno:      # intención de diseño
+estado:            # canon | propuesta
+```
+> El **costo en puntos de cada enemigo** no vive acá: es un campo de la ficha de enemigo, todavía sin definir (ver el backlog de §7). La oleada solo aporta el presupuesto y el marco de spawn.
 
 ---
 
@@ -544,13 +597,255 @@ estado: canon
 
 ---
 
-## 4. Backlog de fichas pendientes
-- [ ] Edificios como fichas (town_center, taberna, establo, armeria, laboratorio, torre_vigilancia, granja, barricada) — mismo esquema, campos de niveles de mejora
-- [ ] Armas del árbol tecnológico como fichas (T1/T2/T3) con costos en componentes
+## 4. Armas
+
+> Solo las armas que las fichas de unidad ya referencian por `arma_base`. El resto del árbol tecnológico (T1/T2/T3 de GDD §8.1) sigue en el backlog de §7.
+
+### 4.1 revolver
+```yaml
+id: revolver
+nombre: Revólver
+tipo: arma
+tier: T1_humano
+montaje: unidad
+fabricacion: Se fabrica en la Armería
+efecto: Disparo a distancia de cadencia sostenida; convierte a un peón en pistolero
+stats: {dano: TBD, cadencia: TBD, rango: TBD, area: n/a}
+costo: {madera: TBD, chatarra: TBD, componentes: n/a}
+mejoras: [ruta del árbol tecnológico T2 híbrido → T3 plasma (TBD)]
+notas_diseno: Arma base del pistolero y primer eslabón del árbol tecnológico. Las armas alien serían mejoras de equipo sobre esta línea, no clases nuevas (pendiente de confirmar, GDD §13).
+estado: propuesta
+```
+
+### 4.2 rifle_largo
+```yaml
+id: rifle_largo
+nombre: Rifle largo
+tipo: arma
+tier: T1_humano
+montaje: unidad
+fabricacion: Se fabrica en la Armería (arma humana, GDD §6.2)
+efecto: Disparo de largo alcance y cadencia lenta; alcanza voladores
+stats: {dano: TBD, cadencia: TBD, rango: TBD, area: n/a}
+costo: {madera: TBD, chatarra: TBD, componentes: n/a}
+mejoras: [mira (más rango), munición perforante]
+notas_diseno: Arma del cazador. De día caza animales para comida, de noche es la respuesta antiaérea temprana — por eso su alcance es el stat que la define.
+estado: propuesta
+```
+
+### 4.3 lazo
+```yaml
+id: lazo
+nombre: Lazo
+tipo: arma
+tier: TBD
+montaje: unidad
+fabricacion: Equipo propio del vaquero; llega con el Establo
+efecto: Enlaza — puede jalar de vuelta ganado que está siendo abducido o inmovilizar aliens pequeños
+stats: {dano: TBD, cadencia: TBD, rango: TBD, area: n/a}
+costo: {madera: TBD, chatarra: TBD, componentes: n/a}
+mejoras: [lazo reforzado]
+notas_diseno: No figura en el árbol tecnológico de GDD §8.1 — es equipo de trabajo, no de guerra. Es la contramedida manual al platillo_sonda y su mecánica está a validar en prototipo (ver 1.5).
+estado: propuesta
+```
+
+### 4.4 dinamita
+```yaml
+id: dinamita
+nombre: Dinamita
+tipo: arma
+tier: T1_humano
+montaje: unidad
+fabricacion: Por definir — llega con el dinamitero (recluta especial / edificio minero)
+efecto: Daño en área con mecha; castiga grupos y tanques
+stats: {dano: TBD, cadencia: TBD, rango: TBD, area: TBD}
+costo: {madera: TBD, chatarra: TBD, componentes: n/a}
+mejoras: [mecha corta (más cadencia), barril (más área)]
+notas_diseno: Única fuente de daño en área del T1 y contramedida citada contra el toro_de_marte. El riesgo de fuego amigo es cómico a propósito (ver 1.7).
+estado: propuesta
+```
+
+### 4.5 revolver_doble
+```yaml
+id: revolver_doble
+nombre: Revólver doble
+tipo: arma
+tier: TBD
+montaje: unidad
+fabricacion: No se fabrica — llega con el sheriff (evento / nivel de pueblo alto)
+efecto: Par de revólveres; versión de mini-héroe del revólver, ancla un flanco
+stats: {dano: TBD, cadencia: TBD, rango: TBD, area: n/a}
+costo: {madera: TBD, chatarra: TBD, componentes: n/a}
+mejoras: [TBD]
+notas_diseno: No es una entrada propia del árbol tecnológico: es la variante que porta el sheriff, único por pueblo. Si lo raptan, el arma se va con él.
+estado: propuesta
+```
+
+---
+
+## 5. Edificios
+
+> Los ocho edificios de GDD §6.2. Layout: el Town Center en el centro, los edificios en slots laterales, las defensas en los bordes (GDD §6.1).
+
+### 5.1 town_center
+```yaml
+id: town_center
+nombre: Town Center
+tipo: edificio
+funcion: Núcleo del rancho y almacén principal; el nivel del pueblo marca los desbloqueos
+slot: centro
+obtencion: Presente desde el inicio del run
+desbloquea: TBD
+niveles: TBD
+stats: {vida: TBD, tiempo_construccion: n/a}
+costo: {madera: n/a, chatarra: n/a}
+notas_diseno: Es el depósito al que corre el ratero_gris. Concentrar todo en el centro es cómodo de defender y caro de perder. No se construye ni se compra (de ahí `n/a` en costo y tiempo): lo que desbloquea son los niveles de pueblo, que todavía no son entidades de la wiki.
+estado: propuesta
+```
+
+### 5.2 taberna
+```yaml
+id: taberna
+nombre: Taberna / Inn
+tipo: edificio
+funcion: Atrae y aloja reclutas; asignación de roles
+slot: lateral
+obtencion: Construible en un slot del rancho
+desbloquea: [peon]
+niveles: TBD
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno: Puerta de entrada de la población, que es el recurso vivo y el que más roban (GDD §5.1).
+estado: propuesta
+```
+
+### 5.3 establo
+```yaml
+id: establo
+nombre: Establo / Corral
+tipo: edificio
+funcion: Aloja ganado y produce comida pasiva
+slot: lateral
+obtencion: Construible en un slot del rancho
+desbloquea: [vaquero_ganado, lazo]
+niveles: [más vacas, vacas protegidas]
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno: El corral es el blanco del platillo_sonda — la vaca flotando es la imagen icónica del juego. El nivel de vacas protegidas es la contramedida de edificio.
+estado: propuesta
+```
+
+### 5.4 armeria
+```yaml
+id: armeria
+nombre: Armería / Herrería
+tipo: edificio
+funcion: Fabrica y mejora armas humanas; equipa unidades
+slot: lateral
+obtencion: Construible en un slot del rancho
+desbloquea: [pistolero, revolver, rifle_largo]
+niveles: TBD
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno: GDD §6.2 le asigna todas las armas humanas; hoy solo el revólver está atado a ella explícitamente por la ficha del pistolero.
+estado: propuesta
+```
+
+### 5.5 laboratorio
+```yaml
+id: laboratorio
+nombre: Laboratorio del Profesor
+tipo: edificio
+funcion: Investiga tecnología alien y desbloquea las recetas del árbol tecnológico
+slot: lateral
+obtencion: Llega con el científico (GDD §6.2)
+desbloquea: [chatarrero]
+niveles: TBD
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno: Sin científico el edificio no produce nada — raptarlo detiene la investigación (ver 1.6). Es el edificio cuyo valor depende de una unidad viva. También habilita las recetas del árbol tecnológico (GDD §8.1), que todavía no son fichas.
+estado: propuesta
+```
+
+### 5.6 torre_vigilancia
+```yaml
+id: torre_vigilancia
+nombre: Torre de vigilancia
+tipo: edificio
+funcion: Slot de torre defensiva; recibe las armas del árbol tecnológico
+slot: linea_defensa
+obtencion: Construible en la línea de defensa
+desbloquea: TBD
+niveles: [mejorada con cristal_psiquico]
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno: Revela al sombrero_negro: sin torre, el infiltrado camina entre tu gente sin que las defensas lo lean como hostil. Recibe las armas de montaje torre del árbol tecnológico (GDD §8.1), que todavía no son fichas.
+estado: propuesta
+```
+
+### 5.7 granja
+```yaml
+id: granja
+nombre: Granja
+tipo: edificio
+funcion: Comida activa (cultivos), complementa al ganado
+slot: lateral
+obtencion: Construible en un slot del rancho
+desbloquea: n/a
+niveles: TBD
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno: Segunda pata de la comida, para que perder el ganado no corte la única fuente. El coyote_plateado prioriza granjas. No desbloquea entidades: produce comida directamente (de ahí `n/a`).
+estado: propuesta
+```
+
+### 5.8 barricada
+```yaml
+id: barricada
+nombre: Barricadas / Muros
+tipo: edificio
+funcion: Línea defensiva por niveles
+slot: linea_defensa
+obtencion: Se construye y se empuja hacia afuera para expandir el territorio (GDD §6.1)
+desbloquea: n/a
+niveles: [madera, reforzada, tec alien (placa_blindaje)]
+stats: {vida: TBD, tiempo_construccion: TBD}
+costo: {madera: TBD, chatarra: TBD}
+notas_diseno: Se repara de noche bajo fuego y el reparador es raptable (GDD §6.3). Manos_largas roba por encima de las bajas y el toro_de_marte las embiste: el muro nunca es seguridad total. No desbloquea entidades: empujarla hacia afuera expande territorio y slots (de ahí `n/a`).
+estado: propuesta
+```
+
+---
+
+## 6. Oleadas
+
+> Ficha de ejemplo para fijar la forma del tipo. La curva real (presupuesto por noche y costo en puntos por enemigo) está pendiente — ver el backlog de §7.
+
+### 6.1 oleada_ejemplo
+```yaml
+id: oleada_ejemplo
+nombre: Oleada de ejemplo
+tipo: oleada
+noche: TBD
+fase_lunar: cualquiera
+presupuesto: TBD
+modificador_lunar: TBD
+enemigos: los que cumplan su campo aparicion para esa noche y fase (nave_nodriza nunca entra)
+spawn: {flancos: TBD, paths_voladores: TBD}
+determinista: true
+notas_diseno: Plantilla, no balance. Existe para que el tipo oleada se ejercite de punta a punta en el pipeline mientras la curva real no está definida. Ninguna noche real debería referenciarla.
+estado: propuesta
+```
+
+---
+
+## 7. Backlog de fichas pendientes
+- [ ] Armas del árbol tecnológico como fichas (T1/T2/T3) con costos en componentes — §4 solo cubre las armas ya referenciadas por `arma_base`
+- [ ] Curva de oleadas real: presupuesto por noche × modificador lunar, y el costo en puntos como campo de la ficha de enemigo (TECH §3.3)
 - [ ] Ganado como entidad (vaca: produce comida, raptable, ¿variantes?)
 - [ ] Variantes de luna llena de cada enemigo (sufijo `_lunar`: stats modificados)
 - [ ] Valores de balance de todos los `TBD` (tras prototipo)
 
 ---
 
-*Wiki v0.1 — 9 unidades, 16 enemigos, 10 componentes. Fuente canónica: cambios de diseño se hacen aquí primero y se resumen en el GDD.*
+*Wiki v0.1 — 9 unidades, 16 enemigos, 5 armas, 8 edificios, 1 oleada, 10 componentes. Fuente canónica: cambios de diseño se hacen aquí primero y se resumen en el GDD.*

@@ -18,7 +18,12 @@ Thumbs.db
 .vscode/
 *.code-workspace
 
+# Python (tools/)
+__pycache__/
+*.pyc
+
 # hivemind
 .claude/worktrees/
 .claude/context-monitor/
 **/.claude/context-monitor/
+state/subagent-log.jsonl

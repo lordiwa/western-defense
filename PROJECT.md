@@ -27,7 +27,7 @@ defendiéndote de los aliens **con sus propias armas**.
 |---|---|---|
 | **GDD** | `docs/GDD.md` | Game Design Document v0.3 — visión, core loop, recursos, unidades, enemigos |
 | **TECH** | `docs/TECH.md` | Documento técnico v0.1 — arquitectura, stack (Godot 4 + C#), plan de prototipo |
-| **WIKI** | `docs/WIKI.md` | Wiki de entidades v0.1 — **fuente canónica** de unidades, enemigos, componentes (25 fichas YAML) |
+| **WIKI** | `docs/WIKI.md` | Wiki de entidades v0.1 — **fuente canónica** de unidades, enemigos, armas, edificios, oleadas, componentes (39 fichas YAML) |
 | **Índice wiki** | `docs/wiki/README.md` | Navegación por categoría sobre la wiki (generado, no editar a mano) |
 
 ## Stack decidido
@@ -51,17 +51,20 @@ defendiéndote de los aliens **con sus propias armas**.
 
 ### Inventario de la wiki
 
-25 fichas: **9 unidades** del jugador y **16 enemigos** (3 ladrones,
-3 abductores, 3 tanques, 4 soporte, 3 jefes) + la tabla de componentes.
-5 fichas en `estado: propuesta` y 39 campos `TBD` pendientes de balance —
+39 fichas: **9 unidades** del jugador, **16 enemigos** (3 ladrones,
+3 abductores, 3 tanques, 4 soporte, 3 jefes), **5 armas**, **8 edificios** y
+**1 oleada** de ejemplo + la tabla de componentes.
+19 fichas en `estado: propuesta` y 110 campos `TBD` pendientes de balance —
 conteo actualizado en cualquier momento con:
 
 ```bash
 python3 tools/wiki_to_resources.py --check
 ```
 
-Todavía **no** hay esquema de ficha para armas, edificios ni oleadas (`TASK-003`),
-aunque las fichas de unidad ya los referencian por `id`.
+Los cinco esquemas de ficha están definidos (`TASK-003`). Lo que falta es
+**contenido**, no forma: las armas del árbol tecnológico T1/T2/T3 (§4 solo cubre
+las que alguna unidad ya referencia por `arma_base`) y la curva real de oleadas
+(`TASK-008`).
 
 ## Cómo trabaja hivemind acá
 

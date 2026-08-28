@@ -38,11 +38,13 @@ DATA_DIR = REPO_ROOT / "data"
 WIKI_INDEX_PATH = REPO_ROOT / "docs" / "wiki" / "README.md"
 
 #: `tipo` de la ficha → subcarpeta de data/. Extender acá cuando la wiki gane
-#: esquemas de edificio / arma / oleada (ver backlog).
+#: un esquema de ficha nuevo (ver el backlog de WIKI §7).
 TIPO_TO_DIR = {
     "unidad_jugador": "units",
     "enemigo": "enemies",
-    # TBD: "arma": "weapons", "edificio": "buildings", "oleada": "waves"
+    "arma": "weapons",
+    "edificio": "buildings",
+    "oleada": "waves",
 }
 
 #: `tipo` → clase Resource de C# que consumirá el .tres. Todavía no existen
@@ -50,6 +52,11 @@ TIPO_TO_DIR = {
 TIPO_TO_RESOURCE_SCRIPT = {
     "unidad_jugador": "res://src/Units/UnitData.cs",
     "enemigo": "res://src/Enemies/EnemyData.cs",
+    # Las armas son el árbol tecnológico (GDD §8.1), que en TECH §2 vive en Tech/.
+    "arma": "res://src/Tech/WeaponData.cs",
+    "edificio": "res://src/Buildings/BuildingData.cs",
+    # La oleada la consume el WaveDirector, que en TECH §2 vive en Enemies/.
+    "oleada": "res://src/Enemies/WaveData.cs",
 }
 
 TBD = "TBD"
@@ -235,6 +242,9 @@ def _parse_ficha_tolerant(text: str) -> dict:
 REQUIRED_FIELDS = {
     "unidad_jugador": ["id", "nombre", "tipo", "rol", "estado"],
     "enemigo": ["id", "nombre", "tipo", "categoria", "que_roba", "contramedida", "estado"],
+    "arma": ["id", "nombre", "tipo", "tier", "montaje", "efecto", "estado"],
+    "edificio": ["id", "nombre", "tipo", "funcion", "slot", "estado"],
+    "oleada": ["id", "nombre", "tipo", "noche", "fase_lunar", "estado"],
 }
 
 
@@ -483,6 +493,19 @@ def _link(ficha: Ficha) -> str:
     return f"[`{ficha.id}`](../WIKI.md#{slug(ficha.block.section)})"
 
 
+def _cell(value) -> str:
+    """Un valor de ficha como celda de tabla (las listas se aplanan).
+
+    Escapa `|`: hoy ninguna ficha lo usa, pero un solo pipe en un campo partiría
+    la fila en dos columnas y el índice saldría corrupto en silencio.
+    """
+    if isinstance(value, list):
+        return ", ".join(_cell(v) for v in value)
+    if isinstance(value, dict):
+        return ", ".join(f"{k}: {_cell(v)}" for k, v in value.items())
+    return "" if value is None else str(value).replace("|", "\\|")
+
+
 def _tbd_cell(ficha: Ficha) -> str:
     n = len(ficha.tbd_fields())
     return "—" if n == 0 else str(n)
@@ -492,9 +515,48 @@ def _estado_cell(ficha: Ficha) -> str:
     return "✅ canon" if ficha.estado == "canon" else f"🧪 {ficha.estado}"
 
 
+def _table_section(
+    title: str,
+    wiki_heading: str,
+    fichas: list[Ficha],
+    columns: list[tuple[str, str]],
+    intro: str = "",
+) -> list[str]:
+    """Una sección del índice: encabezado, enlace a la wiki y tabla de fichas.
+
+    `columns` son los pares (encabezado, campo de la ficha) propios del tipo;
+    las columnas Ficha / Estado / TBD son comunes a todas las tablas. Si no hay
+    fichas de ese tipo, la sección no se emite (el índice no muestra tablas
+    vacías).
+    """
+    if not fichas:
+        return []
+    out = [f"## {title}", ""]
+    out.append(f"→ [Sección completa](../WIKI.md#{slug(wiki_heading)})")
+    out.append("")
+    if intro:
+        out.append(intro)
+        out.append("")
+    out.append(_row(["Ficha"] + [h for h, _ in columns] + ["Estado", "TBD"]))
+    out.append(_row(["---"] * (len(columns) + 3)))
+    for f in fichas:
+        out.append(
+            _row(
+                [_link(f)]
+                + [_cell(f.data.get(field, "")) for _, field in columns]
+                + [_estado_cell(f), _tbd_cell(f)]
+            )
+        )
+    out.append("")
+    return out
+
+
 def build_index(fichas: list[Ficha]) -> str:
     units = [f for f in fichas if f.tipo == "unidad_jugador"]
     enemies = [f for f in fichas if f.tipo == "enemigo"]
+    weapons = [f for f in fichas if f.tipo == "arma"]
+    buildings = [f for f in fichas if f.tipo == "edificio"]
+    waves = [f for f in fichas if f.tipo == "oleada"]
 
     out = [INDEX_PREAMBLE, "---", ""]
 
@@ -563,6 +625,35 @@ def build_index(fichas: list[Ficha]) -> str:
             )
         out.append("")
 
+    out += _table_section(
+        "Armas",
+        "4. Armas",
+        weapons,
+        [("Nombre", "nombre"), ("Tier", "tier"), ("Montaje", "montaje"),
+         ("Fabricación", "fabricacion")],
+        intro="Solo las armas ya referenciadas por el `arma_base` de alguna unidad; "
+        "el resto del árbol tecnológico sigue pendiente "
+        "([GDD §8.1](../GDD.md#81-árbol-tecnológico-in-run)).",
+    )
+
+    out += _table_section(
+        "Edificios",
+        "5. Edificios",
+        buildings,
+        [("Nombre", "nombre"), ("Función", "funcion"), ("Slot", "slot"),
+         ("Desbloquea", "desbloquea")],
+    )
+
+    out += _table_section(
+        "Oleadas",
+        "6. Oleadas",
+        waves,
+        [("Nombre", "nombre"), ("Noche", "noche"), ("Fase lunar", "fase_lunar"),
+         ("Presupuesto", "presupuesto")],
+        intro="La curva real de presupuesto por noche está pendiente "
+        "([TECH §3.3](../TECH.md#33-wavedirector)).",
+    )
+
     out.append("## Componentes (drops)")
     out.append("")
     out.append(
@@ -577,7 +668,18 @@ def build_index(fichas: list[Ficha]) -> str:
     out.append("")
     propuestas = [f for f in fichas if f.estado != "canon"]
     con_tbd = [f for f in fichas if f.tbd_fields()]
-    out.append(f"- **{len(fichas)}** fichas ({len(units)} unidades, {len(enemies)} enemigos).")
+    desglose = ", ".join(
+        f"{len(grupo)} {singular if len(grupo) == 1 else plural}"
+        for singular, plural, grupo in (
+            ("unidad", "unidades", units),
+            ("enemigo", "enemigos", enemies),
+            ("arma", "armas", weapons),
+            ("edificio", "edificios", buildings),
+            ("oleada", "oleadas", waves),
+        )
+        if grupo
+    )
+    out.append(f"- **{len(fichas)}** fichas ({desglose}).")
     out.append(
         f"- **{len(propuestas)}** en `estado: propuesta` — pendientes de validar: "
         + (", ".join(f"`{f.id}`" for f in propuestas) or "ninguna")

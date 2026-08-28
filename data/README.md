@@ -15,9 +15,9 @@ python3 tools/wiki_to_resources.py --format tres   # .tres de Godot (EXPERIMENTA
 |---|---|---|
 | `units/` | Una ficha por unidad del jugador (`peon`, `pistolero`, …) | generado |
 | `enemies/` | Una ficha por enemigo, todas las categorías | generado |
-| `weapons/` | Armas del árbol tecnológico | vacío — la wiki todavía no tiene esquema de arma |
-| `buildings/` | Edificios del rancho | vacío — la wiki todavía no tiene esquema de edificio |
-| `waves/` | Curvas de presupuesto por noche y modificador lunar | vacío — pendiente (TECH §3.3) |
+| `weapons/` | Armas (`revolver`, `rifle_largo`, …) | generado — solo las referenciadas por `arma_base`; el resto del árbol tecnológico está pendiente |
+| `buildings/` | Edificios del rancho (los 8 de GDD §6.2) | generado |
+| `waves/` | Curvas de presupuesto por noche y modificador lunar | generado — solo la ficha de ejemplo; la curva real está pendiente (TECH §3.3) |
 | `manifest.json` | Índice de todas las entidades + campos `TBD` por ficha | generado |
 
 ## Por qué está en `.gitignore`
