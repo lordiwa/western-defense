@@ -1,6 +1,6 @@
 # COWBOY DEFENSE — Documento Técnico v0.1
 
-> **Propósito:** Arquitectura, stack y plan de implementación. Acompaña a `GDD_Cowboy_Defense_v0.3.md` y `WIKI_Cowboy_Defense.md`.
+> **Propósito:** Arquitectura, stack y plan de implementación. Acompaña a [`GDD.md`](GDD.md) y [`WIKI.md`](WIKI.md) ([índice](wiki/README.md)).
 > **Stack decidido:** Godot 4.x + C# (.NET). Ver GDD Anexo A para la justificación vs Unity/Phaser.
 
 ---
@@ -103,7 +103,7 @@ cowboy-defense/
 - El "arte generativo" del fondo entra al pipeline de assets (herramientas de generación → curación humana → pool de piezas), no a runtime.
 
 ### 3.7 Pipeline wiki → datos
-- `tools/wiki_to_resources.py` parsea los bloques YAML de `WIKI_Cowboy_Defense.md` y genera/actualiza los `.tres` en `data/`.
+- `tools/wiki_to_resources.py` parsea los bloques YAML de [`docs/WIKI.md`](WIKI.md) y genera/actualiza los recursos en `data/`. Hoy es un **andamio**: emite JSON completo para las 25 fichas + `data/manifest.json`, valida campos requeridos y contabiliza los `TBD` sin rellenarlos; el escritor `.tres` (`--format tres`) es un esqueleto a la espera de las clases Resource de C# de §2. El mismo script regenera el índice navegable de la wiki con `--emit-index`.
 - Regla: **la wiki es la fuente canónica**; el balance se edita en la wiki (o en los .tres y se sincroniza de vuelta). Diseñado para que un agente proponga cambios de balance como PRs sobre la wiki.
 
 ---

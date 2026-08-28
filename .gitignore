@@ -5,8 +5,9 @@
 export_presets.cfg.bak
 export_presets.cfg
 
-# Datos generados
-data/
+# Datos generados desde docs/WIKI.md por tools/wiki_to_resources.py
+data/*
+!data/README.md
 *.tmp
 
 # Sistema / editor

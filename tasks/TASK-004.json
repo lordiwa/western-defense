@@ -1,0 +1,35 @@
+{
+  "key": "TASK-004",
+  "title": "Terminar el pipeline wiki → datos: escritor .tres real y validación estricta",
+  "description": "`tools/wiki_to_resources.py` es hoy un **andamio**. Lee las 25 fichas de la wiki, emite JSON completo por entidad más `data/manifest.json`, valida campos requeridos, cuenta `TBD` sin rellenarlos y regenera el índice navegable (`--emit-index`). Lo que le falta para ser el pipeline de TECH §3.7:\n\n1. **Escritor `.tres` real.** `--format tres` ya emite recursos de texto de Godot 4, pero apuntan a `res://src/Units/UnitData.cs` y `res://src/Enemies/EnemyData.cs`, que **no existen todavía**. Godot no puede cargarlos. Hay que escribir esas clases Resource de C# (con `[Export]` por campo del esquema) y hacer que el escritor emita tipos nativos en vez de strings donde corresponda.\n2. **Valores simbólicos vs numéricos.** Muchas fichas usan escalas verbales (`vida: baja`, `dano: alto`, `cadencia: muy_lenta`). El pipeline las pasa como strings. Definir si se resuelven contra una tabla de escalas o si el balance las reemplaza por números (ver TASK-005) — y hasta entonces, que el pipeline las valide contra el vocabulario permitido en vez de aceptar cualquier string.\n3. **Sincronización de vuelta.** TECH §3.7 dice que el balance se puede editar en los `.tres` y sincronizarse de vuelta a la wiki. Eso no existe: hoy el flujo es unidireccional.\n4. **Tests.** El parser YAML es un subconjunto tolerante escrito a mano (PyYAML no está instalado y varias fichas contienen `: ` dentro de escalares planos, que PyYAML rechaza). No tiene tests; los casos difíciles reales de la wiki — `el_ganadero` (`Coloso que \"cosecha\": arranca…`), `nave_nodriza` (`notas_diseno` con comillas y `1)` `2)` `3)`), las plantillas de esquema de §0 que deben descartarse — merecen quedar fijados.",
+  "acceptance_criteria": [
+    "Existen las clases Resource de C# (`UnitData`, `EnemyData`) con un `[Export]` por campo del esquema de la wiki.",
+    "Godot abre el proyecto y carga `data/units/peon.tres` y `data/enemies/ratero_gris.tres` sin errores.",
+    "El pipeline rechaza (con código de salida distinto de 0) una ficha cuyo valor simbólico no esté en el vocabulario permitido.",
+    "Existe una suite de tests del parser que cubre al menos: `el_ganadero` (`: ` dentro de escalar plano), `nave_nodriza` (comillas y numerales en `notas_diseno`), el descarte de las plantillas de esquema de §0, y la detección de un fence ```yaml sin cerrar.",
+    "Los campos `TBD` siguen propagándose literalmente: ningún camino del pipeline los sustituye por un valor."
+  ],
+  "status": "todo",
+  "priority": "high",
+  "labels": [
+    "pipeline",
+    "godot"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-006"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

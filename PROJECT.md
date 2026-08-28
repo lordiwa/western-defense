@@ -27,7 +27,8 @@ defendiéndote de los aliens **con sus propias armas**.
 |---|---|---|
 | **GDD** | `docs/GDD.md` | Game Design Document v0.3 — visión, core loop, recursos, unidades, enemigos |
 | **TECH** | `docs/TECH.md` | Documento técnico v0.1 — arquitectura, stack (Godot 4 + C#), plan de prototipo |
-| **WIKI** | `docs/WIKI.md` | Wiki de entidades v0.1 — **fuente canónica** de unidades, enemigos, componentes (fichas YAML) |
+| **WIKI** | `docs/WIKI.md` | Wiki de entidades v0.1 — **fuente canónica** de unidades, enemigos, componentes (25 fichas YAML) |
+| **Índice wiki** | `docs/wiki/README.md` | Navegación por categoría sobre la wiki (generado, no editar a mano) |
 
 ## Stack decidido
 
@@ -39,16 +40,39 @@ defendiéndote de los aliens **con sus propias armas**.
 
 ## Estado del desarrollo
 
-- [x] GDD v0.3 (diseño)
+- [x] GDD v0.3 (diseño) — ⚠️ §13 truncada, ver `TASK-001`
 - [x] Documento técnico v0.1 (arquitectura)
-- [x] Wiki de entidades v0.1 (fuente canónica)
+- [x] Wiki de entidades v0.1 (fuente canónica) — ⚠️ §3 truncada, ver `TASK-001`
+- [x] Andamiaje de la wiki: índice navegable + pipeline wiki → datos
 - [ ] Prototipo Godot (4-6 semanas, ver TECH §4)
 - [ ] Vertical slice
 - [ ] Loop completo
 - [ ] Contenido (wiki completa implementada)
 
+### Inventario de la wiki
+
+25 fichas: **9 unidades** del jugador y **16 enemigos** (3 ladrones,
+3 abductores, 3 tanques, 4 soporte, 3 jefes) + la tabla de componentes.
+5 fichas en `estado: propuesta` y 39 campos `TBD` pendientes de balance —
+conteo actualizado en cualquier momento con:
+
+```bash
+python3 tools/wiki_to_resources.py --check
+```
+
+Todavía **no** hay esquema de ficha para armas, edificios ni oleadas (`TASK-003`),
+aunque las fichas de unidad ya los referencian por `id`.
+
 ## Cómo trabaja hivemind acá
 
 Este repo es un proyecto **hivemind**: el orquestador planifica, los subagentes
-(researcher, developer, reviewer) ejecutan, y el backlog vive en `tasks/`.
-Ver `CLAUDE.md` para el routing y las reglas.
+(researcher, developer, reviewer) ejecutan, y el backlog vive en `tasks/`
+(ver [`tasks/README.md`](tasks/README.md)). `CLAUDE.md` tiene el routing y las
+reglas que no se negocian.
+
+**Próximos pasos del backlog** — dos frentes en paralelo:
+
+| Frente | Arranca por |
+|---|---|
+| Documentación | `TASK-001` (restaurar las colas truncadas) → `TASK-002` (cerrar GDD §13) → `TASK-003` (esquemas de arma/edificio/oleada) |
+| Juego | `TASK-006` (proyecto Godot, semana 1) → `TASK-007` (spike de split screen, riesgo #1) |

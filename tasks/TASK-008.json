@@ -1,0 +1,36 @@
+{
+  "key": "TASK-008",
+  "title": "Curva de oleadas: presupuesto por noche y costo en puntos por enemigo",
+  "description": "El `WaveDirector` (TECH §3.3) compone cada noche gastando un **presupuesto de puntos** — curva en data × modificador lunar — donde cada enemigo tiene un costo en puntos más restricciones de aparición. La composición debe ser determinista por seed (TECH principio 4) para poder reproducir bugs y balance.\n\nHoy falta la mitad de esa ecuación:\n- **El costo en puntos no es un campo de la ficha de enemigo.** El esquema de WIKI §0 no lo tiene. Hay que agregarlo y poblarlo para los 16 enemigos.\n- **La curva de presupuesto no existe.** `data/waves/` está vacío y no hay esquema de oleada (lo crea TASK-003).\n- **Las restricciones de aparición ya están** en las fichas, pero como texto libre: `noche 1+`, `noche 4+`, `solo luna llena`, `lunas llenas (mini-jefe recurrente)`, `evento mid-game (noche ~10, por definir)`, `presente desde la noche 1 (meta visible)`. El `WaveDirector` necesita poder leerlas mecánicamente, así que hay que decidir si se estructuran o si se parsean.\n\nOjo con `nave_nodriza`: no es un enemigo de oleada, es el objetivo final estático del run. No debe entrar nunca en la composición nocturna.",
+  "acceptance_criteria": [
+    "El esquema de ficha de enemigo en WIKI §0 incluye un campo de costo en puntos, y los 16 enemigos lo tienen poblado (o explícitamente `TBD`).",
+    "El campo `aparicion` es legible mecánicamente por el `WaveDirector`: o bien está estructurado en la ficha, o existe un parser con tests que cubre las seis formas presentes hoy en la wiki.",
+    "Existe al menos una curva de presupuesto por noche en `data/waves/`, generada desde la wiki por el pipeline.",
+    "`nave_nodriza` queda excluida de la composición de oleadas por una regla explícita, no por omisión.",
+    "Dos ejecuciones del `WaveDirector` con el mismo seed producen la misma composición."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "wiki",
+    "balance",
+    "pipeline"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-003"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

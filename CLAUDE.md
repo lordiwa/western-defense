@@ -9,6 +9,8 @@ Este archivo define cómo trabajar en este repo.
 - **TECH:** `docs/TECH.md` — arquitectura, stack, plan de implementación
 - **WIKI:** `docs/WIKI.md` — **fuente canónica** de todas las entidades
   (unidades, enemigos, componentes). Fichas YAML con esquema fijo.
+- **Índice de la wiki:** `docs/wiki/README.md` — navegación por categoría.
+  **Generado** desde la wiki; no lo edites a mano, regeneralo.
 
 ## Reglas que no se negocian
 
@@ -30,7 +32,8 @@ Este archivo define cómo trabajar en este repo.
 
 | Necesitás tocar | Andá a |
 |---|---|
-| Una unidad/enemigo/arma | `docs/WIKI.md` (ficha canónica) |
+| Una unidad/enemigo/arma | `docs/WIKI.md` (ficha canónica) — buscala por `id` |
+| Navegar la wiki | `docs/wiki/README.md` (índice generado) |
 | Arquitectura / stack / plan | `docs/TECH.md` |
 | Reglas de diseño general | `docs/GDD.md` |
 | Pipeline wiki → datos | `tools/wiki_to_resources.py` |
@@ -42,7 +45,19 @@ Este archivo define cómo trabajar en este repo.
 ## Comandos
 
 ```bash
-# (a completar cuando exista el proyecto Godot)
+# Pipeline wiki → datos (sin dependencias externas, Python 3 pelado)
+python3 tools/wiki_to_resources.py --check        # valida fichas, cuenta TBD, no escribe
+python3 tools/wiki_to_resources.py                # genera data/**/*.json + manifest
+python3 tools/wiki_to_resources.py --only peon    # una sola ficha
+python3 tools/wiki_to_resources.py --format tres  # .tres de Godot (ANDAMIO, ver TASK-004)
+python3 tools/wiki_to_resources.py --emit-index   # regenera docs/wiki/README.md
+```
+
+**Después de tocar `docs/WIKI.md`, corré `--emit-index`** o el índice queda
+desincronizado de la fuente canónica.
+
+```bash
+# (comandos de Godot: a completar en TASK-006)
 ```
 
 ## Convenciones
@@ -56,5 +71,10 @@ Este archivo define cómo trabajar en este repo.
 
 ## Estado
 
-Backlog y decisiones en `tasks/` y `state/`. Ver `PROJECT.md` para el estado
-del desarrollo.
+Backlog y decisiones en `tasks/` (formato en `tasks/README.md`) y `state/`.
+Ver `PROJECT.md` para el estado del desarrollo.
+
+⚠️ **`docs/GDD.md` y `docs/WIKI.md` están truncados** al final desde el commit
+inicial (falta GDD §13 *Preguntas Abiertas* y la última fila de la tabla de
+componentes de WIKI §3). Es `TASK-001`. **No rellenes ese contenido de memoria**
+— hay que recuperar los borradores originales; ver la regla 4 de arriba.

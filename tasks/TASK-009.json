@@ -1,0 +1,36 @@
+{
+  "key": "TASK-009",
+  "title": "Chequeo de consistencia wiki ↔ GDD en CI",
+  "description": "El GDD tiene tablas-resumen de unidades (§7) y de enemigos (§10) que duplican información de la wiki, con la advertencia explícita de que la wiki es la fuente canónica. Esa duplicación va a derivar en cuanto alguien edite un solo lado.\n\nAdemás hay invariantes del proyecto que hoy nadie verifica:\n- **Regla de diseño (CLAUDE.md §2):** todo enemigo responde qué roba, cómo lo roba y cómo se evita — es decir, `que_roba`, `como_roba` y `contramedida` no vacíos.\n- Todo `id` referenciado cruzadamente (el `arma_base` de una unidad, los `drops` de un enemigo contra la tabla de componentes de WIKI §3) debe existir.\n- Ninguna ficha con `TBD` puede estar en `estado: canon` sin justificación.\n- El índice navegable (`docs/wiki/README.md`) es generado: no puede estar desincronizado de la wiki.\n\nEl pipeline ya tiene el gancho: `--check` valida campos requeridos y sale con código distinto de 0 si hay errores. Falta extender las reglas y colgarlo de CI.",
+  "acceptance_criteria": [
+    "`--check` falla si un enemigo tiene `que_roba`, `como_roba` o `contramedida` vacíos.",
+    "`--check` falla si un `arma_base` o un `drop` referencia un `id` que no existe en la wiki.",
+    "`--check` falla si `docs/wiki/README.md` difiere de lo que produciría `--emit-index` (índice desincronizado).",
+    "Existe un workflow de CI que corre `--check` en cada push y PR, y que falla el build cuando el chequeo falla.",
+    "Las tablas del GDD §7 y §10 quedan verificadas contra la wiki, o bien se reemplazan por enlaces al índice para eliminar la duplicación."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "pipeline",
+    "docs",
+    "ci"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-004"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

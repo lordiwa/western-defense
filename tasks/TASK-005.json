@@ -1,0 +1,35 @@
+{
+  "key": "TASK-005",
+  "title": "Primera pasada de balance: proponer valores para los 39 campos TBD de la wiki",
+  "description": "13 de las 25 fichas tienen campos `TBD` — 39 campos en total (el conteo exacto y la lista por ficha están en `data/manifest.json`, campo `tbd_fields`, y resumidos en el índice de la wiki). Son principalmente `stats.vida`, `stats.dano`, `stats.cadencia`, `stats.velocidad`, `costo.chatarra`, `costo.comida_upkeep` y `capacidad_robo`.\n\n**Regla del proyecto (CLAUDE.md §4): no se inventan valores `TBD`.** Este ticket es la excepción explícita: pide *proponer*. Por lo tanto:\n- Toda ficha que reciba valores propuestos se marca `estado: propuesta`.\n- Cada valor se justifica contra una referencia: la unidad o enemigo con el que se compara, y el rol que cumple en la curva.\n- Los valores no son canon hasta que un playtest los confirme (TECH §4, semana 6).\n\nEmpezar por lo que el prototipo necesita primero, en el orden de TECH §4: `peon`, `ratero_gris`, `platillo_sonda`, `pistolero`, `cazador`. El resto puede quedar `TBD` sin bloquear.",
+  "acceptance_criteria": [
+    "Las fichas necesarias para las semanas 1–4 del prototipo (`peon`, `ratero_gris`, `platillo_sonda`, `pistolero`, `cazador`) no tienen ningún `TBD` en `stats` ni en `costo`.",
+    "Toda ficha modificada queda con `estado: propuesta` y una línea de justificación en `notas_diseno` o en una sección de balance de la wiki.",
+    "Existe una unidad de referencia declarada (la escala contra la que se comparan el resto de los valores) y está documentada en la wiki.",
+    "`python3 tools/wiki_to_resources.py --check` reporta el nuevo conteo de `TBD` y baja respecto de los 39 actuales.",
+    "Ninguna ficha con valores propuestos queda marcada `estado: canon`."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "wiki",
+    "balance"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-002"
+  ],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

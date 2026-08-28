@@ -1,7 +1,8 @@
 # COWBOY DEFENSE — Wiki de Entidades v0.1
 
 > **Propósito:** Fuente canónica de todas las entidades del juego (unidades del jugador, enemigos, edificios, armas). Este documento está estructurado para ser **consumido por sistemas de IA** que generen la wiki pública, assets, código de datos (ScriptableObjects / Resources) o contenido de balance.
-> **Documentos hermanos:** `GDD_Cowboy_Defense_v0.3.md` (diseño general) · `TECH_Cowboy_Defense.md` (técnico)
+> **Documentos hermanos:** [`GDD.md`](GDD.md) (diseño general) · [`TECH.md`](TECH.md) (técnico)
+> **Navegación:** [índice de la wiki](wiki/README.md) — tablas por categoría con enlaces a cada ficha (generado, no editar a mano).
 
 ---
 

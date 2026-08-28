@@ -1,0 +1,36 @@
+{
+  "key": "TASK-010",
+  "title": "Validar en prototipo las 5 fichas en estado: propuesta",
+  "description": "Cinco fichas están marcadas `estado: propuesta` porque describen mecánicas que nadie probó todavía. Cada una es una apuesta de diseño distinta y ninguna se convierte en canon hasta que se juegue:\n\n- **`vaquero_ganado`** — el lazo. La ficha dice explícitamente «mecánica a validar en prototipo»: jalar de vuelta ganado que está siendo abducido, o inmovilizar aliens pequeños. Es la contramedida manual al `platillo_sonda` y toca el corazón del TheftSystem (TECH §3.2: si el abductor muere antes de salir de pantalla, la víctima cae viva).\n- **`dinamitero`** — daño en área con «riesgo de fuego amigo cómico». Divertido en el papel; hay que ver si en la práctica es gracioso o solo frustrante.\n- **`doctor`** — conecta con el sistema de derribo del héroe (GDD §4.1, TECH §3.4). Depende de que esos estados existan.\n- **`sheriff`** — mini-héroe único por pueblo con buff de moral en su zona. «Buff de moral» no está definido como sistema en ninguna parte.\n- **`el_ganadero`** — jefe mid-game con fases; su `contramedida` es literalmente `TBD` y las fases están sin diseñar.\n\nCada una que sobreviva al playtest pasa a `estado: canon`; cada una que no, se rediseña o se corta. Cortarla es un resultado válido y hay que registrarlo.",
+  "acceptance_criteria": [
+    "Cada una de las cinco fichas termina en `estado: canon` (validada) o eliminada/rediseñada, con el motivo registrado en la wiki.",
+    "El lazo de `vaquero_ganado` se probó contra un `platillo_sonda` cargando ganado y el resultado (funciona / no funciona / se rediseña) está escrito.",
+    "El `buff de moral` del `sheriff` queda definido como sistema en el GDD o la ficha se rediseña sin él.",
+    "La `contramedida` `TBD` de `el_ganadero` deja de ser `TBD` o el jefe se difiere explícitamente fuera del prototipo.",
+    "Ninguna ficha queda en `estado: propuesta` al cerrar el ticket."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "wiki",
+    "diseno",
+    "prototipo"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-006"
+  ],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

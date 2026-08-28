@@ -1,0 +1,38 @@
+{
+  "key": "TASK-007",
+  "title": "Spike de DynamicSplitScreen — validar el riesgo técnico #1",
+  "description": "TECH §6 marca el split screen dinámico como el riesgo con más incertidumbre de UX, y §4 lo pone en la semana 1 justamente para fallar temprano. TECH §3.5: dos `SubViewport` + `Camera2D` por héroe; si `distancia(h1, h2) < umbral` colapsan a una cámara única con lerp del punto medio, y al separarse transicionan a split vertical. En un jugador el sistema colapsa a cámara única sin rama especial.\n\nEsto es un **spike**: el entregable es una respuesta, no código de producción. La pregunta es si la transición merge/split se siente bien o marea. El plan B ya está escrito en TECH §6: split fijo al separarse.\n\nTECH §2 (principio 2) dice que parchear coop después es el riesgo técnico #1 del proyecto — por eso este spike condiciona la arquitectura de cámara del resto del prototipo, y conviene resolverlo antes de construir encima.",
+  "acceptance_criteria": [
+    "Existe una escena de spike jugable con dos héroes controlables por dos gamepads que se pueden acercar y separar libremente.",
+    "La transición merge → split y split → merge está implementada y se puede disparar a voluntad ajustando el umbral en runtime.",
+    "Hay un veredicto escrito (se siente bien / hay que ir al plan B de split fijo) respaldado por al menos una sesión con dos personas.",
+    "El veredicto y sus consecuencias arquitectónicas quedan registrados en TECH §3.5 y §6, y §6 marca el riesgo como mitigado o materializado.",
+    "Si el veredicto es plan B, queda creado el ticket que implementa el split fijo."
+  ],
+  "status": "todo",
+  "priority": "high",
+  "labels": [
+    "godot",
+    "prototipo",
+    "riesgo",
+    "coop",
+    "semana-1"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-006"
+  ],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

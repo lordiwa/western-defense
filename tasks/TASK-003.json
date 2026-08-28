@@ -1,0 +1,36 @@
+{
+  "key": "TASK-003",
+  "title": "Definir los esquemas de ficha que faltan en la wiki: arma, edificio, oleada",
+  "description": "`docs/WIKI.md` §0 define solo dos esquemas de ficha: *unidad del jugador* y *enemigo*. Pero el proyecto ya asume tres familias más de entidades que hoy no tienen forma canónica:\n\n- **Armas** — GDD §8.1 lista los tiers T1 humano / T2 híbrido / T3 alien (revólver, rifle, escopeta, dinamita, torre Gatling, balas de aleación, trampas de pulso, rifle de plasma, torre de rayo, bomba de gas lumínico, barrera de energía, arpón antigravedad) y las fichas de unidad ya referencian `arma_base` por id (`revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`), pero ninguna de esas armas tiene ficha.\n- **Edificios** — Taberna, Armería, Laboratorio, Establo y las barricadas aparecen en las fichas de unidad como requisito de obtención, y GDD §6.2 los tiene como «propuesta inicial».\n- **Oleadas** — TECH §3.3 y `data/waves/` esperan curvas de presupuesto por noche × modificador lunar.\n\nEscribir los tres esquemas en WIKI §0 siguiendo el estilo de los dos existentes (campos fijos, `id` snake_case, `estado`, `TBD` para lo pendiente), y crear las fichas mínimas de las entidades ya referenciadas por las fichas existentes, para que no queden referencias colgadas. Después, extender `TIPO_TO_DIR` en `tools/wiki_to_resources.py` para que emitan a `data/weapons/`, `data/buildings/` y `data/waves/`.",
+  "acceptance_criteria": [
+    "WIKI §0 contiene esquemas de ficha para `arma`, `edificio` y `oleada`, con el mismo formato que los de unidad y enemigo.",
+    "Existe una ficha por cada arma referenciada como `arma_base` en las fichas de unidad actuales; ninguna referencia queda sin ficha.",
+    "Existe una ficha por cada edificio citado como requisito de obtención en las fichas de unidad actuales.",
+    "`TIPO_TO_DIR` en `tools/wiki_to_resources.py` mapea los tres tipos nuevos y el pipeline los genera en su carpeta correspondiente.",
+    "Los valores de balance de las fichas nuevas quedan en `TBD` y las fichas nuevas se marcan `estado: propuesta`."
+  ],
+  "status": "todo",
+  "priority": "high",
+  "labels": [
+    "wiki",
+    "docs",
+    "pipeline"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-001"
+  ],
+  "verification_tier": "tests-after",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

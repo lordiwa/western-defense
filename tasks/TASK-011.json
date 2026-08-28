@@ -1,0 +1,36 @@
+{
+  "key": "TASK-011",
+  "title": "Publicar la wiki navegable fuera del repo",
+  "description": "`docs/wiki/README.md` da navegación por categoría dentro de GitHub, pero sigue siendo un solo archivo de 500+ líneas por detrás: `docs/WIKI.md`. Para consulta rápida durante el desarrollo (y eventualmente para jugadores) conviene una wiki publicada con una página por entidad.\n\nLa restricción dura: **la fuente canónica sigue siendo `docs/WIKI.md`**. La wiki publicada tiene que ser *generada*, nunca editada a mano, o el proyecto termina con dos fuentes de verdad. El pipeline ya tiene el lugar natural para esto (`--emit-index` demuestra el patrón: preámbulo estático + tablas generadas).\n\nOpciones a evaluar: GitHub Pages con un generador estático, la wiki nativa del repo, o simplemente un `--emit-pages` que escriba un markdown por entidad en `docs/wiki/entidades/`. La última es la más barata y la que menos infraestructura agrega.",
+  "acceptance_criteria": [
+    "Existe una página navegable por entidad, generada desde `docs/WIKI.md` por `tools/wiki_to_resources.py`.",
+    "Regenerar la wiki publicada es un solo comando y es idempotente: correrlo dos veces no produce diff.",
+    "Cada página generada declara visiblemente que es generada y enlaza a su ficha canónica en `docs/WIKI.md`.",
+    "Las páginas muestran los campos `TBD` como pendientes de balance, sin ocultarlos ni rellenarlos.",
+    "El README del repo enlaza la wiki publicada."
+  ],
+  "status": "todo",
+  "priority": "low",
+  "labels": [
+    "docs",
+    "wiki",
+    "pipeline"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-009"
+  ],
+  "verification_tier": "tests-after",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

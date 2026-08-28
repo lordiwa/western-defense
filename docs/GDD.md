@@ -1,7 +1,7 @@
 # COWBOY DEFENSE — Game Design Document v0.3
 
 > **Estado:** Tercer borrador · **Fecha:** Agosto 2026 · **Equipo:** 2 personas + sistemas agénicos
-> **Documentos hermanos:** `WIKI_Cowboy_Defense.md` (fuente canónica de unidades y enemigos) · `TECH_Cowboy_Defense.md` (documento técnico)
+> **Documentos hermanos:** [`WIKI.md`](WIKI.md) (fuente canónica de unidades y enemigos) · [`TECH.md`](TECH.md) (documento técnico) · [índice navegable de la wiki](wiki/README.md)
 > **Nombre tentativo:** Cowboy Defense (working title)
 
 ---
@@ -161,7 +161,7 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 ## 7. Unidades del Jugador (Wiki — propuesta inicial)
 
-> ⚠️ **Fuente canónica: `WIKI_Cowboy_Defense.md`.** Las tablas de este documento son el resumen de diseño; las fichas completas, stats y drops viven en la wiki.
+> ⚠️ **Fuente canónica: [`WIKI.md`](WIKI.md#1-unidades-del-jugador)** ([índice](wiki/README.md#unidades-del-jugador)). Las tablas de este documento son el resumen de diseño; las fichas completas, stats y drops viven en la wiki.
 
 > Todas las unidades son **raptables**. Perder una unidad no es solo perder DPS: es perder su función económica.
 
@@ -215,7 +215,7 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 ## 10. Enemigos (Wiki — taxonomía v0.1)
 
-> ⚠️ **Fuente canónica: `WIKI_Cowboy_Defense.md`.** Aquí solo la taxonomía y la regla de diseño; fichas completas en la wiki.
+> ⚠️ **Fuente canónica: [`WIKI.md`](WIKI.md#2-enemigos)** ([índice](wiki/README.md#enemigos)). Aquí solo la taxonomía y la regla de diseño; fichas completas en la wiki.
 
 > Regla de oro: **cada enemigo quiere llevarse algo.** Su diseño responde a: ¿qué roba, cómo lo roba y cómo lo evitas?
 

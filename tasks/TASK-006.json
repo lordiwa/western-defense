@@ -1,0 +1,35 @@
+{
+  "key": "TASK-006",
+  "title": "Configurar el proyecto Godot 4 + C# (TECH §4, semana 1)",
+  "description": "El repo tiene el árbol de carpetas de TECH §2 pero está **vacío**: no hay `project.godot`, ni `.csproj`, ni una sola línea de C#. Nada se puede ejecutar todavía.\n\nEntregable de la semana 1 según TECH §4: proyecto Godot + C# funcionando, `TimeCycle`, héroe con movimiento y disparo automático. El spike de split screen va aparte (TASK-007) porque es el riesgo #1 y merece su propio go/no-go.\n\n`TimeCycle` (TECH §3.1) es un reloj único que emite `DayStarted`, `DuskWarning`, `NightStarted`, `DawnStarted`, con duraciones fijas por fase configurables por dificultad, y una fase lunar como índice del ciclo. Va en `src/Core/`, desacoplado del render (TECH principio 3: la simulación corre en managers puros testeables).\n\nSobre `data/`: hoy está en `.gitignore` porque es contenido derivado de la wiki. Godot necesita los `.tres` presentes para abrir el proyecto, así que este ticket tiene que resolver esa tensión — o versionar los `.tres`, o generarlos en un paso previo al build. Decidir y dejarlo documentado en TECH.",
+  "acceptance_criteria": [
+    "`project.godot` existe, el proyecto abre en Godot 4.x y compila el ensamblado de C# sin errores.",
+    "`src/Core/TimeCycle.cs` emite las cuatro señales de TECH §3.1 con duraciones configurables, y su lógica es testeable sin instanciar nodos de Godot.",
+    "Existe un héroe controlable con movimiento y disparo automático en una escena mínima.",
+    "El input del héroe se resuelve sobre una colección de héroes (1–2), no sobre un singleton de jugador — TECH principio 2, coop-ready desde el día uno.",
+    "La decisión sobre versionar o generar `data/**/*.tres` está tomada, aplicada en `.gitignore` y documentada en TECH.",
+    "El README documenta el comando para abrir/ejecutar el proyecto (la sección «Comandos» de CLAUDE.md deja de estar vacía)."
+  ],
+  "status": "todo",
+  "priority": "high",
+  "labels": [
+    "godot",
+    "prototipo",
+    "semana-1"
+  ],
+  "assignee": null,
+  "depends_on": [],
+  "verification_tier": "tests-after",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

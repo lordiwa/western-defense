@@ -1,0 +1,34 @@
+{
+  "key": "TASK-001",
+  "title": "Restaurar las colas truncadas de docs/GDD.md y docs/WIKI.md",
+  "description": "Los dos documentos canónicos están **truncados a mitad de línea** en el commit inicial `bf85836` (ambos cortan cerca de los 20 KB, síntoma de una escritura interrumpida):\n\n- `docs/GDD.md` termina en `## 13. Preguntas Ab` — la sección §13 *Preguntas Abiertas* no existe, aunque el resto del documento la referencia (ej. la ficha `pistolero` de la wiki dice «pendiente de confirmar, ver GDD §13»). También falta el *Anexo A* que TECH §0 cita como justificación de Godot vs Unity/Phaser.\n- `docs/WIKI.md` termina en `| nucleo_ganadero | Único | El G` — la última fila de la tabla de componentes (§3) está a medias.\n\n**Esto es un bloqueante de contenido, no un bug de formato:** el material perdido no está en el repo y no se puede reconstruir sin la fuente original. Hay que recuperar los originales de donde salieron (borradores del equipo) y pegar las colas faltantes. **No inventar el contenido perdido** — si el original no aparece, reescribirlo es un ticket de diseño aparte, no éste.\n\nEl pipeline ya detecta el truncamiento: `python3 tools/wiki_to_resources.py --check` emite el aviso «docs/WIKI.md parece terminar a mitad de línea».",
+  "acceptance_criteria": [
+    "`docs/GDD.md` contiene la sección §13 completa, con al menos las preguntas abiertas que el resto de los documentos referencian.",
+    "El Anexo A del GDD (justificación de stack) existe o se registra explícitamente como descartado en el propio GDD.",
+    "La tabla §3 de `docs/WIKI.md` termina con la fila `nucleo_ganadero` completa (rareza, fuente y usos) y el archivo cierra con salto de línea final.",
+    "`python3 tools/wiki_to_resources.py --check` no emite el aviso de truncamiento y sale con código 0.",
+    "El contenido restaurado proviene de los borradores originales; cualquier texto que haya que reescribir queda marcado como tal en el commit."
+  ],
+  "status": "todo",
+  "priority": "critical",
+  "labels": [
+    "docs",
+    "wiki",
+    "bloqueante"
+  ],
+  "assignee": null,
+  "depends_on": [],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    }
+  ],
+  "created_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-28T00:00:00Z",
+  "jira_key": null
+}

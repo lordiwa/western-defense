@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-08-28T00:00:00Z",
+  "tasks": [
+    {
+      "key": "TASK-001",
+      "title": "Restaurar las colas truncadas de docs/GDD.md y docs/WIKI.md",
+      "status": "todo",
+      "priority": "critical"
+    },
+    {
+      "key": "TASK-002",
+      "title": "Cerrar las preguntas abiertas del GDD §13",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-003",
+      "title": "Definir los esquemas de ficha que faltan en la wiki: arma, edificio, oleada",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-004",
+      "title": "Terminar el pipeline wiki → datos: escritor .tres real y validación estricta",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-005",
+      "title": "Primera pasada de balance: proponer valores para los 39 campos TBD de la wiki",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-006",
+      "title": "Configurar el proyecto Godot 4 + C# (TECH §4, semana 1)",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-007",
+      "title": "Spike de DynamicSplitScreen — validar el riesgo técnico #1",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-008",
+      "title": "Curva de oleadas: presupuesto por noche y costo en puntos por enemigo",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-009",
+      "title": "Chequeo de consistencia wiki ↔ GDD en CI",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-010",
+      "title": "Validar en prototipo las 5 fichas en estado: propuesta",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-011",
+      "title": "Publicar la wiki navegable fuera del repo",
+      "status": "todo",
+      "priority": "low"
+    }
+  ]
+}

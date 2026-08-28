@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://western-defense.local/tasks/schema.json",
+  "title": "Task",
+  "description": "Una unidad de trabajo del equipo agéntico. Los nombres de campo espejan los de Jira para poder migrar sin traducción con pérdida.",
+  "type": "object",
+  "required": [
+    "key",
+    "title",
+    "description",
+    "acceptance_criteria",
+    "status",
+    "priority",
+    "created_at",
+    "updated_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "key": {
+      "type": "string",
+      "pattern": "^TASK-[0-9]{3,}$",
+      "description": "Identificador estable. Mapea al issue key de Jira al migrar."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Resumen en una línea. Mapea a `summary`."
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripción completa en markdown. Mapea a `description`."
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "\\S"
+      },
+      "description": "Criterios falsables de 'hecho'."
+    },
+    "verification_tier": {
+      "type": "string",
+      "enum": [
+        "tdd",
+        "tests-after",
+        "uat-only"
+      ],
+      "description": "Cómo se verifica el ticket. Ausente = tdd."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "todo",
+        "in_progress",
+        "in_review",
+        "blocked",
+        "done"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "assignee": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Subagente o humano. Null = sin asignar."
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^TASK-[0-9]{3,}$"
+      },
+      "default": [],
+      "description": "Tareas que deben estar `done` antes de empezar esta."
+    },
+    "linked_commits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "linked_prs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "comments": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "required": [
+          "author",
+          "at",
+          "body"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "author": {
+            "type": "string",
+            "enum": [
+              "orchestrator",
+              "developer",
+              "reviewer",
+              "researcher",
+              "uat",
+              "backlog-seeder"
+            ]
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "body": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "jira_key": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null
+    }
+  }
+}
