@@ -322,11 +322,35 @@ def load_fichas(wiki_path: Path) -> tuple[list[Ficha], list[str]]:
 
     # Comprobación de integridad frente al final del documento: si la wiki está
     # truncada, el último bloque no llega y conviene que se note.
-    if not markdown.rstrip().endswith(("|", "```", ".", ":")):
-        warnings.append(
-            "docs/WIKI.md parece terminar a mitad de línea — posible truncamiento"
-        )
+    truncation = detect_truncation(markdown)
+    if truncation:
+        warnings.append(f"docs/WIKI.md {truncation} — posible truncamiento")
     return fichas, warnings
+
+
+def detect_truncation(markdown: str) -> str | None:
+    """Describe por qué el documento parece cortado a mitad, o None si cierra bien.
+
+    Busca señales estructurales de una escritura interrumpida — no de estilo de
+    redacción. El corte real del commit inicial dejó `## 13. Preguntas Ab` en el
+    GDD y `| nucleo_ganadero | Único | El G` en la wiki: una fila de tabla sin
+    cerrar, un encabezado sin cuerpo y, en ambos casos, sin salto de línea final.
+    """
+    if not markdown:
+        return "está vacío"
+    if not markdown.endswith("\n"):
+        return "no termina en salto de línea"
+
+    lines = [ln for ln in markdown.splitlines() if ln.strip()]
+    if not lines:
+        return "no tiene contenido"
+    last = lines[-1].strip()
+
+    if last.startswith("|") and not last.endswith("|"):
+        return "termina en una fila de tabla sin cerrar"
+    if HEADING_RE.match(last):
+        return "termina en un encabezado sin cuerpo"
+    return None
 
 
 # --------------------------------------------------------------------------

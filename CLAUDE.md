@@ -74,7 +74,7 @@ desincronizado de la fuente canónica.
 Backlog y decisiones en `tasks/` (formato en `tasks/README.md`) y `state/`.
 Ver `PROJECT.md` para el estado del desarrollo.
 
-⚠️ **`docs/GDD.md` y `docs/WIKI.md` están truncados** al final desde el commit
-inicial (falta GDD §13 *Preguntas Abiertas* y la última fila de la tabla de
-componentes de WIKI §3). Es `TASK-001`. **No rellenes ese contenido de memoria**
-— hay que recuperar los borradores originales; ver la regla 4 de arriba.
+Los tres documentos canónicos están **completos** desde `TASK-001` (los
+originales llegaron del equipo y reemplazaron las colas truncadas del commit
+inicial): GDD §13 + Anexo A + Roadmap, y la tabla de componentes de WIKI §3.
+`python3 tools/wiki_to_resources.py --check` verifica que sigan completos.

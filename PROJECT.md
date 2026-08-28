@@ -40,9 +40,9 @@ defendiéndote de los aliens **con sus propias armas**.
 
 ## Estado del desarrollo
 
-- [x] GDD v0.3 (diseño) — ⚠️ §13 truncada, ver `TASK-001`
+- [x] GDD v0.3 (diseño) — completo (§13, Anexo A y Roadmap restaurados en `TASK-001`)
 - [x] Documento técnico v0.1 (arquitectura)
-- [x] Wiki de entidades v0.1 (fuente canónica) — ⚠️ §3 truncada, ver `TASK-001`
+- [x] Wiki de entidades v0.1 (fuente canónica) — completa (§3 cerrada en `TASK-001`)
 - [x] Andamiaje de la wiki: índice navegable + pipeline wiki → datos
 - [ ] Prototipo Godot (4-6 semanas, ver TECH §4)
 - [ ] Vertical slice
@@ -74,5 +74,5 @@ reglas que no se negocian.
 
 | Frente | Arranca por |
 |---|---|
-| Documentación | `TASK-001` (restaurar las colas truncadas) → `TASK-002` (cerrar GDD §13) → `TASK-003` (esquemas de arma/edificio/oleada) |
+| Documentación | ~~`TASK-001`~~ ✅ → `TASK-003` (esquemas de arma/edificio/oleada) → `TASK-002` (cerrar GDD §13, necesita decisiones del equipo) |
 | Juego | `TASK-006` (proyecto Godot, semana 1) → `TASK-007` (spike de split screen, riesgo #1) |

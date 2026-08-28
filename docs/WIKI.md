@@ -540,4 +540,17 @@ estado: canon
 | cristal_lunar | Especial | Faro Lunar (garantizado) | Recetas exclusivas del ciclo lunar (TBD) |
 | nucleo_asedio | Especial | Demoledor | Torre de largo alcance |
 | herramienta_alien | Especial | Reparador | Reparación automática de barricadas |
-| nucleo_ganadero | Único | El G
+| nucleo_ganadero | Único | El Ganadero | TBD (recompensa de jefe) |
+
+---
+
+## 4. Backlog de fichas pendientes
+- [ ] Edificios como fichas (town_center, taberna, establo, armeria, laboratorio, torre_vigilancia, granja, barricada) — mismo esquema, campos de niveles de mejora
+- [ ] Armas del árbol tecnológico como fichas (T1/T2/T3) con costos en componentes
+- [ ] Ganado como entidad (vaca: produce comida, raptable, ¿variantes?)
+- [ ] Variantes de luna llena de cada enemigo (sufijo `_lunar`: stats modificados)
+- [ ] Valores de balance de todos los `TBD` (tras prototipo)
+
+---
+
+*Wiki v0.1 — 9 unidades, 16 enemigos, 10 componentes. Fuente canónica: cambios de diseño se hacen aquí primero y se resumen en el GDD.*

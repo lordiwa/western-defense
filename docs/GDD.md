@@ -287,4 +287,48 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 ---
 
-## 13. Preguntas Ab
+## 13. Preguntas Abiertas (para v0.4)
+1. Lista final de edificios y sus árboles de mejora. (§6.2)
+2. ¿Armas alien = clase nueva o mejora de equipo? (§7)
+3. Nombre y tamaño del sistema de meta-progresión. (§8.3)
+4. Duración exacta del ciclo lunar y curvas de dificultad. (§9)
+5. Economía: ¿confirmamos la ausencia de oro tras el primer prototipo?
+6. Nombre definitivo del juego.
+
+### Resueltas en v0.3
+- ✅ Split screen dinámico: se une cuando los jugadores están cerca (§4.2)
+- ✅ Fuera de combate: revives Malherido al amanecer donde caíste y regresas al pueblo; sin penalización extra (§4.1, §4.2)
+- ✅ Wiki de unidades y enemigos separada a [`WIKI.md`](WIKI.md) como fuente canónica; §7 y §10 de este documento pasan a ser resumen de diseño
+
+### Resueltas en v0.2
+- ✅ Derribo del héroe → sistema de 3 estados (§4.1)
+- ✅ Mapa → fijo con fondo/recursos semi-aleatorios; pueblos/ciudades como progresión futura (§3.4)
+- ✅ Coop → local 2P split screen desde el diseño inicial; sin online (§4.2)
+
+---
+
+## 14. Roadmap Sugerido
+1. **Prototipo de core loop (4–6 semanas):** ciclo día/noche, 1 recurso, peones, 2 enemigos (Ratero + Platillo Sonda con rayo tractor y drop de víctima), barricada reparable, **arquitectura preparada para 2 héroes** (aunque el coop se pruebe en fase 2). **Meta: validar que "el robo duele" se siente.**
+2. **Vertical slice:** economía completa, 5–6 enemigos, árbol tec T1→T2, primera luna llena.
+3. **Loop de run completo:** derrota por espiral, asalto a nodriza, meta-progresión mínima.
+4. **Contenido y balance:** wiki completa de enemigos/unidades, T3, jefes.
+
+---
+
+## Anexo A — Selección de Motor
+
+| Criterio | Godot 4 | Unity 2D | Phaser |
+|---|---|---|---|
+| Costo | Gratis, MIT, sin regalías | Gratis <200K USD/año; Pro de pago | Gratis |
+| Pipeline 2D / pixel art | Nativo, pixel-perfect de fábrica | Sobre motor 3D; requiere configuración | Bueno, pero orientado a web |
+| Lenguaje | GDScript / **C#** | C# (experiencia actual del equipo) | JavaScript/TS |
+| Consolas | Vía terceros (W4 Games) | Soporte oficial | No viable |
+| Peso de builds | Muy liviano | Pesado para 2D | N/A escritorio |
+| Ecosistema/assets | Creciente | El más grande | Limitado para este alcance |
+| Amigable a workflows agénicos | Alta (proyectos en texto plano, open source) | Media | Alta |
+
+**Recomendación: Godot 4 con C#.** Aprovecha la experiencia en C#, costo cero, 2D nativo ideal para pixel art. Unity queda como plan B legítimo si la rampa de aprendizaje resultara un problema en el prototipo. Phaser descartado (web-first, sin camino real a consola).
+
+---
+
+*Documento vivo. Siguiente iteración: v0.3 tras resolver §13 y validar el prototipo del core loop.*
