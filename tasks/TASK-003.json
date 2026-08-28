@@ -9,14 +9,14 @@
     "`TIPO_TO_DIR` en `tools/wiki_to_resources.py` mapea los tres tipos nuevos y el pipeline los genera en su carpeta correspondiente.",
     "Los valores de balance de las fichas nuevas quedan en `TBD` y las fichas nuevas se marcan `estado: propuesta`."
   ],
-  "status": "todo",
+  "status": "in_progress",
   "priority": "high",
   "labels": [
     "wiki",
     "docs",
     "pipeline"
   ],
-  "assignee": null,
+  "assignee": "developer",
   "depends_on": [
     "TASK-001"
   ],
@@ -28,6 +28,11 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "**Desbloqueada por TASK-001 y tomada como siguiente tarea del backlog.** Es la que más destraba: hoy las fichas de unidad referencian `arma_base` y edificios por `id` que no tienen ficha, así que el chequeo de referencias cruzadas de TASK-009 no puede existir y `data/weapons/`, `data/buildings/` y `data/waves/` están vacíos.\n\nSe elige sobre TASK-002 (necesita decisiones de diseño del equipo), TASK-004 (depende de TASK-006, el proyecto Godot) y TASK-005 (depende de TASK-002).\n\nLa §4 «Backlog de fichas pendientes» que llegó con la wiki completa confirma el alcance y lo amplía: además de armas y edificios lista el ganado como entidad y las variantes `_lunar` de enemigos. Eso **no** entra en este ticket — queda registrado para tickets propios."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",

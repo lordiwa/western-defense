@@ -4,7 +4,7 @@
     {
       "key": "TASK-001",
       "title": "Restaurar las colas truncadas de docs/GDD.md y docs/WIKI.md",
-      "status": "todo",
+      "status": "done",
       "priority": "critical"
     },
     {
@@ -16,7 +16,7 @@
     {
       "key": "TASK-003",
       "title": "Definir los esquemas de ficha que faltan en la wiki: arma, edificio, oleada",
-      "status": "todo",
+      "status": "in_progress",
       "priority": "high"
     },
     {

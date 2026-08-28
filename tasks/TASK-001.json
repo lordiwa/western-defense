@@ -9,23 +9,30 @@
     "`python3 tools/wiki_to_resources.py --check` no emite el aviso de truncamiento y sale con código 0.",
     "El contenido restaurado proviene de los borradores originales; cualquier texto que haya que reescribir queda marcado como tal en el commit."
   ],
-  "status": "todo",
+  "status": "done",
   "priority": "critical",
   "labels": [
     "docs",
     "wiki",
     "bloqueante"
   ],
-  "assignee": null,
+  "assignee": "orchestrator",
   "depends_on": [],
   "verification_tier": "uat-only",
-  "linked_commits": [],
+  "linked_commits": [
+    "c80e899"
+  ],
   "linked_prs": [],
   "comments": [
     {
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Cerrada en `c80e899`. Los borradores originales llegaron del equipo (Mato) y reemplazaron las colas truncadas; no se reescribió contenido.\n\n**Evidencia por criterio:**\n1. GDD §13 completa: 6 preguntas abiertas para v0.4 + los bloques «Resueltas en v0.3» y «Resueltas en v0.2». Incluye la pregunta que la ficha `pistolero` referencia («¿armas alien = clase nueva o mejora de equipo?», #2).\n2. Anexo A existe: tabla comparativa Godot 4 / Unity 2D / Phaser con la recomendación «Godot 4 con C#», que es lo que TECH §0 citaba. También llegó §14 Roadmap, que no estaba en los criterios pero faltaba igual.\n3. Tabla §3 de la wiki cerrada: `| nucleo_ganadero | Único | El Ganadero | TBD (recompensa de jefe) |`. Ambos archivos terminan con salto de línea final (antes ninguno lo tenía).\n4. `python3 tools/wiki_to_resources.py --check` → 25 fichas, 39 TBD, 5 propuestas, sin aviso de truncamiento, exit 0.\n5. Tamaños: GDD 289→334 líneas (20677→23404 B), WIKI 542→556 (20358→21051 B).\n\n**Dos cosas que hubo que corregir y no estaban en el ticket:**\n- Los originales no traían los enlaces internos que había agregado `6f11b7f` (citaban `WIKI_Cowboy_Defense.md`, ruta que no existe en el repo) ni la descripción vigente del pipeline en TECH §3.7. Se re-aplicaron sobre el texto completo; el contenido de diseño quedó intacto.\n- El aviso de truncamiento daba **falso positivo** sobre los docs ya completos: la heurística sólo miraba si el último carácter era `| ``` . :`, y la wiki ahora cierra con una línea en cursiva (`*Wiki v0.1 — …*`). Se reemplazó por señales estructurales de escritura interrumpida (sin salto de línea final / fila de tabla sin cerrar / encabezado sin cuerpo). Verificado contra las versiones de `HEAD:bf85836`: siguen detectándose las dos truncaduras reales, y los docs completos pasan limpio.\n\n**Nota para el equipo (no bloquea):** el pie del GDD dice «Siguiente iteración: v0.3 tras resolver §13» aunque el documento ya es v0.3 — probablemente debería decir v0.4. Se dejó tal cual porque es texto del original; se resuelve en TASK-002, que sube la versión."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",

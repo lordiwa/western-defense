@@ -27,6 +27,11 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "El Anexo A del GDD, que TECH §0 citaba y no existía en el repo, llegó con TASK-001: tabla comparativa Godot 4 / Unity 2D / Phaser con la recomendación explícita de **Godot 4 + C#**, Unity como plan B legítimo si la rampa de aprendizaje molesta en el prototipo, y Phaser descartado. La decisión de stack de este ticket ya no depende de una referencia colgada."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",

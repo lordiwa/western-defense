@@ -6,7 +6,8 @@
     "Cada pregunta de §13 queda en uno de tres estados explícitos en el GDD: decidida (con la decisión escrita), diferida al prototipo (con el ticket que la resuelve enlazado), o descartada.",
     "La pregunta de clase-nueva-vs-mejora-de-equipo queda decidida y la nota `pendiente de confirmar` de la ficha `pistolero` en `docs/WIKI.md` se actualiza para reflejarlo.",
     "El GDD sube de versión (v0.3 → v0.4) y el encabezado lo refleja.",
-    "Ninguna decisión de balance numérico se toma acá: los valores siguen siendo `TBD` hasta TASK-005."
+    "Ninguna decisión de balance numérico se toma acá: los valores siguen siendo `TBD` hasta TASK-005.",
+    "La pregunta #6 (nombre definitivo del juego) queda decidida o explícitamente diferida; si se decide, se propagan las referencias al working title en PROJECT.md, README.md y el encabezado de los tres documentos."
   ],
   "status": "todo",
   "priority": "high",
@@ -26,6 +27,11 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "**Desbloqueada:** TASK-001 cerró y §13 ya existe. El ticket se escribió infiriendo las preguntas desde el texto que sobrevivió al truncamiento; ahora tenemos la lista literal. Contraste:\n\n| §13 real | ¿estaba en el ticket? |\n|---|---|\n| 1. Lista final de edificios y sus árboles de mejora (§6.2) | sí |\n| 2. ¿Armas alien = clase nueva o mejora de equipo? (§7) | sí |\n| 3. Nombre y tamaño del sistema de meta-progresión (§8.3) | sí |\n| 4. Duración exacta del ciclo lunar y curvas de dificultad (§9) | sí |\n| 5. Economía: ¿confirmamos la ausencia de oro tras el primer prototipo? | sí (§5.1) |\n| 6. Nombre definitivo del juego | **no — nueva** |\n\nSe agrega un criterio para la #6: el working title «Cowboy Defense» está en PROJECT.md, README.md, el encabezado de los tres docs y el nombre del repo, así que decidirlo tiene cola de cambios.\n\nDos matices que trae el texto real: la #5 el propio GDD ya la difiere al primer prototipo, y la #4 incluye las curvas de dificultad (no sólo la duración del ciclo). §13 también trae los bloques «Resueltas en v0.2/v0.3», así que el formato de cierre ya está establecido: las decididas se mueven a un bloque «Resueltas en v0.4».\n\n**Sigue en `todo`: son decisiones de diseño del equipo, no las toma un agente.** El pie del GDD además dice «Siguiente iteración: v0.3» estando ya en v0.3; corregirlo a v0.4 entra acá junto con el bump de versión."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",

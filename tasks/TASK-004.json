@@ -7,7 +7,8 @@
     "Godot abre el proyecto y carga `data/units/peon.tres` y `data/enemies/ratero_gris.tres` sin errores.",
     "El pipeline rechaza (con código de salida distinto de 0) una ficha cuyo valor simbólico no esté en el vocabulario permitido.",
     "Existe una suite de tests del parser que cubre al menos: `el_ganadero` (`: ` dentro de escalar plano), `nave_nodriza` (comillas y numerales en `notas_diseno`), el descarte de las plantillas de esquema de §0, y la detección de un fence ```yaml sin cerrar.",
-    "Los campos `TBD` siguen propagándose literalmente: ningún camino del pipeline los sustituye por un valor."
+    "Los campos `TBD` siguen propagándose literalmente: ningún camino del pipeline los sustituye por un valor.",
+    "Los tests cubren `detect_truncation()`: las dos truncaduras reales de `bf85836` se detectan y el documento completo pasa limpio."
   ],
   "status": "todo",
   "priority": "high",
@@ -27,6 +28,11 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "TASK-001 tocó el pipeline: el aviso de truncamiento pasó de mirar el último carácter a `detect_truncation()`, con tres señales estructurales (sin salto de línea final, fila de tabla sin cerrar, encabezado sin cuerpo). Cuando se escriba la suite de tests de este ticket, esa función entra en el alcance — se validó a mano contra las versiones truncadas de `bf85836`, pero ese chequeo no está fijado en ningún test."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",
