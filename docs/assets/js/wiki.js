@@ -1,37 +1,21 @@
-/* Western Defense — pegamento del sitio.
+/* Western Defense — mejoras de lectura del sitio.
  *
- * El contenido canónico (GDD.md, TECH.md, WIKI.md, wiki/README.md) se publica
- * SIN tocarlo, así que dos cosas que en GitHub funcionan solas hay que
- * arreglarlas acá, en el navegador:
+ * TODO lo importante ya funciona sin JavaScript: GitHub Pages renderiza los
+ * documentos canónicos, resuelve los enlaces .md entre ellos (jekyll-relative-links)
+ * y genera anclas con el mismo id que en GitHub. Este archivo solo agrega
+ * comodidades encima:
  *
- *  1. ENLACES. El markdown canónico enlaza a archivos del repo (`../WIKI.md`,
- *     `wiki/README.md`, `../../tools/wiki_to_resources.py`). Servidos tal cual
- *     bajarían markdown crudo. Los mapeamos a las páginas del sitio, y lo que
- *     no sea documento del sitio se manda al repo en GitHub.
+ *   1. Índice de contenidos por página (los canónicos no llevan marcador {:toc},
+ *      y no se los vamos a meter: son fuente canónica).
+ *   2. Los enlaces relativos que NO son documentos (../../tools/*.py y demás)
+ *      apuntan a archivos del repo que no se publican: los mandamos a GitHub.
+ *   3. Enlace permanente al pasar por un título, tablas con scroll en móvil y
+ *      botón de volver arriba.
  *
- *  2. ANCLAS. kramdown (el renderizador de GitHub Pages) genera ids ASCII y sin
- *     los números de sección: "### 2.1 Categoría ladron" -> "categora-ladron".
- *     El índice de la wiki enlaza con el id estilo GitHub ("#21-categoría-ladron"),
- *     que es el que vale en el repo. Añadimos ese id como alias para que los
- *     enlaces canónicos funcionen sin editar ni una línea del markdown.
- *
- * Todo esto es progresivo: sin JS el contenido igual se ve completo y
- * renderizado; solo pierde el remapeo de enlaces y los alias de ancla.
+ * Si el JS no carga, la página se lee igual de bien: solo pierde estos extras.
  */
 (function () {
   'use strict';
-
-  var script = document.currentScript;
-  var BASE = (script && script.getAttribute('data-base')) || '';
-
-  /* Ruta del repo -> página del sitio. Las claves son relativas a la raíz del
-     repositorio, que es como resolvemos los enlaces del markdown. */
-  var PAGES = {
-    'docs/GDD.md': '/gdd/',
-    'docs/TECH.md': '/tech/',
-    'docs/WIKI.md': '/wiki/fichas/',
-    'docs/wiki/README.md': '/wiki/'
-  };
 
   var REPO_BLOB = 'https://github.com/lordiwa/western-defense/blob/main/';
 
@@ -40,114 +24,91 @@
 
   var srcdir = (content.getAttribute('data-srcdir') || 'docs').replace(/^\/+|\/+$/g, '');
 
-  /* ---------- 1. Enlaces ---------- */
+  /* ---------- 1. Índice de contenidos ---------- */
 
-  function repoPath(href) {
-    // Resolvemos contra un origen ficticio para que el navegador haga el
-    // trabajo de normalizar los "../" por nosotros.
-    try {
-      var u = new URL(href, 'https://repo.invalid/' + srcdir + '/');
-      return {
-        path: decodeURIComponent(u.pathname).replace(/^\/+/, ''),
-        hash: u.hash
-      };
-    } catch (e) {
-      return null;
+  var headings = [].slice.call(content.querySelectorAll('h2[id], h3[id]'));
+
+  if (headings.length >= 4) {
+    var toc = document.createElement('nav');
+    toc.className = 'toc';
+    toc.setAttribute('aria-label', 'Contenido de la página');
+
+    var label = document.createElement('p');
+    label.textContent = 'Contenido';
+    toc.appendChild(label);
+
+    var root = document.createElement('ul');
+    toc.appendChild(root);
+    var sub = null;
+
+    headings.forEach(function (h) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      // Sin el "§" que añadimos más abajo ni espacios de sobra.
+      a.textContent = (h.textContent || '').replace(/\s*§\s*$/, '').trim();
+      li.appendChild(a);
+
+      if (h.tagName === 'H2') {
+        root.appendChild(li);
+        sub = null;
+      } else {
+        if (!sub) {
+          sub = document.createElement('ul');
+          (root.lastElementChild || root).appendChild(sub);
+        }
+        sub.appendChild(li);
+      }
+    });
+
+    var firstH1 = content.querySelector('h1');
+    if (firstH1) {
+      firstH1.parentNode.insertBefore(toc, firstH1.nextSibling);
+    } else {
+      content.insertBefore(toc, content.firstChild);
     }
   }
 
-  Array.prototype.forEach.call(content.querySelectorAll('a[href]'), function (a) {
+  /* ---------- 2. Enlaces a archivos del repo que no se publican ---------- */
+
+  [].forEach.call(content.querySelectorAll('a[href]'), function (a) {
     var href = a.getAttribute('href');
 
-    // Anclas internas, rutas absolutas del propio sitio y URLs completas
-    // (http:, mailto:, …) se quedan como están.
-    if (!href || href.charAt(0) === '#' || href.charAt(0) === '/' || /^[a-z][a-z0-9+.-]*:/i.test(href)) {
+    // Anclas, rutas ya resueltas del sitio y URLs completas: no se tocan.
+    if (!href || href.charAt(0) === '#' || href.charAt(0) === '/' ||
+        /^[a-z][a-z0-9+.-]*:/i.test(href)) {
       return;
     }
 
-    var r = repoPath(href);
-    if (!r) return;
-
-    if (Object.prototype.hasOwnProperty.call(PAGES, r.path)) {
-      a.setAttribute('href', BASE + PAGES[r.path] + r.hash);
-    } else {
-      // No es una página del sitio: es un archivo del repo (script, datos,
-      // escena). Que lo abra en GitHub, donde se lee bien.
-      a.setAttribute('href', REPO_BLOB + r.path + r.hash);
-      a.classList.add('ext-repo');
-      a.setAttribute('rel', 'noopener');
-    }
-  });
-
-  /* ---------- 2. Alias de ancla estilo GitHub ---------- */
-
-  function githubSlug(text) {
-    var s = text.toLowerCase().trim();
+    var path;
     try {
-      s = s.replace(/[^\p{L}\p{N}\s-]/gu, '');
+      // Resolvemos contra un origen ficticio para que el navegador normalice
+      // los "../" por nosotros, y quedarnos con la ruta relativa al repo.
+      path = decodeURIComponent(new URL(href, 'https://repo.invalid/' + srcdir + '/').pathname)
+        .replace(/^\/+/, '');
     } catch (e) {
-      // Navegador sin property escapes: al menos limpiamos el ASCII.
-      s = s.replace(/[^a-z0-9À-ɏ\s-]/g, '');
-    }
-    return s.replace(/\s+/g, '-');
-  }
-
-  var used = {};
-  var headings = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-  Array.prototype.forEach.call(headings, function (h) {
-    var slug = githubSlug(h.textContent || '');
-    if (!slug) return;
-
-    // GitHub desambigua repeticiones con -1, -2, …
-    if (Object.prototype.hasOwnProperty.call(used, slug)) {
-      used[slug] += 1;
-      slug = slug + '-' + used[slug];
-    } else {
-      used[slug] = 0;
+      return;
     }
 
-    if (h.id !== slug && !document.getElementById(slug)) {
-      // Ancla invisible ANTES del título: así no pisamos el id de kramdown,
-      // del que cuelga el índice de contenidos de la página.
-      var anchor = document.createElement('span');
-      anchor.id = slug;
-      anchor.className = 'anchor-alias';
-      anchor.style.cssText = 'display:block;position:relative;top:-5rem;visibility:hidden';
-      h.parentNode.insertBefore(anchor, h);
-    }
-
-    // Enlace permanente clicable sobre el propio título.
-    if (h.id && !h.querySelector('.anchor-link')) {
-      var link = document.createElement('a');
-      link.className = 'anchor-link';
-      link.href = '#' + h.id;
-      link.setAttribute('aria-label', 'Enlace a esta sección');
-      link.textContent = '§';
-      h.appendChild(link);
-    }
+    a.setAttribute('href', REPO_BLOB + path);
+    a.classList.add('ext-repo');
+    a.setAttribute('rel', 'noopener');
   });
-
-  // Si llegamos con un #ancla que solo existe tras crear los alias, el
-  // navegador ya intentó (y falló) el scroll. Lo repetimos ahora.
-  if (location.hash.length > 1) {
-    var target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-    if (target) target.scrollIntoView();
-  }
 
   /* ---------- 3. Detalles de lectura ---------- */
 
-  // El índice de contenidos se escribe arriba del todo (kramdown necesita el
-  // marcador {:toc} en el markdown de la página, antes del include). Leerlo
-  // antes del título es raro, así que lo bajamos debajo del h1.
-  var toc = content.querySelector('.toc');
-  var firstH1 = content.querySelector('h1');
-  if (toc && firstH1 && firstH1.compareDocumentPosition(toc) & Node.DOCUMENT_POSITION_PRECEDING) {
-    firstH1.parentNode.insertBefore(toc, firstH1.nextSibling);
-  }
+  [].forEach.call(content.querySelectorAll('h2[id], h3[id]'), function (h) {
+    if (h.querySelector('.anchor-link')) return;
+    var link = document.createElement('a');
+    link.className = 'anchor-link';
+    link.href = '#' + h.id;
+    link.setAttribute('aria-label', 'Enlace a esta sección');
+    link.textContent = '§';
+    h.appendChild(link);
+  });
 
-  // Las tablas del índice son anchas: que scrolleen solas en móvil.
-  Array.prototype.forEach.call(content.querySelectorAll('table'), function (t) {
+  // Las tablas del índice de la wiki son anchas: que scrolleen solas en móvil.
+  [].forEach.call(content.querySelectorAll('table'), function (t) {
     if (t.parentNode.classList.contains('table-scroll')) return;
     var box = document.createElement('div');
     box.className = 'table-scroll';
@@ -161,9 +122,7 @@
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    var sync = function () {
-      toTop.classList.toggle('visible', window.scrollY > 600);
-    };
+    var sync = function () { toTop.classList.toggle('visible', window.scrollY > 600); };
     window.addEventListener('scroll', sync, { passive: true });
     sync();
   }

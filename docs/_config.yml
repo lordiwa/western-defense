@@ -1,13 +1,25 @@
 # Configuración de GitHub Pages para la wiki de Western Defense.
 #
 # El sitio se sirve desde main + /docs (modo "legacy": GitHub corre Jekyll solo,
-# sin CI extra). Este archivo y todo lo que empieza con "_" es ANDAMIAJE del
-# sitio: no toca el contenido canónico.
+# sin CI extra).
 #
-# Los tres documentos canónicos (GDD.md, TECH.md, WIKI.md) y el índice generado
-# (wiki/README.md) NO se editan para el sitio. Las páginas diseno.md, tecnico.md
-# y entidades.md los incluyen con {% include_relative %}, así los canónicos
-# siguen siendo archivos markdown limpios que el equipo puede reemplazar enteros.
+# CÓMO SE PUBLICAN LOS DOCUMENTOS CANÓNICOS
+# -----------------------------------------
+# GDD.md, TECH.md, WIKI.md y wiki/README.md se publican SIN modificarlos: no
+# llevan front matter ni marcadores de Jekyll. Funcionan gracias a dos plugins
+# que GitHub Pages trae activados de fábrica:
+#
+#   - jekyll-optional-front-matter: convierte los .md sin front matter en
+#     páginas igual. Por eso existen /GDD.html, /TECH.html y /WIKI.html.
+#   - jekyll-readme-index: usa wiki/README.md como índice de su carpeta, o sea
+#     /wiki/.
+#   - jekyll-relative-links: reescribe los enlaces .md entre documentos a la
+#     URL de la página renderizada, así que los enlaces cruzados del markdown
+#     canónico funcionan solos, sin JavaScript.
+#
+# El `defaults` de más abajo es lo único que hace falta para vestirlos: les
+# aplica el layout del sitio sin tocar ni un byte del contenido. El equipo puede
+# seguir reemplazando los documentos canónicos enteros y el sitio no se entera.
 
 title: Western Defense
 description: >-
@@ -15,8 +27,6 @@ description: >-
   diseño, técnico y la wiki canónica de entidades.
 lang: es
 
-# GitHub Pages ya resuelve la baseurl del proyecto, pero la fijamos explícita
-# para que los enlaces y los assets no dependan de esa inferencia.
 baseurl: "/western-defense"
 url: "https://lordiwa.github.io"
 
@@ -24,40 +34,61 @@ repo_url: "https://github.com/lordiwa/western-defense"
 repo_blob: "https://github.com/lordiwa/western-defense/blob/main"
 
 # Navegación del header. Orden = orden de lectura recomendado para alguien que
-# llega por primera vez.
+# llega por primera vez. Las URLs son las que generan los plugins de arriba.
 nav:
   - title: Inicio
     url: /
   - title: Diseño (GDD)
-    url: /gdd/
+    url: /GDD.html
   - title: Wiki de entidades
     url: /wiki/
   - title: Fichas completas
-    url: /wiki/fichas/
+    url: /WIKI.html
   - title: Técnico
-    url: /tech/
+    url: /TECH.html
 
-# Layout por defecto para todo, incluida la página que jekyll-readme-index
-# genera a partir de wiki/README.md.
-#
-# `srcdir` = de qué carpeta del repo salió el contenido de la página. El
-# reescritor de enlaces (assets/js/wiki.js) lo usa para resolver los enlaces
-# relativos del markdown canónico (../WIKI.md, wiki/README.md, ../../tools/...).
 defaults:
+  # Layout del sitio para todo. `srcdir` = carpeta del repo de la que salió el
+  # contenido; assets/js/wiki.js la usa para mandar al repo los enlaces
+  # relativos que no son documentos (por ejemplo ../../tools/*.py).
   - scope:
       path: ""
     values:
       layout: default
       srcdir: docs
+      canonical: false
+
+  - scope:
+      path: "GDD.md"
+    values:
+      title: Diseño (GDD)
+      kicker: Documento de diseño
+      canonical: true
+
+  - scope:
+      path: "TECH.md"
+    values:
+      title: Técnico
+      kicker: Documento técnico
+      canonical: true
+
+  - scope:
+      path: "WIKI.md"
+    values:
+      title: Fichas completas
+      kicker: Wiki de entidades — documento canónico
+      canonical: true
+
   - scope:
       path: "wiki"
     values:
-      layout: default
       srcdir: docs/wiki
+      title: Wiki de entidades
+      kicker: Wiki de entidades — índice
+      canonical: true
 
 kramdown:
   input: GFM
-  toc_levels: 2..3
   syntax_highlighter: rouge
 
 exclude:

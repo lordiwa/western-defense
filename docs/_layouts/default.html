@@ -30,10 +30,10 @@
 <main id="contenido" class="wrap page">
   {% if page.kicker %}<p class="kicker">{{ page.kicker }}</p>{% endif %}
 
-  {% if page.source %}
+  {% if page.canonical %}
   <p class="source-note">
-    Fuente canónica: <a href="{{ site.repo_blob }}/{{ page.source }}"><code>{{ page.source }}</code></a>
-    — esta página lo muestra tal cual, sin modificarlo.
+    Fuente canónica: <a href="{{ site.repo_blob }}/docs/{{ page.path }}"><code>docs/{{ page.path }}</code></a>
+    — esta página lo publica tal cual, sin modificarlo.
   </p>
   {% endif %}
 

@@ -35,7 +35,7 @@ Este archivo define cómo trabajar en este repo.
 |---|---|
 | Una unidad/enemigo/arma | `docs/WIKI.md` (ficha canónica) — buscala por `id` |
 | Navegar la wiki | `docs/wiki/README.md` (índice generado) |
-| El sitio público (GitHub Pages) | `docs/_config.yml`, `docs/_layouts/`, `docs/assets/`, `docs/index.md` y los envoltorios `docs/{diseno,tecnico,entidades}.md` |
+| El sitio público (GitHub Pages) | `docs/_config.yml`, `docs/_layouts/`, `docs/assets/`, `docs/index.md` |
 | Arquitectura / stack / plan | `docs/TECH.md` |
 | Reglas de diseño general | `docs/GDD.md` |
 | Pipeline wiki → datos | `tools/wiki_to_resources.py` |
@@ -63,16 +63,26 @@ desincronizado de la fuente canónica.
 La documentación se publica en <https://lordiwa.github.io/western-defense/>
 (GitHub Pages, Jekyll nativo desde `main` + `/docs`; cada push la reconstruye).
 
-- **Los documentos canónicos no llevan nada del sitio.** `GDD.md`, `TECH.md`,
-  `WIKI.md` y `wiki/README.md` siguen siendo markdown limpio, sin front matter.
-  Las páginas `docs/diseno.md`, `docs/tecnico.md` y `docs/entidades.md` los
-  incluyen con `{% include_relative %}`. Así el equipo puede seguir reemplazando
-  los canónicos enteros sin romper el sitio.
+| Página | Archivo que la genera |
+|---|---|
+| `/` | `docs/index.md` (portada, escrita para el sitio) |
+| `/GDD.html` | `docs/GDD.md` — **canónico, sin tocar** |
+| `/TECH.html` | `docs/TECH.md` — **canónico, sin tocar** |
+| `/WIKI.html` | `docs/WIKI.md` — **canónico, sin tocar** |
+| `/wiki/` | `docs/wiki/README.md` — índice generado |
+
+- **Los documentos canónicos no llevan NADA del sitio**: ni front matter ni
+  marcadores de Jekyll. Se publican gracias a plugins que GitHub Pages trae
+  activados (`jekyll-optional-front-matter`, `jekyll-readme-index`,
+  `jekyll-relative-links`). El único andamiaje es `docs/_config.yml`, que les
+  aplica el layout con `defaults`. El equipo puede seguir reemplazando los
+  canónicos enteros y el sitio no se entera.
+- **Los enlaces `.md` entre documentos se resuelven solos** (jekyll-relative-links)
+  y las anclas coinciden con las de GitHub. No hay que reescribir nada.
 - **No metas `{{` ni `{%` en los documentos canónicos**: Jekyll los interpreta
-  como Liquid al incluirlos y el build falla. Si hace falta, escapalos.
-- Los enlaces `.md` y las anclas estilo GitHub (con acentos y números de
-  sección) los arregla `docs/assets/js/wiki.js` en el navegador — no hay que
-  reescribir enlaces en el markdown canónico.
+  como Liquid y el build falla. Si hace falta, escapalos.
+- `docs/assets/js/wiki.js` es solo comodidad (índice de contenidos, tablas con
+  scroll, volver arriba). Sin JS el sitio se lee igual.
 - Si agregás una sección al sitio, sumala a `nav:` en `docs/_config.yml`.
 
 ```bash

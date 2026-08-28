@@ -15,9 +15,9 @@ torres, hasta poder marchar contra la nave nodriza y liberar el valle.
 
 | Documento | En el sitio | Descripción |
 |---|---|---|
-| [`docs/GDD.md`](docs/GDD.md) | [/gdd/](https://lordiwa.github.io/western-defense/gdd/) | Game Design Document v0.3 — visión, core loop, recursos |
-| [`docs/TECH.md`](docs/TECH.md) | [/tech/](https://lordiwa.github.io/western-defense/tech/) | Documento técnico v0.1 — arquitectura, stack, plan |
-| [`docs/WIKI.md`](docs/WIKI.md) | [/wiki/fichas/](https://lordiwa.github.io/western-defense/wiki/fichas/) | Wiki de entidades v0.1 — **fuente canónica** (39 fichas YAML) |
+| [`docs/GDD.md`](docs/GDD.md) | [/GDD.html](https://lordiwa.github.io/western-defense/GDD.html) | Game Design Document v0.3 — visión, core loop, recursos |
+| [`docs/TECH.md`](docs/TECH.md) | [/TECH.html](https://lordiwa.github.io/western-defense/TECH.html) | Documento técnico v0.1 — arquitectura, stack, plan |
+| [`docs/WIKI.md`](docs/WIKI.md) | [/WIKI.html](https://lordiwa.github.io/western-defense/WIKI.html) | Wiki de entidades v0.1 — **fuente canónica** (39 fichas YAML) |
 | [`docs/wiki/README.md`](docs/wiki/README.md) | [/wiki/](https://lordiwa.github.io/western-defense/wiki/) | **Índice navegable de la wiki** — tablas por categoría (generado) |
 
 ## Pipeline wiki → datos

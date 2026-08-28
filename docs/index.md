@@ -27,7 +27,7 @@ no te termina de explicar.*
 
 <div class="cards" markdown="0">
 
-  <a class="card" href="{{ '/gdd/' | relative_url }}">
+  <a class="card" href="{{ '/GDD.html' | relative_url }}">
     <h3>Diseño del juego (GDD)</h3>
     <p>La visión completa: el core loop día/noche, la economía, el rancho, la
     progresión, el ciclo lunar y el tono. <strong>Empezá por acá</strong> si es
@@ -40,13 +40,13 @@ no te termina de explicar.*
     armas, edificios y oleadas. La forma más rápida de ver el catálogo entero.</p>
   </a>
 
-  <a class="card" href="{{ '/wiki/fichas/' | relative_url }}">
+  <a class="card" href="{{ '/WIKI.html' | relative_url }}">
     <h3>Fichas completas</h3>
     <p>El documento canónico entero, ficha por ficha, con todos los campos.
     39 fichas. Lo que dice acá es lo que vale.</p>
   </a>
 
-  <a class="card" href="{{ '/tech/' | relative_url }}">
+  <a class="card" href="{{ '/TECH.html' | relative_url }}">
     <h3>Documento técnico</h3>
     <p>Arquitectura, stack (Godot 4 + C#), plan de implementación y cómo la wiki
     se convierte en datos del juego. Para cuando toque programar.</p>
@@ -60,9 +60,9 @@ Tres documentos, cada uno con un trabajo:
 
 | Documento | Responde |
 |---|---|
-| [**GDD**]({{ '/gdd/' | relative_url }}) | *¿Qué es este juego y por qué es divertido?* Diseño, mecánicas, tono. |
+| [**GDD**]({{ '/GDD.html' | relative_url }}) | *¿Qué es este juego y por qué es divertido?* Diseño, mecánicas, tono. |
 | [**Wiki**]({{ '/wiki/' | relative_url }}) | *¿Qué cosas existen exactamente?* Cada unidad, enemigo, arma y edificio. |
-| [**Técnico**]({{ '/tech/' | relative_url }}) | *¿Cómo se construye?* Arquitectura, stack, orden de trabajo. |
+| [**Técnico**]({{ '/TECH.html' | relative_url }}) | *¿Cómo se construye?* Arquitectura, stack, orden de trabajo. |
 
 Dos cosas que conviene saber antes de leer la wiki:
 
@@ -92,5 +92,5 @@ Todo esto vive en el repositorio y se puede comentar ahí:
 - [Abrir un issue]({{ site.repo_url }}/issues/new) — la forma más simple de
   dejar una duda, una idea o un "esto no se entiende". No hace falta saber
   programar.
-- [Preguntas abiertas del GDD]({{ '/gdd/#13-preguntas-abiertas-para-v04' | relative_url }})
+- [Preguntas abiertas del GDD]({{ '/GDD.html#13-preguntas-abiertas-para-v04' | relative_url }})
   — las decisiones que todavía están en el aire. Buen lugar para meter mano.
