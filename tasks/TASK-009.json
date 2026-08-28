@@ -28,6 +28,11 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "**Más fácil ahora, gracias a TASK-003:**\n- Ya no hay referencias colgadas: los 5 `arma_base` y los 4 edificios citados en `obtencion` tienen ficha, así que el chequeo cruzado puede empezar en verde en vez de nacer con una lista de excepciones.\n- `desbloquea` se volvió un contrato verificable a raíz del review: **solo ids**, `TBD` si lo que habilita no es ficha todavía, `n/a` si no habilita entidades. Es un tercer eje de referencias cruzadas además de `arma_base` y `drops`, y el esquema de §0 lo dice.\n- El chequeo de referencias que corrió el developer (arma_base + edificios + los 8 de GDD §6.2) es la base del validador; hoy vive fuera del repo, integrarlo a `--check` es este ticket.\n\n**Deuda que hereda (MINOR #4 del review de TASK-003):** `build_index` quedó con dos constructores de tabla en paralelo — `_table_section()`/`_cell()` para armas, edificios y oleadas, y las secciones de units/enemies todavía hardcodeadas en `wiki_to_resources.py:559-622`. Un cambio de columnas comunes hay que hacerlo en dos lugares. La migración es mecánica y el índice generado actual sirve de golden file para probar que no cambia nada — encaja acá, que ya toca el chequeo de sincronía del índice."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",

@@ -9,7 +9,7 @@
     "`TIPO_TO_DIR` en `tools/wiki_to_resources.py` mapea los tres tipos nuevos y el pipeline los genera en su carpeta correspondiente.",
     "Los valores de balance de las fichas nuevas quedan en `TBD` y las fichas nuevas se marcan `estado: propuesta`."
   ],
-  "status": "in_progress",
+  "status": "done",
   "priority": "high",
   "labels": [
     "wiki",
@@ -21,7 +21,9 @@
     "TASK-001"
   ],
   "verification_tier": "tests-after",
-  "linked_commits": [],
+  "linked_commits": [
+    "38b3b8e"
+  ],
   "linked_prs": [],
   "comments": [
     {
@@ -33,6 +35,21 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "**Desbloqueada por TASK-001 y tomada como siguiente tarea del backlog.** Es la que más destraba: hoy las fichas de unidad referencian `arma_base` y edificios por `id` que no tienen ficha, así que el chequeo de referencias cruzadas de TASK-009 no puede existir y `data/weapons/`, `data/buildings/` y `data/waves/` están vacíos.\n\nSe elige sobre TASK-002 (necesita decisiones de diseño del equipo), TASK-004 (depende de TASK-006, el proyecto Godot) y TASK-005 (depende de TASK-002).\n\nLa §4 «Backlog de fichas pendientes» que llegó con la wiki completa confirma el alcance y lo amplía: además de armas y edificios lista el ganado como entidad y las variantes `_lunar` de enemigos. Eso **no** entra en este ticket — queda registrado para tickets propios."
+    },
+    {
+      "author": "developer",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "Implementado. 3 esquemas nuevos en WIKI §0 y 14 fichas: §4 armas (revolver, rifle_largo, lazo, dinamita, revolver_doble — solo las referenciadas por `arma_base`; el resto del árbol T1/T2/T3 sigue en el backlog porque GDD §8.1 lo llama «tentativo»), §5 edificios (los 8 de la tabla canónica de GDD §6.2) y §6 oleadas (`oleada_ejemplo`, para ejercitar el tipo end-to-end; la curva real es TASK-008).\n\nLas secciones nuevas se insertaron **después** de §3 para no renumerar la tabla de componentes, citada desde `docs/TECH.md` y `CLAUDE.md`. El backlog pasó de §4 a §7.\n\nPipeline: `TIPO_TO_DIR`, `TIPO_TO_RESOURCE_SCRIPT` y `REQUIRED_FIELDS` para los tres tipos. `build_index` tenía las secciones hardcodeadas; se extrajo `_table_section()` / `_cell()` para las nuevas."
+    },
+    {
+      "author": "reviewer",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "**Aprobar con cambios menores.** Los 5 criterios se cumplen. Verificado que la regresión sobre las 25 fichas preexistentes es nula (las únicas líneas borradas de la wiki son 5 no-ficha: intro, encabezado del backlog, dos bullets y el pie) y que la renumeración no dejó referencias colgadas (todo lo que cita la wiki por número apunta a §0/§1/§2/§3, ninguna sección movida). El índice de units/enemies sale byte-idéntico.\n\n**MAJOR #1 — `tier: T1_humano` en `lazo` y `revolver_doble`:** GDD §8.1 no los lista, y las propias `notas_diseno` de cada ficha lo desmienten («no figura en el árbol tecnológico»). Causa raíz: `tier` es required y `problems()` usa un check de falsy, así que el campo obligatorio forzó la clasificación inventada.\n**MAJOR #2 — `desbloquea`:** el esquema promete «ids de esta wiki» pero 5 de 8 edificios traen prosa. El chequeo cruzado de TASK-009 —que es justo lo que este ticket destraba— nacería con falsos positivos en 5 de 8 fichas.\n**MINOR #3 — `town_center.costo: {0, 0}`:** el precedente de `peon` existe, así que no es invención de balance; el defecto es la inconsistencia interna (la línea anterior de la misma ficha usa `n/a` por el mismo razonamiento) y que un `0` no entra en `tbd_fields`.\n**MINOR #4:** `_table_section()` convive con las secciones hardcodeadas de units/enemies — deuda, no bloqueante. **MINOR #5:** no pude correr el pipeline (sin `python3` en la whitelist); AC4 verificado por lectura + artefactos. **NIT #6:** la wiki sigue en v0.1.\n\nSe sostienen sin cambios: `armeria.desbloquea` con `rifle_largo` (la inferencia está declarada en la propia ficha), los `stats` de arma todos en TBD, el costo en puntos fuera de la ficha de oleada, y las tres rutas de `TIPO_TO_RESOURCE_SCRIPT` contra TECH §2."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "**Cerrada en `38b3b8e`.** Apliqué los dos MAJOR y el MINOR #3 del review:\n- `lazo` y `revolver_doble` → `tier: TBD`. `revolver`, `rifle_largo` y `dinamita` conservan `T1_humano` porque GDD §8.1 sí los nombra textualmente.\n- `desbloquea` queda como contrato verificable: solo ids, `TBD` si lo que habilita todavía no es ficha, `n/a` si no habilita entidades. La prosa se movió a `notas_diseno` sin perder información, y el esquema de §0 documenta la convención apuntando a TASK-009.\n- `town_center`: `n/a` en costo y en tiempo_construccion, coherente dentro de la ficha.\n- Extra propio: `_cell()` no escapaba `|`. Ninguna ficha usa uno hoy, pero un solo pipe habría partido una fila y corrompido el índice en silencio.\n\n**MINOR #4 y NIT #6 no se aplican acá** — ver los comentarios que dejé en TASK-009 (migrar units/enemies a `_table_section`, con el índice actual como golden file) y la nota de versionado abajo.\n\n**Verificación del orquestador** (el reviewer no podía ejecutar `python3`):\n- `--check` → 39 fichas, 110 TBD, 19 propuestas, sin avisos, **exit 0**.\n- Las 25 fichas preexistentes son idénticas al parsearlas y conservan **exactamente** sus 39 campos TBD (comparación programática contra `HEAD`).\n- Ningún `desbloquea` apunta a un id inexistente; ninguna ficha nueva tiene números donde el esquema pide `TBD`; las 14 están en `propuesta`.\n- `--emit-index` idempotente, las 39 anclas resuelven, y todas las tablas del índice tienen columnas consistentes.\n\nLos TBD subieron de 106 a 110: son los 4 campos que dejaron de afirmar algo inventado.\n\n**Versionado (NIT #6): no bumpeé la wiki a v0.2 a propósito.** Mato acaba de re-enviar estos documentos con «v0.1» en el título; el número de versión de un documento canónico es decisión de los autores, no del pipeline. Queda anotado para que lo decidan junto con el bump del GDD en TASK-002."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",

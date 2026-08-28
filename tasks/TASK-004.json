@@ -8,7 +8,8 @@
     "El pipeline rechaza (con código de salida distinto de 0) una ficha cuyo valor simbólico no esté en el vocabulario permitido.",
     "Existe una suite de tests del parser que cubre al menos: `el_ganadero` (`: ` dentro de escalar plano), `nave_nodriza` (comillas y numerales en `notas_diseno`), el descarte de las plantillas de esquema de §0, y la detección de un fence ```yaml sin cerrar.",
     "Los campos `TBD` siguen propagándose literalmente: ningún camino del pipeline los sustituye por un valor.",
-    "Los tests cubren `detect_truncation()`: las dos truncaduras reales de `bf85836` se detectan y el documento completo pasa limpio."
+    "Los tests cubren `detect_truncation()`: las dos truncaduras reales de `bf85836` se detectan y el documento completo pasa limpio.",
+    "Existen también las clases Resource `WeaponData`, `BuildingData` y `WaveData`, y el pipeline distingue `n/a` (no aplica) de `TBD` (pendiente de balance) al emitirlas."
   ],
   "status": "todo",
   "priority": "high",
@@ -33,6 +34,11 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "TASK-001 tocó el pipeline: el aviso de truncamiento pasó de mirar el último carácter a `detect_truncation()`, con tres señales estructurales (sin salto de línea final, fila de tabla sin cerrar, encabezado sin cuerpo). Cuando se escriba la suite de tests de este ticket, esa función entra en el alcance — se validó a mano contra las versiones truncadas de `bf85836`, pero ese chequeo no está fijado en ningún test."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "**Actualización de alcance por TASK-003:** ya no son 25 fichas sino 39, y las clases Resource de C# pendientes pasan de dos a cinco. `TIPO_TO_RESOURCE_SCRIPT` apunta a `res://src/Tech/WeaponData.cs`, `res://src/Buildings/BuildingData.cs` y `res://src/Enemies/WaveData.cs` además de `UnitData.cs` y `EnemyData.cs`; ninguna de las cinco existe todavía. Los `.tres` de weapons/buildings/waves ya se generan y arrastran el mismo andamio conocido.\n\nEl vocabulario de valores simbólicos del punto 2 del ticket también creció: las fichas nuevas suman `n/a` como valor legítimo distinto de `TBD` (usado donde el campo no aplica — `town_center.costo`, `granja.desbloquea`), y `tier` tiene su propio enum (`T1_humano | T2_hibrido | T3_alien`, más `TBD` para equipo fuera del árbol)."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",

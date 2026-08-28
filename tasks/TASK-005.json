@@ -27,6 +27,11 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-28T00:00:00Z",
+      "body": "**El conteo del título y la descripción quedó viejo:** TASK-003 sumó 14 fichas y los campos `TBD` pasaron de 39 a 110. Los 39 originales siguen siendo los de las 25 fichas preexistentes y son los que este ticket ataca — el alcance no cambia, pero el criterio de aceptación que dice «baja respecto de los 39 actuales» hay que leerlo como «baja respecto de los 39 de unidades y enemigos», no del total.\n\nLos 71 TBD nuevos son de armas, edificios y la oleada de ejemplo, y no se tocan acá: los de oleada son TASK-008 y el resto necesita que primero se decida si los stats de arma mandan sobre los de unidad (tensión que TASK-003 dejó documentada en el esquema de arma en vez de resolverla inventando)."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",
