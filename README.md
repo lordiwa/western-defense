@@ -10,12 +10,15 @@ torres, hasta poder marchar contra la nave nodriza y liberar el valle.
 
 ## Documentación
 
-| Documento | Descripción |
-|---|---|
-| [`docs/GDD.md`](docs/GDD.md) | Game Design Document v0.3 — visión, core loop, recursos |
-| [`docs/TECH.md`](docs/TECH.md) | Documento técnico v0.1 — arquitectura, stack, plan |
-| [`docs/WIKI.md`](docs/WIKI.md) | Wiki de entidades v0.1 — **fuente canónica** (25 fichas YAML) |
-| [`docs/wiki/README.md`](docs/wiki/README.md) | **Índice navegable de la wiki** — tablas por categoría (generado) |
+📖 **Se lee en el navegador: <https://lordiwa.github.io/western-defense/>**
+(GitHub Pages, publicado desde `docs/` en `main` — se actualiza solo con cada push).
+
+| Documento | En el sitio | Descripción |
+|---|---|---|
+| [`docs/GDD.md`](docs/GDD.md) | [/gdd/](https://lordiwa.github.io/western-defense/gdd/) | Game Design Document v0.3 — visión, core loop, recursos |
+| [`docs/TECH.md`](docs/TECH.md) | [/tech/](https://lordiwa.github.io/western-defense/tech/) | Documento técnico v0.1 — arquitectura, stack, plan |
+| [`docs/WIKI.md`](docs/WIKI.md) | [/wiki/fichas/](https://lordiwa.github.io/western-defense/wiki/fichas/) | Wiki de entidades v0.1 — **fuente canónica** (39 fichas YAML) |
+| [`docs/wiki/README.md`](docs/wiki/README.md) | [/wiki/](https://lordiwa.github.io/western-defense/wiki/) | **Índice navegable de la wiki** — tablas por categoría (generado) |
 
 ## Pipeline wiki → datos
 
@@ -42,10 +45,8 @@ ver [`data/README.md`](data/README.md).
 Pre-producción. El prototipo Godot (4-6 semanas) es el siguiente hito — ver
 [docs/TECH.md](docs/TECH.md) §4.
 
-> ⚠️ `docs/GDD.md` y `docs/WIKI.md` están **truncados** al final desde el
-> commit inicial: falta la §13 del GDD (Preguntas Abiertas) y la última fila de
-> la tabla de componentes de la wiki. Restaurarlas es `TASK-001`, el primer
-> bloqueante del backlog.
+Los tres documentos canónicos están completos desde `TASK-001`.
+`python3 tools/wiki_to_resources.py --check` verifica que sigan estándolo.
 
 ## Desarrollo
 

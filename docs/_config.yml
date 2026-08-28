@@ -1,0 +1,66 @@
+# Configuración de GitHub Pages para la wiki de Western Defense.
+#
+# El sitio se sirve desde main + /docs (modo "legacy": GitHub corre Jekyll solo,
+# sin CI extra). Este archivo y todo lo que empieza con "_" es ANDAMIAJE del
+# sitio: no toca el contenido canónico.
+#
+# Los tres documentos canónicos (GDD.md, TECH.md, WIKI.md) y el índice generado
+# (wiki/README.md) NO se editan para el sitio. Las páginas diseno.md, tecnico.md
+# y entidades.md los incluyen con {% include_relative %}, así los canónicos
+# siguen siendo archivos markdown limpios que el equipo puede reemplazar enteros.
+
+title: Western Defense
+description: >-
+  Tower defense Weird West (1870s). Documentación viva del proyecto:
+  diseño, técnico y la wiki canónica de entidades.
+lang: es
+
+# GitHub Pages ya resuelve la baseurl del proyecto, pero la fijamos explícita
+# para que los enlaces y los assets no dependan de esa inferencia.
+baseurl: "/western-defense"
+url: "https://lordiwa.github.io"
+
+repo_url: "https://github.com/lordiwa/western-defense"
+repo_blob: "https://github.com/lordiwa/western-defense/blob/main"
+
+# Navegación del header. Orden = orden de lectura recomendado para alguien que
+# llega por primera vez.
+nav:
+  - title: Inicio
+    url: /
+  - title: Diseño (GDD)
+    url: /gdd/
+  - title: Wiki de entidades
+    url: /wiki/
+  - title: Fichas completas
+    url: /wiki/fichas/
+  - title: Técnico
+    url: /tech/
+
+# Layout por defecto para todo, incluida la página que jekyll-readme-index
+# genera a partir de wiki/README.md.
+#
+# `srcdir` = de qué carpeta del repo salió el contenido de la página. El
+# reescritor de enlaces (assets/js/wiki.js) lo usa para resolver los enlaces
+# relativos del markdown canónico (../WIKI.md, wiki/README.md, ../../tools/...).
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+      srcdir: docs
+  - scope:
+      path: "wiki"
+    values:
+      layout: default
+      srcdir: docs/wiki
+
+kramdown:
+  input: GFM
+  toc_levels: 2..3
+  syntax_highlighter: rouge
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor

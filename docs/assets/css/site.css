@@ -1,0 +1,250 @@
+/* Western Defense — hoja de estilo de la wiki pública.
+   Paleta Weird West: pergamino, tinta sepia, óxido. Sin fuentes externas ni
+   CDNs: el sitio tiene que renderizar igual con la red a medias. */
+
+:root {
+  --papel:        #f5edda;
+  --papel-alt:    #efe4cc;
+  --tinta:        #2b2018;
+  --tinta-suave:  #5c4a38;
+  --oxido:        #a8442a;
+  --oxido-claro:  #c4643f;
+  --borde:        #d8c7a4;
+  --borde-fuerte: #b9a27a;
+  --verde:        #4a6141;
+  --serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
+  --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--papel);
+  /* Grano de papel viejo, en gradientes: sin imágenes que cargar. */
+  background-image:
+    radial-gradient(circle at 15% 12%, rgba(168, 68, 42, .05), transparent 55%),
+    radial-gradient(circle at 85% 78%, rgba(74, 97, 65, .05), transparent 55%);
+  color: var(--tinta);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+.wrap { max-width: 62rem; margin: 0 auto; padding: 0 1.25rem; }
+
+.skip {
+  position: absolute; left: -9999px;
+  background: var(--tinta); color: var(--papel); padding: .6rem 1rem; z-index: 20;
+}
+.skip:focus { left: 1rem; top: 1rem; }
+
+/* ---------- Header ---------- */
+
+.site-header {
+  background: var(--tinta);
+  color: var(--papel);
+  border-bottom: 4px double var(--oxido);
+  position: sticky; top: 0; z-index: 10;
+  box-shadow: 0 2px 10px rgba(43, 32, 24, .25);
+}
+.site-header .wrap {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: .5rem 1.5rem; padding-top: .7rem; padding-bottom: .7rem;
+}
+.brand {
+  color: var(--papel); text-decoration: none;
+  font-weight: 700; font-size: 1.25rem; letter-spacing: .06em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: .5rem;
+}
+.brand-mark { color: var(--oxido-claro); }
+.brand:hover .brand-text { color: var(--oxido-claro); }
+
+.site-nav { display: flex; flex-wrap: wrap; gap: .25rem 1.1rem; margin-left: auto; }
+.site-nav a {
+  color: #e6d9bd; text-decoration: none; font-size: .95rem;
+  padding: .2rem 0; border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.site-nav a:hover { color: #fff; border-bottom-color: var(--oxido-claro); }
+.site-nav a.current { color: #fff; border-bottom-color: var(--oxido); font-weight: 700; }
+
+/* ---------- Página ---------- */
+
+.page { padding: 2.5rem 1.25rem 4rem; }
+
+.kicker {
+  text-transform: uppercase; letter-spacing: .16em; font-size: .78rem;
+  color: var(--oxido); font-weight: 700; margin: 0 0 .35rem;
+}
+
+.source-note {
+  font-size: .85rem; color: var(--tinta-suave);
+  background: var(--papel-alt); border-left: 3px solid var(--borde-fuerte);
+  padding: .55rem .9rem; margin: 0 0 2rem; border-radius: 0 4px 4px 0;
+}
+
+.content > :first-child { margin-top: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--serif); line-height: 1.25; color: var(--tinta);
+  /* El header es sticky: sin esto, saltar a un ancla lo esconde debajo. */
+  scroll-margin-top: 5rem;
+}
+h1 {
+  font-size: 2.15rem; margin: 0 0 1.2rem; letter-spacing: .01em;
+  border-bottom: 4px double var(--oxido); padding-bottom: .5rem;
+}
+h2 {
+  font-size: 1.6rem; margin: 2.8rem 0 .9rem;
+  border-bottom: 1px solid var(--borde-fuerte); padding-bottom: .35rem;
+}
+h3 { font-size: 1.25rem; margin: 2rem 0 .6rem; color: #3d2c1e; }
+h4 { font-size: 1.05rem; margin: 1.5rem 0 .5rem; color: var(--tinta-suave); text-transform: uppercase; letter-spacing: .05em; }
+
+/* Ancla clicable al pasar por un título */
+.anchor-link {
+  opacity: 0; text-decoration: none; color: var(--oxido);
+  margin-left: .4rem; font-size: .7em; vertical-align: middle;
+}
+h1:hover .anchor-link, h2:hover .anchor-link, h3:hover .anchor-link,
+h4:hover .anchor-link, .anchor-link:focus { opacity: 1; }
+
+p { margin: 0 0 1.1rem; }
+
+a { color: var(--oxido); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { color: var(--tinta); background: rgba(196, 100, 63, .13); }
+
+/* Enlaces que salen a GitHub (los reescribe wiki.js) */
+a.ext-repo::after { content: " \2197"; font-size: .8em; opacity: .6; }
+
+hr { border: 0; border-top: 1px solid var(--borde-fuerte); margin: 2.5rem 0; }
+
+blockquote {
+  margin: 1.4rem 0; padding: .8rem 1.2rem;
+  background: var(--papel-alt);
+  border-left: 4px solid var(--oxido);
+  color: var(--tinta-suave); font-style: italic;
+  border-radius: 0 4px 4px 0;
+}
+blockquote p:last-child { margin-bottom: 0; }
+blockquote code { font-style: normal; }
+
+ul, ol { margin: 0 0 1.1rem; padding-left: 1.5rem; }
+li { margin-bottom: .35rem; }
+li > ul, li > ol { margin-top: .35rem; }
+
+/* ---------- Tablas (el índice de la wiki es casi todo tablas) ---------- */
+
+.table-scroll { overflow-x: auto; margin: 0 0 1.4rem; }
+
+table {
+  border-collapse: collapse; width: 100%;
+  font-size: .9rem; background: rgba(255, 253, 247, .75);
+}
+th, td { border: 1px solid var(--borde); padding: .5rem .7rem; text-align: left; vertical-align: top; }
+th { background: var(--tinta); color: var(--papel); font-weight: 700; letter-spacing: .03em; }
+tbody tr:nth-child(even) { background: rgba(239, 228, 204, .55); }
+tbody tr:hover { background: rgba(196, 100, 63, .1); }
+
+/* ---------- Código y fichas YAML ---------- */
+
+code {
+  font-family: var(--mono); font-size: .86em;
+  background: var(--papel-alt); border: 1px solid var(--borde);
+  padding: .1em .35em; border-radius: 3px;
+}
+pre {
+  background: #2b2018; color: #ece0c8;
+  padding: 1rem 1.1rem; border-radius: 5px; overflow-x: auto;
+  border-left: 4px solid var(--oxido); font-size: .84rem; line-height: 1.5;
+  margin: 0 0 1.4rem;
+}
+pre code { background: none; border: 0; padding: 0; color: inherit; font-size: 1em; }
+
+/* Rouge, tono pergamino sobre tinta */
+.highlight .na, .highlight .nt { color: #e8b563; }   /* claves YAML */
+.highlight .s, .highlight .s1, .highlight .s2 { color: #a9c68b; }
+.highlight .c, .highlight .c1, .highlight .cm { color: #8a7a63; font-style: italic; }
+.highlight .m, .highlight .mi, .highlight .mf { color: #d98b6a; }
+.highlight .kc { color: #d98b6a; }
+
+/* ---------- Índice de contenidos ---------- */
+
+.toc {
+  background: var(--papel-alt);
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 5px;
+  padding: 1rem 1.3rem;
+  margin: 0 0 2.5rem;
+  font-size: .92rem;
+}
+.toc > p { font-weight: 700; text-transform: uppercase; letter-spacing: .1em; font-size: .75rem; color: var(--oxido); margin: 0 0 .5rem; }
+.toc ul { margin: 0; padding-left: 1.1rem; }
+.toc li { margin-bottom: .2rem; }
+.toc > ul > li > a { font-weight: 600; }
+
+/* ---------- Portada ---------- */
+
+.hero {
+  text-align: center; padding: 1.5rem 0 2.5rem;
+  border-bottom: 4px double var(--oxido); margin-bottom: 2.5rem;
+}
+.hero h1 { border: 0; font-size: 2.8rem; margin-bottom: .4rem; padding: 0; }
+.hero .tagline { font-size: 1.2rem; color: var(--tinta-suave); font-style: italic; margin: 0; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.2rem; margin: 0 0 3rem; }
+.card {
+  display: block; text-decoration: none; color: inherit;
+  background: rgba(255, 253, 247, .8);
+  border: 1px solid var(--borde-fuerte); border-top: 4px solid var(--oxido);
+  border-radius: 5px; padding: 1.2rem 1.3rem;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.card:hover {
+  transform: translateY(-3px); background: rgba(255, 253, 247, .95);
+  box-shadow: 0 6px 16px rgba(43, 32, 24, .16);
+}
+.card h3 { margin: 0 0 .4rem; color: var(--oxido); font-size: 1.15rem; }
+.card p { margin: 0; font-size: .92rem; color: var(--tinta-suave); line-height: 1.5; }
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  background: var(--tinta); color: #c9b895;
+  border-top: 4px double var(--oxido);
+  padding: 1.8rem 0; font-size: .85rem; text-align: center;
+}
+.site-footer a { color: var(--oxido-claro); }
+.site-footer p { margin: 0 0 .4rem; }
+.site-footer .fine { font-style: italic; opacity: .7; font-size: .8rem; margin: 0; }
+
+/* ---------- Volver arriba ---------- */
+
+.to-top {
+  position: fixed; right: 1.2rem; bottom: 1.2rem;
+  width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  background: var(--oxido); color: var(--papel);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; font-size: 1.2rem;
+  box-shadow: 0 3px 10px rgba(43, 32, 24, .35);
+  opacity: 0; pointer-events: none; transition: opacity .2s ease;
+}
+.to-top.visible { opacity: .9; pointer-events: auto; }
+.to-top:hover { opacity: 1; background: var(--tinta); }
+
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+  .site-header .wrap { flex-direction: column; align-items: flex-start; }
+  .site-nav { margin-left: 0; }
+  .hero h1 { font-size: 2.1rem; }
+  h1 { font-size: 1.8rem; }
+}
+
+@media print {
+  .site-header, .site-footer, .to-top, .toc, .skip { display: none; }
+  body { background: #fff; font-size: 11pt; }
+  a { color: inherit; }
+}

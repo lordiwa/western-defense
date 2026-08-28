@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'es' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ page.description | default: site.description | strip_newlines }}">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#x1F920;</text></svg>">
+</head>
+<body>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-mark">&#9733;</span>
+      <span class="brand-text">Western&nbsp;Defense</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones">
+      {% for item in site.nav %}
+        {% assign target = item.url | relative_url %}
+        <a href="{{ target }}"{% if page.url == item.url %} class="current" aria-current="page"{% endif %}>{{ item.title }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>
+
+<main id="contenido" class="wrap page">
+  {% if page.kicker %}<p class="kicker">{{ page.kicker }}</p>{% endif %}
+
+  {% if page.source %}
+  <p class="source-note">
+    Fuente canónica: <a href="{{ site.repo_blob }}/{{ page.source }}"><code>{{ page.source }}</code></a>
+    — esta página lo muestra tal cual, sin modificarlo.
+  </p>
+  {% endif %}
+
+  <div class="content" data-srcdir="{{ page.srcdir | default: 'docs' }}">
+    {{ content }}
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>
+      Documentación generada desde <code>docs/</code> del repositorio ·
+      <a href="{{ site.repo_url }}">ver el código en GitHub</a>
+    </p>
+    <p class="fine">
+      La wiki es la fuente canónica del proyecto. Si algo acá contradice al juego,
+      gana la wiki — y hay que arreglar el juego.
+    </p>
+  </div>
+</footer>
+
+<a href="#" class="to-top" id="to-top" title="Volver arriba">&#8593;</a>
+
+<script src="{{ '/assets/js/wiki.js' | relative_url }}" data-base="{{ site.baseurl }}"></script>
+</body>
+</html>

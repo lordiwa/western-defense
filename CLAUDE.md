@@ -35,6 +35,7 @@ Este archivo define cómo trabajar en este repo.
 |---|---|
 | Una unidad/enemigo/arma | `docs/WIKI.md` (ficha canónica) — buscala por `id` |
 | Navegar la wiki | `docs/wiki/README.md` (índice generado) |
+| El sitio público (GitHub Pages) | `docs/_config.yml`, `docs/_layouts/`, `docs/assets/`, `docs/index.md` y los envoltorios `docs/{diseno,tecnico,entidades}.md` |
 | Arquitectura / stack / plan | `docs/TECH.md` |
 | Reglas de diseño general | `docs/GDD.md` |
 | Pipeline wiki → datos | `tools/wiki_to_resources.py` |
@@ -56,6 +57,23 @@ python3 tools/wiki_to_resources.py --emit-index   # regenera docs/wiki/README.md
 
 **Después de tocar `docs/WIKI.md`, corré `--emit-index`** o el índice queda
 desincronizado de la fuente canónica.
+
+## Sitio público
+
+La documentación se publica en <https://lordiwa.github.io/western-defense/>
+(GitHub Pages, Jekyll nativo desde `main` + `/docs`; cada push la reconstruye).
+
+- **Los documentos canónicos no llevan nada del sitio.** `GDD.md`, `TECH.md`,
+  `WIKI.md` y `wiki/README.md` siguen siendo markdown limpio, sin front matter.
+  Las páginas `docs/diseno.md`, `docs/tecnico.md` y `docs/entidades.md` los
+  incluyen con `{% include_relative %}`. Así el equipo puede seguir reemplazando
+  los canónicos enteros sin romper el sitio.
+- **No metas `{{` ni `{%` en los documentos canónicos**: Jekyll los interpreta
+  como Liquid al incluirlos y el build falla. Si hace falta, escapalos.
+- Los enlaces `.md` y las anclas estilo GitHub (con acentos y números de
+  sección) los arregla `docs/assets/js/wiki.js` en el navegador — no hay que
+  reescribir enlaces en el markdown canónico.
+- Si agregás una sección al sitio, sumala a `nav:` en `docs/_config.yml`.
 
 ```bash
 # (comandos de Godot: a completar en TASK-006)
