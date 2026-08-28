@@ -1,0 +1,60 @@
+# Western Defense — guía para agentes
+
+Proyecto de videojuego (tower defense Weird West) gestionado con hivemind.
+Este archivo define cómo trabajar en este repo.
+
+## Identidad y fuentes
+
+- **GDD:** `docs/GDD.md` — diseño, visión, mecánicas
+- **TECH:** `docs/TECH.md` — arquitectura, stack, plan de implementación
+- **WIKI:** `docs/WIKI.md` — **fuente canónica** de todas las entidades
+  (unidades, enemigos, componentes). Fichas YAML con esquema fijo.
+
+## Reglas que no se negocian
+
+1. **La wiki es la fuente canónica.** Las fichas de `docs/WIKI.md` definen
+   entidades; el código y los datos se generan desde ahí. No edites datos de
+   entidades en código sin actualizar la wiki (o sincronizar de vuelta).
+2. **La regla de diseño de todo enemigo:** *quiere llevarse algo*. Si generas
+   enemigos nuevos, deben responder: ¿qué roba, cómo lo roba, cómo se evita?
+3. **El robo duele más que la muerte.** Los enemigos roban (no destruyen); el
+   fallo es una espiral, no un game over instantáneo.
+4. **Nunca inventes valores de balance marcados `TBD`.** Los campos `TBD` en la
+   wiki están pendientes de balance. Si se te pide proponer, marcá la ficha con
+   `estado: propuesta` y justificá.
+5. **Tono:** Weird West 1870s, cómic pulp — gracioso en la superficie,
+   inquietante en la incertidumbre. Sin gore.
+6. **Coop-ready siempre.** Ningún sistema asume "el jugador" en singular.
+
+## Dónde está cada cosa
+
+| Necesitás tocar | Andá a |
+|---|---|
+| Una unidad/enemigo/arma | `docs/WIKI.md` (ficha canónica) |
+| Arquitectura / stack / plan | `docs/TECH.md` |
+| Reglas de diseño general | `docs/GDD.md` |
+| Pipeline wiki → datos | `tools/wiki_to_resources.py` |
+| Recursos de datos (generados) | `data/` (units/, enemies/, weapons/, buildings/, waves/) |
+| Código C# | `src/` (Core/, Economy/, Units/, Enemies/, Buildings/, Tech/, Coop/, UI/) |
+| Escenas Godot | `scenes/` |
+| Arte | `art/` |
+
+## Comandos
+
+```bash
+# (a completar cuando exista el proyecto Godot)
+```
+
+## Convenciones
+
+- **Fichas YAML** en la wiki con el esquema definido en `docs/WIKI.md §0`.
+- `id` es el identificador canónico (snake_case, estable) — para nombres de
+  archivo, clases, claves de datos y referencias cruzadas.
+- **Commits:** Conventional Commits.
+- El pipeline `wiki → data` se diseñó para que un agente proponga cambios de
+  balance como PRs sobre la wiki (ver TECH §3.7).
+
+## Estado
+
+Backlog y decisiones en `tasks/` y `state/`. Ver `PROJECT.md` para el estado
+del desarrollo.

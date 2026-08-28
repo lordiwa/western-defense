@@ -1,0 +1,23 @@
+# Godot
+.godot/
+*.import
+.import/
+export_presets.cfg.bak
+export_presets.cfg
+
+# Datos generados
+data/
+*.tmp
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+*.code-workspace
+
+# hivemind
+.claude/worktrees/
+.claude/context-monitor/
+**/.claude/context-monitor/
