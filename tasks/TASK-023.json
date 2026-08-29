@@ -1,0 +1,42 @@
+{
+  "key": "TASK-023",
+  "title": "Sistema de clases del héroe: Sheriff (ataque), Alcalde (economía) y Carpintero (defensa/capacidad)",
+  "description": "**Mecánica nueva decidida por Mato el 29/08/2026.** Fichas canónicas: [`hero_clase_sheriff`, `hero_clase_alcalde`, `hero_clase_carpintero`](../docs/WIKI.md) (WIKI §11, séptimo esquema en §0); resumen de diseño en GDD §4.3.\n\n> **La regla: una clase = un eje.** Al empezar la run el jugador elige una de tres clases y esa clase multiplica **una sola** parte del rancho:\n> - **Sheriff → ataque:** daño de los edificios (torres y edificios en `modo_noche` defensa) y de las unidades del jugador.\n> - **Alcalde → economía:** producción de todos los recursos, incluida la cadena del ganado (§7) y el barrido del amanecer (`pieza_alien`, §7.3).\n> - **Carpintero → defensa y capacidad:** vida de los edificios, cuánto tarda un alien en sacarles algo (la ventana de robo de §5.0) y la `capacidad_refugio` de todos los edificios.\n\nEl héroe **no es una unidad de §1**: las de §1 se reclutan, este es el personaje que el jugador controla (GDD §4). Por eso la clase no es un `UnitData` con stats propios sino un **modificador global** que atraviesa combate, economía y refugio.\n\n**Qué hay que construir:**\n1. **`HeroClassData`** (`src/Units/HeroClassData.cs`, ver `TIPO_TO_RESOURCE_SCRIPT` del pipeline): el Resource que consume las fichas generadas a `data/hero_classes/`.\n2. **Selección de clase al empezar la run**, por héroe. Es una decisión de run, no cambiable a mitad.\n3. **Los tres puntos de enganche del bonus**, uno por eje, sin casos especiales por clase: un modificador de daño que lean torres/edificios/unidades, uno de producción que lea la economía, y uno de defensa/capacidad que lean la vida del edificio, el temporizador de la ventana de robo y la `capacidad_refugio`.\n4. **Coop-ready (GDD §4.2):** cada héroe lleva su clase y los bonus se aplican sobre el **mismo rancho compartido**. Ningún sistema asume un solo héroe ni una sola clase activa. Cómo se apilan **dos clases iguales** es balance sin decidir: se parametriza (suma, máximo, rendimiento decreciente) y se deja el modo elegido marcado como provisional.\n5. **HUD:** el jugador tiene que poder saber qué clase lleva y qué le está mejorando.\n\n**No inventar balance.** `magnitud_bonus` y `escalado_por_nivel` son `TBD` en las tres fichas (regla 5 del proyecto). El ticket entrega el sistema con los valores como parámetros de data; los números salen de la pasada de balance (TASK-005) y los aprueba Mato.\n\n**Deuda de ficción que este ticket destapa, no resuelve:** la unidad reclutable `sheriff` (WIKI §1.9) comparte nombre con la clase. Si conviven en pantalla hay que desambiguar — es diseño para Mato, se anota, no se decide acá.",
+  "acceptance_criteria": [
+    "Existe `HeroClassData` y las tres fichas de WIKI §11 se cargan desde `data/hero_classes/` sin datos de clase escritos a mano en C#.",
+    "Al empezar una run se elige una clase por héroe y esa elección queda fija durante la run.",
+    "Con Sheriff activo el daño de torres, edificios en modo defensa y unidades del jugador sube; la producción y la capacidad de refugio no cambian.",
+    "Con Alcalde activo sube la producción de recursos (incluidos ganado y barrido del amanecer); el daño y la capacidad no cambian.",
+    "Con Carpintero activo suben la vida de los edificios, el tiempo que tarda un alien en sacar cada cosa (ventana de robo, §5.0) y la `capacidad_refugio`; el daño y la producción no cambian.",
+    "Ninguna magnitud de bonus está hardcodeada en C#: todas vienen del Resource generado desde la ficha, y con la ficha en `TBD` el sistema corre con un valor neutro explícito, no con un número inventado.",
+    "En coop con dos héroes de clases distintas ambos bonus se aplican al mismo rancho; con dos héroes de la misma clase el modo de apilado es un parámetro configurable y está marcado como provisional.",
+    "El HUD muestra la clase de cada héroe.",
+    "`python3 tools/wiki_to_resources.py --check` sigue en verde y las tres fichas se generan a `data/hero_classes/`."
+  ],
+  "status": "todo",
+  "priority": "high",
+  "labels": [
+    "godot",
+    "heroe",
+    "clases-heroe",
+    "progresion",
+    "coop"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-012"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T20:00:00Z",
+      "body": "Ticket nuevo por la decisión de clases del héroe de Mato (29/08/2026). La wiki se actualizó primero (§11 + séptimo esquema en §0) y el GDD la resume (§4.3, §8.3); el pipeline ganó el tipo `clase_heroe` → `data/hero_classes/`.\n\nDepende de TASK-012 porque el bonus del Carpintero toca dos números que TASK-012 crea: la `capacidad_refugio` y el temporizador de la ventana de robo (§5.0). Los ejes de ataque y economía se pueden enganchar antes si conviene partir el trabajo.\n\nDos cosas que este ticket NO decide y quedan para Mato: (1) cómo se apilan dos héroes de la misma clase en coop, (2) la colisión de nombre entre la clase Sheriff y la unidad reclutable `sheriff` (WIKI §1.9)."
+    }
+  ],
+  "created_at": "2026-08-29T20:00:00Z",
+  "updated_at": "2026-08-29T20:00:00Z",
+  "jira_key": null
+}

@@ -21,6 +21,13 @@
 > abierto es **D4**, que dejó de ser una pregunta y pasó a ser una **fase de
 > balance** (`TASK-021`). Resumen de diseño en
 > [GDD §6](GDD.md#6-el-rancho-base).
+>
+> **Además (29 de agosto de 2026): el héroe tiene clase.** Mato definió **tres
+> clases** —Sheriff (ataque), Alcalde (economía), Carpintero (defensa y
+> capacidad)— que además son el marco de la meta-progresión roguelite entre
+> runs. Fichas en [§11](#11-clases-del-héroe), séptimo esquema en
+> [§0](#0-instrucciones-para-sistemas-de-ia), resumen en
+> [GDD §4.3](GDD.md#43-clases-del-héroe-definido).
 
 ---
 
@@ -164,6 +171,30 @@ notas_diseno:      # intención de diseño
 estado:            # canon | propuesta
 ```
 > El **costo en puntos de cada enemigo** no vive acá: es un campo de la ficha de enemigo, todavía sin definir (ver el backlog de §10). La oleada solo aporta el presupuesto y el marco de spawn.
+
+### Esquema de ficha — Clase de héroe
+```yaml
+id:            # snake_case canónico
+nombre:        # nombre en español
+tipo: clase_heroe
+bonus:         # ataque | economia | defensa_capacidad — UN solo eje por clase
+alcance:       # sobre qué aplica el bonus (edificios, unidades, recursos…)
+funcion_dia:   # qué cambia en la gestión diurna
+funcion_noche: # qué cambia en la defensa nocturna
+stats: {magnitud_bonus: TBD, escalado_por_nivel: TBD}
+meta_progresion: # cómo se mejora la clase o se desbloquean héroes de ella entre
+               # runs (GDD §8.3). La mejora es permanente; la clase se elige
+               # al empezar cada run
+notas_diseno:  # intención de diseño
+estado:        # canon | propuesta
+```
+> **Séptimo esquema** (29 de agosto de 2026, decisión de Mato). El héroe del
+> jugador no es una unidad más ([§1](#1-unidades-del-jugador) son las que
+> reclutás): es el personaje que controlás, y su **clase** es un multiplicador
+> global sobre el rancho. Las tres clases viven en
+> [§11](#11-clases-del-héroe). En coop cada héroe lleva su propia clase y los
+> bonus **conviven sobre el mismo rancho** — cómo se apilan dos clases iguales
+> es `TBD` de balance, no se inventa.
 
 ---
 
@@ -1229,7 +1260,81 @@ destraban los tickets que la esperaban.
 - [ ] Clasificar cada enemigo que roba como **chico o grande** (`capacidad_robo` 1 o 2) y fijar el `multiplicador_grande` de §5.0 punto 3 — es balance, no diseño (D3 fijó la regla, no el reparto)
 - [ ] Fichas de objetivo/desbloqueo (GDD §6.4): "X vacas → llega el científico" y "científico + X piezas → campo de fuerza" hoy son prosa en §8, no entidades
 - [ ] Costo en `pieza_alien` de cada mejora post-científico — depende de la curva de progresión de `TASK-021`
+- [ ] Magnitud de los bonus de las tres clases de héroe (§11) y cómo se apilan en coop — es balance puro, `TASK-023` lo deja parametrizado
+- [ ] Héroes concretos dentro de cada clase (§11): hoy la clase es el arquetipo y el héroe es genérico. Los héroes desbloqueables entre runs son fichas que todavía no existen (`TASK-024`)
 
 ---
 
-*Wiki v0.2 — 9 unidades, 16 enemigos, 5 armas, 9 edificios (1 archivada), 1 oleada, 3 recursos, 10 componentes. Fuente canónica: cambios de diseño se hacen aquí primero y se resumen en el GDD.*
+## 11. Clases del héroe
+
+> **Decisión de Mato, 29 de agosto de 2026.** El personaje que controlás
+> ([GDD §4](GDD.md#4-controles-y-personaje)) deja de ser un ranchero genérico:
+> al empezar la run elegís **una de tres clases**, y cada clase mejora **un solo
+> eje** del rancho. No es una unidad de §1 —esas se reclutan—, es el jugador.
+
+**La regla de las clases:** una clase = un eje. El Sheriff no toca la economía,
+el Alcalde no dispara mejor, el Carpintero no sube el daño. Elegir clase es
+elegir **qué parte de la espiral del robo** ([§5.0](#50-reglas-de-los-edificios-de-noche-cambio-canónico))
+peleás mejor: matarlos antes (ataque), reponer más rápido lo que te sacaron
+(economía) o que te saquen menos y te quepa más adentro (defensa y capacidad).
+
+- **Coop-ready:** cada héroe elige su clase por separado y los bonus se aplican
+  sobre el mismo rancho compartido ([GDD §4.2](GDD.md#42-cooperativo-local-definido)).
+  Dos jugadores pueden traer la misma clase; cómo se apilan los bonus repetidos
+  es `TBD` de balance.
+- **Entre runs** las clases son el marco de la meta-progresión
+  ([GDD §8.3](GDD.md#83-meta-progresión-entre-runs)): los puntos de fin de run
+  se gastan en **mejorar** la clase que jugás o en **desbloquear héroes nuevos**
+  que pertenecen a una de las tres. Las tres clases son el eje fijo; los héroes,
+  el contenido que crece.
+- **Ningún número está decidido.** `magnitud_bonus` y `escalado_por_nivel` son
+  `TBD` en las tres fichas (regla 1 de [§0](#0-instrucciones-para-sistemas-de-ia)).
+
+### 11.1 hero_clase_sheriff
+```yaml
+id: hero_clase_sheriff
+nombre: Sheriff
+tipo: clase_heroe
+bonus: ataque
+alcance: El daño de tus edificios (torres y edificios con modo_noche defensa) y el de tus unidades del jugador (§1)
+funcion_dia: Sin efecto económico propio — el Sheriff no produce, prepara la noche
+funcion_noche: La ventana de robo (§5.0) se cierra antes porque todo lo tuyo pega más fuerte: el alien muere cargado y suelta el botín
+stats: {magnitud_bonus: TBD, escalado_por_nivel: TBD}
+meta_progresion: Los puntos de fin de run suben el bonus de ataque y desbloquean héroes de esta clase (GDD §8.3)
+notas_diseno: La clase de "matarlos antes de que terminen de sacar". No cambia la economía ni la capacidad: si te desbordan, te desbordan igual. Ojo con el nombre — la unidad reclutable `sheriff` (§1.9) es otra cosa y sigue existiendo; si conviven en pantalla hay que desambiguar la ficción (¿el héroe Sheriff hace redundante al NPC Sheriff?), y eso es diseño pendiente, no balance.
+estado: propuesta
+```
+
+### 11.2 hero_clase_alcalde
+```yaml
+id: hero_clase_alcalde
+nombre: Alcalde
+tipo: clase_heroe
+bonus: economia
+alcance: La producción de todos tus recursos — comida de las granjas, madera, chatarra, la cadena del ganado (§7) y el barrido del amanecer (§7.3)
+funcion_dia: El día rinde más: más producción por edificio y más rendimiento del barrido del amanecer
+funcion_noche: Sin efecto de combate propio — lo que aporta es la reposición del día siguiente
+stats: {magnitud_bonus: TBD, escalado_por_nivel: TBD}
+meta_progresion: Los puntos de fin de run suben el bonus de economía y desbloquean héroes de esta clase (GDD §8.3)
+notas_diseno: La clase que pelea la espiral del robo por el otro lado: no evita que te roben, hace que reponerlo cueste menos noches. Es la que más se nota en runs largas y la que peor la pasa si te desarman temprano. Riesgo de balance a vigilar: si el bonus toca las piezas alien (§7.3) acelera el desbloqueo del científico, que es la bisagra del run (D5/D4) — si eso desbalancea la curva de `TASK-021`, el alcance se recorta.
+estado: propuesta
+```
+
+### 11.3 hero_clase_carpintero
+```yaml
+id: hero_clase_carpintero
+nombre: Carpintero
+tipo: clase_heroe
+bonus: defensa_capacidad
+alcance: La defensa de tus recursos (vida de los edificios y cuánto tarda un alien en sacarles algo) y la capacidad_refugio de todos tus edificios
+funcion_dia: Los edificios aguantan más y guardan más: sube el techo de gente, ganado y recursos que entran de noche
+funcion_noche: Alarga la ventana de robo (§5.0) — el alien tarda más adentro y tus torres tienen más tiempo de matarlo cargado
+stats: {magnitud_bonus: TBD, escalado_por_nivel: TBD}
+meta_progresion: Los puntos de fin de run suben el bonus de defensa/capacidad y desbloquean héroes de esta clase (GDD §8.3)
+notas_diseno: La clase que compra segundos, que es la moneda real del juego desde v0.4. Toca los dos números que definen el rancho abierto: cuánto entra al refugio y cuánto tarda el alien en sacarlo. Es la clase más acoplada a §5.0, así que cualquier cambio de la ventana de robo la revisa. En coop se lee natural que uno traiga Carpintero y otro Sheriff: uno estira la ventana, el otro la aprovecha.
+estado: propuesta
+```
+
+---
+
+*Wiki v0.2 — 9 unidades, 16 enemigos, 5 armas, 9 edificios (1 archivada), 1 oleada, 3 recursos, 3 clases de héroe, 10 componentes. Fuente canónica: cambios de diseño se hacen aquí primero y se resumen en el GDD.*

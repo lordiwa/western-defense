@@ -8,9 +8,10 @@ Este archivo define cómo trabajar en este repo.
 - **GDD:** `docs/GDD.md` — diseño, visión, mecánicas
 - **TECH:** `docs/TECH.md` — arquitectura, stack, plan de implementación
 - **WIKI:** `docs/WIKI.md` — **fuente canónica** de todas las entidades
-  (unidades, enemigos, armas, edificios, oleadas, componentes). Fichas YAML con
-  esquema fijo (seis esquemas desde la wiki v0.2, definidos en §0 — el sexto es
-  `recurso`).
+  (unidades, enemigos, armas, edificios, oleadas, recursos, clases de héroe,
+  componentes). Fichas YAML con esquema fijo (siete esquemas, definidos en §0 —
+  el sexto es `recurso` y el séptimo `clase_heroe`, las tres clases del héroe
+  de §11).
 - **Índice de la wiki:** `docs/wiki/README.md` — navegación por categoría.
   **Generado** desde la wiki; no lo edites a mano, regeneralo.
 
@@ -48,7 +49,8 @@ Este archivo define cómo trabajar en este repo.
 | Arquitectura / stack / plan | `docs/TECH.md` |
 | Reglas de diseño general | `docs/GDD.md` |
 | Pipeline wiki → datos | `tools/wiki_to_resources.py` |
-| Recursos de datos (generados) | `data/` (units/, enemies/, weapons/, buildings/, waves/, resources/) |
+| Recursos de datos (generados) | `data/` (units/, enemies/, weapons/, buildings/, waves/, resources/, hero_classes/) |
+| Las tres clases del héroe | `docs/WIKI.md §11` + GDD §4.3 y §8.3 |
 | Las decisiones abiertas de Mato | `docs/WIKI.md §9` (D1–D6) + GDD §13.1 + `tasks/TASK-018.json` |
 | Código C# | `src/` (Core/, Economy/, Units/, Enemies/, Buildings/, Tech/, Coop/, UI/) |
 | Escenas Godot | `scenes/` |

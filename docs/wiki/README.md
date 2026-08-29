@@ -14,7 +14,8 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
   (snake_case) es el identificador canónico: se usa para nombres de archivo,
   clases, claves de datos y referencias cruzadas.
 - `estado: canon` = decidido. `estado: propuesta` = pendiente de validar en
-  prototipo.
+  prototipo. `estado: archivada` = descartada por el diseño, se conserva como
+  referencia histórica (WIKI §0, regla 7).
 - Los campos **`TBD`** están pendientes de balance y **no se inventan**
   (CLAUDE.md, regla 4). La columna *TBD* de las tablas cuenta cuántos tiene
   cada ficha.
@@ -41,6 +42,18 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 | [`doctor`](../WIKI.md#18-doctor) | Doctor / Curandero | economico | Recluta especial | 🧪 propuesta | 4 |
 | [`sheriff`](../WIKI.md#19-sheriff) | Sheriff | defensivo | Evento / nivel de pueblo alto | 🧪 propuesta | 6 |
 
+## Clases del héroe
+
+→ [Sección completa](../WIKI.md#11-clases-del-héroe)
+
+El personaje que controla el jugador, no una unidad reclutable: una clase = un eje. Son también el marco de la meta-progresión entre runs ([GDD §8.3](../GDD.md#83-meta-progresión-entre-runs)).
+
+| Ficha | Nombre | Bonus | Alcance | Estado | TBD |
+| --- | --- | --- | --- | --- | --- |
+| [`hero_clase_sheriff`](../WIKI.md#111-hero_clase_sheriff) | Sheriff | ataque | El daño de tus edificios (torres y edificios con modo_noche defensa) y el de tus unidades del jugador (§1) | 🧪 propuesta | 2 |
+| [`hero_clase_alcalde`](../WIKI.md#112-hero_clase_alcalde) | Alcalde | economia | La producción de todos tus recursos — comida de las granjas, madera, chatarra, la cadena del ganado (§7) y el barrido del amanecer (§7.3) | 🧪 propuesta | 2 |
+| [`hero_clase_carpintero`](../WIKI.md#113-hero_clase_carpintero) | Carpintero | defensa_capacidad | La defensa de tus recursos (vida de los edificios y cuánto tarda un alien en sacarles algo) y la capacidad_refugio de todos tus edificios | 🧪 propuesta | 2 |
+
 ## Enemigos
 
 → [Sección completa](../WIKI.md#2-enemigos)
@@ -61,7 +74,7 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 
 | Ficha | Nombre | Qué roba | Movimiento | Aparición | Estado | TBD |
 | --- | --- | --- | --- | --- | --- | --- |
-| [`platillo_sonda`](../WIKI.md#221-platillo_sonda) | Platillo Sonda | ganado | volador | noche 3+ | ✅ canon | 1 |
+| [`platillo_sonda`](../WIKI.md#221-platillo_sonda) | Platillo Sonda | ganado | volador | noche 3+ | ✅ canon | — |
 | [`platillo_abductor`](../WIKI.md#222-platillo_abductor) | Platillo Abductor | personas | volador | noche 6+ | ✅ canon | — |
 | [`sombrero_negro`](../WIKI.md#223-sombrero_negro) | Sombrero Negro | personas | terrestre | noche 7+ | ✅ canon | — |
 
@@ -121,10 +134,10 @@ Solo las armas ya referenciadas por el `arma_base` de alguna unidad; el resto de
 | [`establo`](../WIKI.md#53-establo) | Establo / Corral | Aloja el ganado, lo saca a pastar de día y lo guarda de noche | lateral | vaquero_ganado, lazo, vaca | 🧪 propuesta | 5 |
 | [`armeria`](../WIKI.md#54-armeria) | Armería / Herrería | Fabrica y mejora armas humanas; equipa unidades | lateral | pistolero, revolver, rifle_largo | 🧪 propuesta | 5 |
 | [`laboratorio`](../WIKI.md#55-laboratorio) | Laboratorio del Profesor | Investiga tecnología alien y desbloquea las recetas del árbol tecnológico | lateral | chatarrero, campo_fuerza_alien | 🧪 propuesta | 5 |
-| [`torre_vigilancia`](../WIKI.md#56-torre_vigilancia) | Torre de vigilancia | Torre defensiva colocable; recibe las armas del árbol tecnológico | libre | TBD | 🧪 propuesta | 5 |
+| [`torre_vigilancia`](../WIKI.md#56-torre_vigilancia) | Torre de vigilancia | Torre defensiva colocable; recibe las armas del árbol tecnológico | libre | TBD | ✅ canon | 6 |
 | [`granja`](../WIKI.md#57-granja) | Granja / Granero | Cultiva comida y hace crecer el pasto a su alrededor | lateral | pasto | 🧪 propuesta | 6 |
-| [`barricada`](../WIKI.md#58-barricada) | Barricadas / Muros | Línea defensiva por niveles — VARIANTE CLÁSICA OPCIONAL, no el default (§5.0.2) | linea_defensa | n/a | 🧪 propuesta | 4 |
-| [`campo_fuerza_alien`](../WIKI.md#59-campo_fuerza_alien) | Campo de fuerza alien | Barrera de energía T3 — la respuesta alienígena al muro, para el late game | libre | n/a | 🧪 propuesta | 8 |
+| [`barricada`](../WIKI.md#58-barricada) | Barricadas / Muros | ARCHIVADA — línea defensiva por niveles del diseño anterior; el juego no tiene muros (D2, §5.0.2) | n/a | n/a | 🧪 archivada | — |
+| [`campo_fuerza_alien`](../WIKI.md#59-campo_fuerza_alien) | Campo de fuerza alien | Barrera de energía — ESTRUCTURA (D5). Es un desbloqueo post-científico que se paga con piezas alien | libre | n/a | 🧪 propuesta | 10 |
 
 ## Oleadas
 
@@ -134,7 +147,7 @@ La curva real de presupuesto por noche está pendiente ([TECH §3.3](../TECH.md#
 
 | Ficha | Nombre | Noche | Fase lunar | Presupuesto | Estado | TBD |
 | --- | --- | --- | --- | --- | --- | --- |
-| [`oleada_ejemplo`](../WIKI.md#61-oleada_ejemplo) | Oleada de ejemplo | TBD | cualquiera | TBD | 🧪 propuesta | 5 |
+| [`oleada_ejemplo`](../WIKI.md#61-oleada_ejemplo) | Oleada de ejemplo | TBD | cualquiera | TBD | 🧪 propuesta | 6 |
 
 ## Recursos
 
@@ -146,6 +159,7 @@ La cadena del ganado (pasto → vaca → comida) y todo recurso con mecánica pr
 | --- | --- | --- | --- | --- | --- | --- |
 | [`pasto`](../WIKI.md#71-pasto) | Pasto / Forraje | consumible | Crece de día en el radio que rodea a la granja; también hay parches naturales en el mapa | no — nadie se lleva el pasto; lo que se pierde es el ganado que lo come | 🧪 propuesta | 4 |
 | [`vaca`](../WIKI.md#72-vaca) | Vaca | vivo | Se alojan en el establo; se compran o se encuentran explorando (por definir) | si — el platillo_sonda la levanta con rayo tractor y el ratero entra al establo a llevársela | 🧪 propuesta | 3 |
+| [`pieza_alien`](../WIKI.md#73-pieza_alien) | Pieza alien / Restos de nave | consumible | Barrido del amanecer — tras defender la noche, la gente sale a recolectar comida Y a levantar los restos de las naves y los aliens caídos. Cuantos más derribás de noche, más piezas hay de mañana | si — es la chatarra/tecnología alien de GDD §5.1, y los ladrones se la llevan como cualquier recurso del refugio | 🧪 propuesta | 4 |
 
 ## Componentes (drops)
 
@@ -153,6 +167,7 @@ La tabla canónica de componentes vive en [WIKI §3](../WIKI.md#3-registro-de-co
 
 ## Estado de completitud
 
-- **42** fichas (9 unidades, 16 enemigos, 5 armas, 9 edificios, 1 oleada, 2 recursos).
-- **26** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `sheriff`, `manos_largas`, `toro_de_marte`, `caparazon`, `demoledor`, `el_ganadero`, `revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`, `town_center`, `taberna`, `establo`, `armeria`, `laboratorio`, `torre_vigilancia`, `granja`, `barricada`, `campo_fuerza_alien`, `oleada_ejemplo`, `pasto`, `vaca`.
-- **31** fichas con campos `TBD` pendientes de balance (130 campos en total).
+- **46** fichas (9 unidades, 16 enemigos, 5 armas, 9 edificios, 1 oleada, 3 recursos, 3 clases de héroe).
+- **28** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `sheriff`, `manos_largas`, `toro_de_marte`, `caparazon`, `demoledor`, `el_ganadero`, `revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`, `town_center`, `taberna`, `establo`, `armeria`, `laboratorio`, `granja`, `campo_fuerza_alien`, `oleada_ejemplo`, `pasto`, `vaca`, `pieza_alien`, `hero_clase_sheriff`, `hero_clase_alcalde`, `hero_clase_carpintero`.
+- **1** en `estado: archivada` — fuera de partida, se conservan como referencia histórica: `barricada`.
+- **33** fichas con campos `TBD` pendientes de balance (139 campos en total).

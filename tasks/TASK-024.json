@@ -1,0 +1,43 @@
+{
+  "key": "TASK-024",
+  "title": "Meta-progresión roguelite de héroes: mejorar tu héroe y desbloquear héroes nuevos dentro de las tres clases",
+  "description": "**La parte roguelite de la decisión de clases de Mato (29/08/2026).** Diseño en GDD §8.3 (reescrito con esta decisión) y §4.3; clases canónicas en [WIKI §11](../docs/WIKI.md).\n\n> **La regla:** al terminar la run (ganes o pierdas) ganás puntos, y los puntos se gastan en dos cosas — **mejorar tu héroe** (subir el bonus de su clase y abrir perks propios) o **desbloquear héroes nuevos**, que siempre pertenecen a **una de las tres clases**. Las clases son el marco fijo; los héroes, el contenido que crece. Un héroe nuevo trae el bonus de su clase con su sabor propio (arma inicial, perk, ficción), **nunca un cuarto eje**.\n\nEs el **primer ticket de meta-progresión del proyecto**: hasta ahora GDD §8.3 era prosa sin dueño y el tamaño del árbol meta seguía abierto (§13.2, pregunta 3). Este ticket construye el andamiaje persistente; el contenido (cuántos héroes, qué perks) crece después.\n\n**Qué hay que construir:**\n1. **Persistencia entre runs**: un perfil que sobreviva al cierre del juego con los puntos acumulados, las mejoras compradas y los héroes desbloqueados. Es el primer estado del proyecto que **no** vive dentro de una run.\n2. **Cálculo de puntos al terminar la run**, por los ejes de GDD §8.3 (noches sobrevividas, tec investigada, jefes derrotados, gente salvada). Los pesos van a data, `TBD`.\n3. **Mejoras permanentes por clase**: subir el `magnitud_bonus` de la clase por niveles (`escalado_por_nivel` de la ficha, `TBD`).\n4. **Héroes desbloqueables**, cada uno con su `clase_heroe`. Requiere decidir con Mato si el héroe pasa a ser un **tipo de ficha propio** de la wiki (hoy la clase es el arquetipo y el héroe es genérico — está en el backlog de WIKI §10). Mientras no lo sea, el ticket entrega el sistema con un solo héroe genérico por clase.\n5. **Pantalla de meta entre runs**: ver puntos, gastar, elegir con qué héroe arrancás la próxima.\n6. **Coop-ready:** cada jugador elige su héroe desbloqueado al empezar; el árbol meta es por perfil, y si es compartido o por jugador se parametriza y se marca provisional.\n\n**No inventar balance ni ficción.** Los pesos de puntuación, los costos del árbol y el `escalado_por_nivel` son `TBD`. El **nombre de los puntos** (¿\"Renombre\"? ¿\"Recortes de periódico\"?) y **cuántos héroes por clase** siguen abiertos en GDD §13.2 punto 3: son de Mato, no se resuelven por default.",
+  "acceptance_criteria": [
+    "Existe un perfil persistente entre runs con puntos, mejoras compradas y héroes desbloqueados, que sobrevive al cierre del juego.",
+    "Al terminar una run (victoria o derrota) se otorgan puntos calculados desde los ejes de GDD §8.3, con los pesos leídos de data y no hardcodeados.",
+    "Los puntos se pueden gastar en subir el nivel del bonus de una clase, y ese nivel se refleja en el bonus que aplica el sistema de TASK-023 en la run siguiente.",
+    "Los puntos se pueden gastar en desbloquear un héroe, y todo héroe desbloqueable declara exactamente una de las tres clases de WIKI §11 — no existe camino para crear un héroe con un cuarto eje ni con dos clases.",
+    "Al empezar una run se elige entre los héroes desbloqueados y esa elección fija la clase de esa run.",
+    "Una run perdida también otorga puntos (la espiral del robo no es un game over que borre el progreso).",
+    "En coop cada jugador elige su héroe desbloqueado; si el árbol meta es compartido o por jugador es un parámetro configurable, marcado como provisional.",
+    "Ningún costo, peso ni magnitud está inventado: todo lo `TBD` vive como parámetro de data y el sistema corre con valores neutros explícitos.",
+    "El nombre/ficción de los puntos y la cantidad de héroes por clase quedan registrados como pendientes de Mato, no resueltos por default."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "godot",
+    "heroe",
+    "clases-heroe",
+    "meta-progresion",
+    "roguelite",
+    "coop"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-023"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T20:00:00Z",
+      "body": "Ticket nuevo, mitad roguelite de la decisión de clases (29/08/2026). No había ningún ticket de meta-progresión en el backlog: GDD §8.3 era prosa sin dueño y §13.2 punto 3 sigue abierto. Depende de TASK-023 porque el árbol meta no tiene qué mejorar hasta que los tres ejes de bonus existan en la run.\n\nDos cosas para Mato antes de que este ticket se pueda cerrar del todo: si los **héroes concretos** pasan a ser un tipo de ficha de la wiki (hoy anotado en el backlog de WIKI §10) y el nombre de los puntos del meta."
+    }
+  ],
+  "created_at": "2026-08-29T20:00:00Z",
+  "updated_at": "2026-08-29T20:00:00Z",
+  "jira_key": null
+}

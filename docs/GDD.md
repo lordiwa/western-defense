@@ -15,6 +15,15 @@
 > están en [`WIKI.md`](WIKI.md); las **decisiones que siguen abiertas** están en
 > §13 y ninguna se resuelve sin Mato.
 
+> ### ⭐ 29 de agosto de 2026 — el héroe tiene clase
+> Mato definió **tres clases de héroe**: **Sheriff** (ataque), **Alcalde**
+> (economía) y **Carpintero** (defensa y capacidad). Una clase = un eje, se
+> elige al empezar la run, y son además el **marco de la meta-progresión
+> roguelite**: los puntos de fin de run se gastan en mejorar tu héroe o
+> desbloquear héroes nuevos dentro de esas tres clases. Lo tocado: §4.3 (nuevo)
+> y §8.3. Fichas canónicas en [`WIKI.md §11`](WIKI.md#11-clases-del-héroe);
+> las magnitudes de los bonus son `TBD` de balance.
+
 ---
 
 ## 1. Visión General
@@ -127,6 +136,21 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 - Ambos héroes comparten economía y pueblo; cada uno tiene su propio estado de derribo (§4.1).
 - **Fuera de combate en coop (definido):** si un jugador queda Fuera de combate lejos del pueblo (ej. explorando el bosque de noche), **permanece caído donde quedó hasta el amanecer**; ahí revive Malherido y debe regresar al pueblo por su cuenta. El otro jugador sigue jugando normalmente. Si esto ocurre en plena defensa nocturna, el pueblo pelea con un héroe menos — el castigo es orgánico, no scripted. Si ambos caen, ambos observan hasta el amanecer.
 - Implicación técnica: todos los sistemas (cámara, HUD, órdenes, recolección) se diseñan desde el día uno asumiendo 1–2 héroes, no se parchea después.
+
+### 4.3 Clases del héroe (definido)
+Decidido por Mato (29 de agosto de 2026). El héroe deja de ser un ranchero genérico: **al empezar cada run elegís una de tres clases**, y cada clase mejora **un solo eje** del rancho.
+
+| Clase | Bonus | Qué cambia en la partida |
+|---|---|---|
+| **Sheriff** | **Ataque** | Sube el daño de tus **edificios** (torres y edificios en modo defensa) y de tus **unidades**. La ventana de robo (§6.3) se cierra antes: matás al alien cargado y suelta el botín |
+| **Alcalde** | **Economía** | Sube la **producción de recursos** — comida, madera, chatarra, la cadena del ganado (§5.4) y el barrido del amanecer. No evita el robo: hace que reponerlo cueste menos noches |
+| **Carpintero** | **Defensa y capacidad** | Sube la **defensa de tus recursos** (los edificios aguantan más y al alien le cuesta más sacarles algo) y la **capacidad** de los edificios: entra más gente, ganado y recursos al refugio |
+
+- **Una clase = un eje.** El Sheriff no toca la economía, el Alcalde no dispara mejor, el Carpintero no sube el daño. Elegir clase es elegir **por qué lado peleás la espiral del robo** (§5.3): matarlos antes, reponer más rápido, o que te saquen menos y te quepa más.
+- **Coop (§4.2):** cada jugador elige su clase y los bonus se aplican sobre el mismo rancho compartido. Sheriff + Carpintero se lee natural —uno estira la ventana de robo, el otro la aprovecha—; cómo se apilan **dos clases iguales** es balance pendiente.
+- **Los números no están decididos.** La magnitud de cada bonus y su escalado por nivel son `TBD` (no se inventan): las fichas canónicas están en [`WIKI.md §11`](WIKI.md#11-clases-del-héroe), en `estado: propuesta`.
+- Las clases son además el **marco de la meta-progresión** entre runs (§8.3).
+- Pendiente de ficción: la unidad reclutable *Sheriff* ([wiki §1.9](WIKI.md#19-sheriff)) sigue existiendo y comparte nombre con la clase — hay que desambiguar.
 
 ---
 
@@ -292,7 +316,11 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 ### 8.3 Meta-progresión (entre runs)
 - Al final de cada run (victoria o derrota) ganas **puntos** según noches sobrevividas, tec investigada, jefes derrotados, gente salvada.
 - Se gastan en mejoras permanentes tipo roguelike: tecnologías pre-desbloqueadas, +daño del héroe, empezar con una unidad extra, descuentos, nuevos edificios disponibles, etc.
-- **Por definir:** nombre/ficción de estos puntos (¿"Renombre"? ¿"Recortes de periódico"?) y el tamaño del árbol meta.
+- **El eje principal del meta son las tres clases del héroe (§4.3).** Los puntos se gastan en dos cosas:
+  - **Mejorar tu héroe** — subir el bonus de su clase (más ataque para el Sheriff, más producción para el Alcalde, más defensa/capacidad para el Carpintero) y abrir perks propios de esa clase.
+  - **Desbloquear héroes nuevos** — personajes distintos que **pertenecen a una de las tres clases**. Las clases son el marco fijo; los héroes, el contenido que crece. Un héroe nuevo trae el bonus de su clase con su propio sabor (arma inicial, perk, ficción), no un cuarto eje.
+- Al empezar la run elegís **con qué héroe desbloqueado jugás**, y eso fija tu clase para toda la partida. En coop cada jugador elige el suyo (§4.2).
+- **Por definir:** nombre/ficción de estos puntos (¿"Renombre"? ¿"Recortes de periódico"?), el tamaño del árbol meta, y **cuántos héroes por clase** (hoy la clase es el arquetipo y el héroe es genérico — las fichas de héroe concreto todavía no existen).
 
 ---
 
@@ -403,10 +431,14 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 ### 13.2 Preguntas de fondo (venían de v0.3)
 1. Lista final de edificios y sus árboles de mejora. (§6.2, §6.5)
 2. ¿Armas alien = clase nueva o mejora de equipo? (§7)
-3. Nombre y tamaño del sistema de meta-progresión. (§8.3)
+3. Nombre y tamaño del sistema de meta-progresión. (§8.3) — *el **eje** ya está decidido: las tres clases del héroe (§4.3). Falta el nombre de los puntos, el tamaño del árbol y cuántos héroes por clase*
 4. Duración exacta del ciclo lunar y curvas de dificultad. (§9)
 5. Economía: ¿confirmamos la ausencia de oro tras el primer prototipo?
 6. Nombre definitivo del juego.
+
+### Resueltas tras v0.4 (29 de agosto de 2026)
+- ✅ **El héroe tiene clase:** Sheriff (ataque), Alcalde (economía), Carpintero (defensa y capacidad) — una clase = un eje, se elige al empezar la run (§4.3)
+- ✅ **El meta-juego cuelga de las clases:** los puntos de fin de run mejoran tu héroe o desbloquean héroes nuevos dentro de esas tres clases (§8.3)
 
 ### Resueltas en v0.4
 - ✅ **Sin muros por defecto:** el rancho está abierto; la defensa son edificios-refugio + torres colocables (§6.1, §6.3)

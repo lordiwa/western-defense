@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T00:00:00Z",
+  "generated_at": "2026-08-29T20:00:00Z",
   "tasks": [
     {
       "key": "TASK-001",
@@ -76,7 +76,7 @@
     {
       "key": "TASK-013",
       "title": "Torres colocables libremente con prioridad de objetivo configurable",
-      "status": "blocked",
+      "status": "todo",
       "priority": "high"
     },
     {
@@ -106,7 +106,7 @@
     {
       "key": "TASK-018",
       "title": "DECISIÓN (Mato) — cerrar las seis decisiones abiertas D1–D6 del cambio de mecánica v0.4",
-      "status": "blocked",
+      "status": "done",
       "priority": "high"
     },
     {
@@ -118,7 +118,31 @@
     {
       "key": "TASK-020",
       "title": "Reconciliar los enemigos diseñados contra muros con el rancho abierto",
-      "status": "blocked",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-021",
+      "title": "BALANCE DE PROGRESIÓN (D4) — proponerle a Mato la curva de checkpoints que trae al científico",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-022",
+      "title": "Barrido del amanecer: recolección diurna de comida y piezas alien",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-023",
+      "title": "Sistema de clases del héroe: Sheriff (ataque), Alcalde (economía) y Carpintero (defensa/capacidad)",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-024",
+      "title": "Meta-progresión roguelite de héroes: mejorar tu héroe y desbloquear héroes nuevos dentro de las tres clases",
+      "status": "todo",
       "priority": "medium"
     }
   ]

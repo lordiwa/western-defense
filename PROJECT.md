@@ -33,7 +33,7 @@ colocás donde quieras. Y si lo matás cargado, suelta el botín.
 |---|---|---|
 | **GDD** | `docs/GDD.md` | Game Design Document v0.4 — visión, core loop, recursos, unidades, enemigos, **defensa sin muros** |
 | **TECH** | `docs/TECH.md` | Documento técnico v0.1 — arquitectura, stack (Godot 4 + C#), plan de prototipo |
-| **WIKI** | `docs/WIKI.md` | Wiki de entidades v0.2 — **fuente canónica** de unidades, enemigos, armas, edificios, oleadas, recursos, componentes (42 fichas YAML) |
+| **WIKI** | `docs/WIKI.md` | Wiki de entidades v0.2 — **fuente canónica** de unidades, enemigos, armas, edificios, oleadas, recursos, **clases de héroe**, componentes (46 fichas YAML) |
 | **Índice wiki** | `docs/wiki/README.md` | Navegación por categoría sobre la wiki (generado, no editar a mano) |
 
 ## Stack decidido
@@ -57,11 +57,12 @@ colocás donde quieras. Y si lo matás cargado, suelta el botín.
 
 ### Inventario de la wiki
 
-42 fichas: **9 unidades** del jugador, **16 enemigos** (3 ladrones,
+46 fichas: **9 unidades** del jugador, **16 enemigos** (3 ladrones,
 3 abductores, 3 tanques, 4 soporte, 3 jefes), **5 armas**, **9 edificios**,
-**1 oleada** de ejemplo y **2 recursos** (`pasto`, `vaca`) + la tabla de
-componentes.
-26 fichas en `estado: propuesta` y 130 campos `TBD` pendientes de balance —
+**1 oleada** de ejemplo, **3 recursos** (`pasto`, `vaca`, `pieza_alien`) y
+**3 clases de héroe** (`hero_clase_sheriff`, `hero_clase_alcalde`,
+`hero_clase_carpintero`) + la tabla de componentes.
+28 fichas en `estado: propuesta` y 139 campos `TBD` pendientes de balance —
 subieron con el cambio de mecánica: cinco enemigos que eran canon volvieron a
 `propuesta` porque se diseñaron contra muros que ya no existen (`TASK-020`).
 Conteo actualizado en cualquier momento con:
@@ -70,8 +71,8 @@ Conteo actualizado en cualquier momento con:
 python3 tools/wiki_to_resources.py --check
 ```
 
-Los esquemas de ficha están definidos — seis desde v0.2, con `recurso` (`TASK-003`
-y el cambio de mecánica). Lo que falta es **contenido**, no forma: las armas del
+Los esquemas de ficha están definidos — siete: los seis de v0.2 con `recurso`
+(`TASK-003` y el cambio de mecánica) más `clase_heroe` (las clases del héroe). Lo que falta es **contenido**, no forma: las armas del
 árbol tecnológico T1/T2/T3 (§4 solo cubre las que alguna unidad ya referencia por
 `arma_base`) y la curva real de oleadas (`TASK-008`).
 
@@ -98,6 +99,23 @@ la instrucción de parametrizar en vez de asumir.
 | **D5** — campo de fuerza, ¿estructura o arma T3? | nada: `TASK-016` es post-vertical-slice |
 | **D6** — rama de nivel, ¿por edificio o global? | nada: `TASK-015` implementa por edificio tras una bandera |
 
+### Clases del héroe (29 de agosto de 2026)
+
+Decidido por Mato: **el héroe del jugador tiene clase**, y son tres —
+**Sheriff** (sube el ataque de tus edificios y unidades), **Alcalde** (sube la
+economía y la producción de recursos) y **Carpintero** (sube la defensa de tus
+recursos y la capacidad de tus edificios). Una clase = un eje; se elige al
+empezar la run y en coop cada héroe lleva la suya sobre el mismo rancho.
+
+Las tres clases son además el **marco de la meta-progresión roguelite**
+(GDD §8.3): los puntos de fin de run se gastan en **mejorar tu héroe** o
+**desbloquear héroes nuevos** que pertenecen a una de esas tres clases.
+
+Fichas canónicas en [`docs/WIKI.md §11`](docs/WIKI.md) (séptimo esquema,
+`clase_heroe`), resumen en GDD §4.3 y §8.3, tickets `TASK-023` (sistema en run)
+y `TASK-024` (meta entre runs). **Las magnitudes de los bonus son `TBD`**: no se
+inventan, salen de la pasada de balance y las aprueba Mato.
+
 ## Cómo trabaja hivemind acá
 
 Este repo es un proyecto **hivemind**: el orquestador planifica, los subagentes
@@ -111,4 +129,5 @@ reglas que no se negocian.
 |---|---|
 | **Decisiones (Mato)** | `TASK-018` (D1–D6) — D1 desbloquea `TASK-013`, D2 desbloquea `TASK-020` |
 | Documentación | ~~`TASK-001`~~ ✅ → ~~`TASK-003`~~ ✅ → `TASK-019` (alinear TECH con v0.4) → `TASK-002` (cerrar GDD §13.2) |
-| Juego | `TASK-006` (proyecto Godot, semana 1) → `TASK-007` (spike de split screen, riesgo #1) → `TASK-012` (edificios-refugio, el núcleo de v0.4) |
+| Juego | `TASK-006` (proyecto Godot, semana 1) → `TASK-007` (spike de split screen, riesgo #1) → `TASK-012` (edificios-refugio, el núcleo de v0.4) → `TASK-023` (clases del héroe) |
+| Meta-juego | `TASK-023` (las tres clases en la run) → `TASK-024` (roguelite de héroes entre runs) |
