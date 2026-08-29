@@ -5,13 +5,21 @@
 > **Navegación:** [índice de la wiki](wiki/README.md) — tablas por categoría con enlaces a cada ficha (generado, no editar a mano).
 
 > ### ⚠️ v0.2 — cambio de mecánica del núcleo defensivo
-> El equipo decidió (agosto 2026) que **el rancho no tiene muros por defecto**: la
+> El equipo decidió (agosto 2026) que **el rancho no tiene muros**: la
 > invasión es sorpresa, todo está abierto y los aliens bajan de sus naves. La
 > defensa pasa a ser **edificios-refugio + torres colocables**, y el robo deja de
 > ser "pasar el muro" para ser "entrar al refugio y tardar en sacar lo que hay"
 > ([§5.0](#50-reglas-de-los-edificios-de-noche-cambio-canónico)).
-> Las **decisiones que siguen abiertas** — y que nadie resuelve por su cuenta —
-> están en [§9](#9-decisiones-abiertas-para-el-equipo). Resumen de diseño en
+>
+> **Mato cerró cinco de las seis decisiones abiertas (29 de agosto de 2026):**
+> las torres se atacan (variante A), no hay muros ni variante clásica, el robo
+> tarda **3–5 s por cosa** y los aliens grandes se llevan **dos**, el campo de
+> fuerza es un **desbloqueo post-científico que se paga con piezas alien** —
+> y esas piezas se juntan en un **barrido diurno** nuevo—, y el árbol de talentos
+> es **por edificio**. El resultado está registrado en
+> [§9](#9-decisiones-registradas-y-lo-que-sigue-abierto). Lo único que sigue
+> abierto es **D4**, que dejó de ser una pregunta y pasó a ser una **fase de
+> balance** (`TASK-021`). Resumen de diseño en
 > [GDD §6](GDD.md#6-el-rancho-base).
 
 ---
@@ -26,6 +34,7 @@ Si eres una IA procesando este documento:
 4. La regla de diseño de todo enemigo: **quiere llevarse algo**. Si generas enemigos nuevos, deben responder: ¿qué roba, cómo lo roba, cómo se evita?
 5. Tono del universo: Weird West 1870s, cómic pulp — gracioso en la superficie, inquietante en la incertidumbre. Sin gore.
 6. Al generar contenido nuevo, mantén los campos del esquema y marca la ficha con `estado: propuesta`.
+7. `estado: archivada` marca una ficha que el diseño **descartó** y que se conserva como referencia histórica (hoy solo la [`barricada`](#58-barricada), tras cerrarse D2): no se usa en partida ni se genera contenido nuevo a partir de ella.
 
 ### Esquema de ficha — Unidad del jugador
 ```yaml
@@ -96,20 +105,21 @@ modo_noche:    # refugio | defensa | refugio_y_defensa | ninguno — regla de §
 capacidad_refugio: # cuánta gente y cuántos recursos resguarda de noche (TBD hasta balance)
 prioridad_objetivo: # solo si modo_noche incluye defensa: primero_en_llegar |
                # mas_cercano_a_recursos | ya_cargado (§5.0). `n/a` si no dispara.
-slot:          # centro | lateral | linea_defensa | libre (colocable donde el
-               # jugador quiera, GDD §6.1)
+slot:          # centro | lateral | libre (colocable donde el jugador quiera,
+               # GDD §6.1). `linea_defensa` quedó sin uso al cerrarse D2.
 obtencion:     # cómo se habilita o se construye
 desbloquea:    # SOLO ids de esta wiki, en lista. Si lo que habilita todavía no
                # es una ficha, va `TBD`; si no habilita entidades, va `n/a`.
                # Lo que quede fuera se explica en `notas_diseno`. Esta lista es
                # verificable por referencia cruzada (TASK-009): nada de prosa.
-niveles:       # progresión de mejora del edificio. Las dos ramas canónicas de
-               # §5.0 son refugio_y_defensa y doble_refugio; se desbloquean por
-               # árbol de habilidades + tecnología alien.
+niveles:       # progresión de mejora del edificio. Cada edificio tiene su
+               # PROPIO árbol de talentos (D6, §5.0.4): la primera bifurcación
+               # son las dos ramas canónicas refugio_y_defensa y doble_refugio,
+               # y se pagan con árbol de habilidades + tecnología alien.
 stats: {vida: TBD, tiempo_construccion: TBD}
 costo: {madera: TBD, chatarra: TBD}
 notas_diseno:  # intención de diseño
-estado:        # canon | propuesta
+estado:        # canon | propuesta | archivada
 ```
 > Los campos `funcion_dia`, `funcion_noche`, `modo_noche`, `capacidad_refugio` y
 > `prioridad_objetivo` entraron con el cambio de mecánica de defensa (§5.0). El
@@ -144,9 +154,11 @@ presupuesto:       # puntos de la noche antes del modificador (TECH §3.3)
 modificador_lunar: # multiplicador del presupuesto según la fase
 enemigos:          # qué enemigos son elegibles esa noche
 spawn: {flancos: TBD, paths_voladores: TBD}
-tiempos_robo: {persona_s: 1-3, recurso_s: 2}  # cuánto tarda un alien dentro de
-                   # un edificio por cada víctima (§5.0). El valor por persona
-                   # se sortea dentro del rango una vez por oleada.
+tiempos_robo: {objeto_s: 3-5, multiplicador_grande: TBD}  # cuánto tarda un alien
+                   # dentro de un edificio por cada cosa que se lleva —aldeano,
+                   # comida o vaca— (§5.0, D3). El valor se sortea dentro del
+                   # rango una vez por oleada. Un alien grande se lleva DOS
+                   # cosas y tarda más: el multiplicador es TBD.
 determinista: true # la composición se resuelve con el seed del run (TECH §3.3)
 notas_diseno:      # intención de diseño
 estado:            # canon | propuesta
@@ -172,7 +184,7 @@ raptable: true
 stats: {vida: TBD, dano: 0, cadencia: n/a, rango: n/a, velocidad: TBD}
 costo: {madera: 0, chatarra: 0, comida_upkeep: TBD}
 mejoras: [carretilla (más carga), herramientas (construye más rápido)]
-notas_diseno: La sangre del pueblo y el objetivo favorito de los Ladrones. Su pérdida frena toda la economía. Desde v0.2 el peón de noche no defiende un muro sino que ES el botín que hay dentro del refugio — sacarlo de ahí lleva 1-3 s al alien (§5.0), y esa ventana es lo que tus torres aprovechan.
+notas_diseno: La sangre del pueblo y el objetivo favorito de los Ladrones. Su pérdida frena toda la economía. Desde v0.2 el peón de noche no defiende un muro sino que ES el botín que hay dentro del refugio — sacarlo de ahí lleva 3-5 s al alien (§5.0), y esa ventana es lo que tus torres aprovechan. De mañana es también el que sale a barrer los restos de las naves caídas y trae las piezas alien (§7.3).
 estado: canon
 ```
 
@@ -330,9 +342,10 @@ estado: propuesta
 
 > **Cambio canónico v0.2 — a quién le roban.** Ya no hay muro que atravesar: el
 > alien entra por su flanco y va directo al **edificio-refugio más cercano** que
-> contenga lo que busca (gente, ganado o recursos). Sacar cada víctima le lleva
-> tiempo — 1–3 s por persona, 2 s por recurso, ganado `TBD` — y durante esa
-> ventana está quieto y expuesto. Matarlo antes le cancela el robo; matarlo
+> contenga lo que busca (gente, ganado o recursos). Sacar cada cosa le lleva
+> tiempo — **3–5 s**, sea un aldeano, comida o una vaca — y durante esa
+> ventana está quieto y expuesto. Los aliens **grandes** se llevan **dos** cosas
+> en vez de una, y tardan más. Matarlo antes le cancela el robo; matarlo
 > cargado le hace soltar lo que lleva. Las reglas completas están en
 > [§5.0](#50-reglas-de-los-edificios-de-noche-cambio-canónico), porque son
 > reglas del edificio tanto como del enemigo.
@@ -347,15 +360,15 @@ nombre: Ratero Gris
 tipo: enemigo
 categoria: ladron
 que_roba: recursos
-como_roba: Corre al edificio-refugio o recurso suelto más cercano, tarda 2 s en cargar cada recurso y huye. Si lo matan durante esos 2 s no se lleva nada
+como_roba: Corre al edificio-refugio o recurso suelto más cercano, tarda 3-5 s en cargar el recurso y huye. Si lo matan durante esa ventana no se lleva nada
 contramedida: Cualquier defensa lo mata; el reto es el volumen del grupo y que hay que llegarle mientras saquea
 movimiento: terrestre
 aparicion: noche 1+
-tiempo_robo: default (2 s por recurso, §5.0)
+tiempo_robo: default (3-5 s por cosa robada, §5.0) — alien chico
 stats: {vida: baja, dano: nulo, velocidad: alta, capacidad_robo: 1_recurso}
 drops: [componente_comun (baja probabilidad)]
 comportamiento_amanecer: huye con lo que cargue
-notas_diseno: El enemigo tutorial. Enseña la regla central — te roban, no te matan — y con v0.2 enseña también la segunda mitad de la regla: robar lleva tiempo, y ese tiempo es tu oportunidad.
+notas_diseno: El enemigo tutorial. Enseña la regla central — te roban, no te matan — y con v0.2 enseña también la segunda mitad de la regla: robar lleva tiempo, y ese tiempo es tu oportunidad. Con D3 cerrada esa ventana es de 3-5 s, la misma para lo que sea que se lleve: el jugador aprende un solo ritmo.
 estado: canon
 ```
 
@@ -370,7 +383,7 @@ como_roba: Muy rápido, esquiva en zigzag; prioriza la granja y el establo, que 
 contramedida: Escopetas (área) y trampas; las balas simples fallan por su esquiva
 movimiento: terrestre
 aparicion: noche 2+
-tiempo_robo: default (2 s por recurso, §5.0)
+tiempo_robo: default (3-5 s por cosa robada, §5.0) — alien chico
 stats: {vida: baja, dano: bajo, velocidad: muy_alta, capacidad_robo: TBD}
 drops: [componente_comun]
 comportamiento_amanecer: huye con lo que cargue
@@ -385,15 +398,15 @@ nombre: Manos Largas
 tipo: enemigo
 categoria: ladron
 que_roba: recursos
-como_roba: Brazos elásticos que entran al refugio DESDE AFUERA — saquea por la ventana sin cruzar la puerta, así que los defensores de adentro no lo alcanzan. Si el modo clásico de muros está activo (§5.8), roba además por encima de las barricadas bajas sin romperlas
+como_roba: Brazos elásticos que entran al refugio DESDE AFUERA — saquea por la ventana sin cruzar la puerta, así que los defensores de adentro no lo alcanzan. Tarda lo mismo que cualquiera (3-5 s), pero lo hace fuera del alcance de quien está adentro
 contramedida: Eliminarlo a distancia, o una torre configurada con prioridad `ya_cargado` (§5.0) — es el enemigo que justifica esa opción
 movimiento: terrestre
 aparicion: noche 4+
-tiempo_robo: default (§5.0)
+tiempo_robo: default (3-5 s por cosa robada, §5.0)
 stats: {vida: media, dano: nulo, velocidad: media, capacidad_robo: TBD}
 drops: [componente_comun, componente_raro (baja)]
 comportamiento_amanecer: huye con lo que cargue
-notas_diseno: Su función era atacar la sensación de seguridad del muro; sin muros por defecto (v0.2) pasa a atacar la sensación de seguridad del REFUGIO — el edificio deja de ser un búnker. Vuelve a `propuesta` porque el mecanismo se reescribió y hay que validarlo en prototipo.
+notas_diseno: Su función era atacar la sensación de seguridad del muro; con D2 cerrada (no hay muros, ni siquiera como variante) pasa a atacar la sensación de seguridad del REFUGIO — el edificio deja de ser un búnker. La cláusula de barricadas se borró: ya no hay modo clásico que activar. Sigue en `propuesta` hasta que TASK-020 valide el mecanismo nuevo contra la regla de oro.
 estado: propuesta
 ```
 
@@ -407,15 +420,15 @@ nombre: Platillo Sonda
 tipo: enemigo
 categoria: abductor
 que_roba: ganado
-como_roba: OVNI pequeño con rayo tractor LENTO sobre vacas; de noche las vacas están guardadas en el establo (§5.3), así que tiene que sacarlas de ahí primero. La lentitud da ventana de reacción
+como_roba: OVNI pequeño con rayo tractor LENTO sobre vacas; de noche las vacas están guardadas en el establo (§5.3), así que tiene que sacarlas de ahí primero — 3-5 s por vaca, como cualquier otro robo. La lentitud da ventana de reacción
 contramedida: Cualquier DPS aéreo básico (cazadores, torres)
 movimiento: volador
 aparicion: noche 3+
-tiempo_robo: TBD — el tiempo de extracción del ganado no está decidido (§9, D3)
+tiempo_robo: default (3-5 s por vaca, §5.0) — alien chico, se lleva una
 stats: {vida: baja, dano: nulo, velocidad: baja, capacidad_robo: 1_vaca}
 drops: [componente_comun, componente_antigrav (media)]
 comportamiento_amanecer: huye con lo que cargue
-notas_diseno: Primera imagen icónica del juego — la vaca flotando. Cómico Y amenazante. Enseña la mecánica de rescate por derribo.
+notas_diseno: Primera imagen icónica del juego — la vaca flotando. Cómico Y amenazante. Enseña la mecánica de rescate por derribo. D3 cerrada resolvió su único hueco: el rayo tractor NO es instantáneo, tarda lo mismo que un robo a mano, así que el establo es defendible y la torre llega a tiempo.
 estado: canon
 ```
 
@@ -426,11 +439,11 @@ nombre: Platillo Abductor
 tipo: enemigo
 categoria: abductor
 que_roba: personas
-como_roba: Rayo tractor sobre unidades; se planta sobre el refugio y tarda 1-3 s en sacar a la persona antes de subirla. Escudo frontal — vulnerable por detrás
+como_roba: Rayo tractor sobre unidades; se planta sobre el refugio y tarda 3-5 s en sacar a la persona antes de subirla. Escudo frontal — vulnerable por detrás
 contramedida: Cazadores posicionados, arpón antigravedad (T3)
 movimiento: volador
 aparicion: noche 6+
-tiempo_robo: default (1-3 s por persona, §5.0)
+tiempo_robo: default (3-5 s por aldeano, §5.0)
 stats: {vida: media, dano: nulo, velocidad: media, capacidad_robo: 1_persona}
 drops: [componente_raro, componente_antigrav]
 comportamiento_amanecer: huye con lo que cargue
@@ -458,7 +471,7 @@ estado: canon
 ```
 
 ## 2.3 Categoría: TANQUE
-> Comportamiento base: no roba — ROMPE. Existía para destruir barricadas y abrir camino a los demás; **sin muros por defecto (v0.2) su blanco pasa a ser lo que sí estorba: las torres colocadas y la estructura de los edificios-refugio.** Romper un refugio no destruye lo que hay dentro: lo deja al descubierto y acelera el saqueo de los ladrones. Las tres fichas de esta categoría vuelven a `propuesta` mientras el nuevo blanco no se valide en prototipo.
+> Comportamiento base: no roba — ROMPE. Existía para destruir barricadas y abrir camino a los demás; **cerrada D2 no hay muros que romper, así que su blanco es lo que sí estorba: las torres colocadas y la estructura de los edificios-refugio.** Con D1 en variante A ese blanco deja de ser una interpretación: *todos* los aliens resuelven la torre que los engancha, y el tanque es el que lo hace bien. Romper un refugio no destruye lo que hay dentro: lo deja al descubierto y acelera el saqueo de los ladrones. Las tres fichas de esta categoría siguen en `propuesta` hasta que TASK-020 valide el blanco nuevo.
 
 ### 2.3.1 toro_de_marte
 ```yaml
@@ -494,7 +507,7 @@ tiempo_robo: n/a
 stats: {vida: muy_alta, dano: medio_vs_estructuras, velocidad: muy_baja, capacidad_robo: 0}
 drops: [placa_blindaje, componente_raro]
 comportamiento_amanecer: huye
-notas_diseno: Chequeo de progresión — si no has avanzado el árbol tecnológico, este enemigo te lo cobra. Sin muros su rol se afila como escudo móvil del grupo, y por eso su lectura depende de la decisión abierta D1 (§9) sobre si las torres atraen al enemigo o no.
+notas_diseno: Chequeo de progresión — si no has avanzado el árbol tecnológico, este enemigo te lo cobra. Sin muros su rol se afila como escudo móvil del grupo, y D1 (variante A) lo confirma: como las torres SÍ enganchan a los aliens, el Caparazón existe para comerse ese fuego mientras los ladrones pasan detrás. Sigue en `propuesta` hasta que TASK-020 lo valide, pero ya no por falta de decisión.
 estado: propuesta
 ```
 
@@ -513,7 +526,7 @@ tiempo_robo: n/a
 stats: {vida: media, dano: alto_vs_torres, velocidad: baja, capacidad_robo: 0}
 drops: [componente_raro, nucleo_asedio]
 comportamiento_amanecer: huye
-notas_diseno: Rompe el turtling. Su blanco ya era la torre, así que es el tanque que menos cambia con v0.2 — pero ahora que las torres son colocables donde el jugador quiera, castiga directamente el amontonarlas en un solo punto. Vuelve a `propuesta` junto con el resto de la categoría.
+notas_diseno: Rompe el turtling. Su blanco ya era la torre, así que es el tanque que menos cambia con v0.2 — pero ahora que las torres son colocables donde el jugador quiera, castiga directamente el amontonarlas en un solo punto. Con D1 en variante A su rol se vuelve más nítido todavía: los demás aliens pelean la torre de cerca, él la borra desde fuera de rango. Sigue en `propuesta` junto con el resto de la categoría (TASK-020).
 estado: propuesta
 ```
 
@@ -620,7 +633,7 @@ nombre: El Ganadero
 tipo: enemigo
 categoria: jefe
 que_roba: nada (rompe) — pero su nombre es la amenaza
-como_roba: Coloso que "cosecha" — arranca del suelo las torres colocadas (y las barricadas, si el modo clásico está activo) y las usa como arma contra el resto de tus defensas
+como_roba: Coloso que "cosecha" — arranca del suelo las torres colocadas y las usa como arma contra el resto de tus defensas
 contramedida: TBD — pelea de jefe mid-game con fases
 movimiento: terrestre
 aparicion: evento mid-game (noche ~10, por definir)
@@ -628,7 +641,7 @@ tiempo_robo: n/a
 stats: {vida: jefe, dano: muy_alto, velocidad: baja, capacidad_robo: 0}
 drops: [componente_epico x2, nucleo_ganadero]
 comportamiento_amanecer: huye (si sobrevive, vuelve la siguiente luna llena)
-notas_diseno: Invierte la fantasía — el jugador es el ganado desde la perspectiva alien. Diseño de fases pendiente.
+notas_diseno: Invierte la fantasía — el jugador es el ganado desde la perspectiva alien. Cerrada D2, la cláusula de barricadas se borró: su cosecha son las torres y nada más, que con D1 en variante A es justamente lo que el resto de la invasión ya estaba peleando. Diseño de fases pendiente; sigue en `propuesta` hasta TASK-020.
 estado: propuesta
 ```
 
@@ -660,11 +673,11 @@ estado: canon
 | componente_raro | Raro | Abductores, tanques, soporte | Recetas T2→T3 |
 | componente_epico | Épico | Jefes | Recetas T3 clave |
 | componente_antigrav | Especial | Platillos | Arpón antigravedad, saco antigrav |
-| placa_blindaje | Especial | Tanques | Barricadas T3, munición perforante |
+| placa_blindaje | Especial | Tanques | Blindaje de edificios-refugio y torres, munición perforante |
 | cristal_psiquico | Especial | Psíquicos, hipnotizadores | Torre de Vigilancia mejorada, contramedidas mentales |
 | cristal_lunar | Especial | Faro Lunar (garantizado) | Recetas exclusivas del ciclo lunar (TBD) |
 | nucleo_asedio | Especial | Demoledor | Torre de largo alcance |
-| herramienta_alien | Especial | Reparador | Reparación automática de barricadas |
+| herramienta_alien | Especial | Reparador | Reparación automática de torres y edificios |
 | nucleo_ganadero | Único | El Ganadero | TBD (recompensa de jefe) |
 
 ---
@@ -776,28 +789,58 @@ las fichas de §5, igual que las categorías de §2 definen el de los enemigos.
 | `refugio_y_defensa` | Guarda **y** dispara. Es una mejora (§5.0.4), no un estado inicial. |
 | `ninguno` | De noche no hace nada; queda como estructura vacía. |
 
-**2. El rancho está abierto.** No hay muros de serie. La ficción lo explica:
-la invasión es una sorpresa en un valle del oeste, no un asedio anunciado a un
-castillo; nadie levantó una muralla porque nadie sabía que venía nadie. Los
-aliens bajan de las naves y caminan hasta lo que quieren. La `barricada` (5.8)
-sigue existiendo como **variante clásica opcional**, no como default.
+**2. El rancho está abierto — y no hay variante con muros** (D2, cerrada). No
+hay muros iniciales ni modo clásico opcional. La ficción lo explica: la invasión
+es una sorpresa en un valle del oeste, no un asedio anunciado a un castillo;
+nadie levantó una muralla porque nadie sabía que venía nadie. Los aliens
+**se mueven, entran y disparan libremente**: nada les impide llegar. Lo que hay
+entre ellos y el botín son dos cosas y ninguna es una pared —
 
-**3. Robar cuesta tiempo, y ese tiempo es la ventana de defensa.** El alien no
-"toca y desaparece": entra al **primer edificio-refugio que encuentra en su
-camino** y se queda adentro cargando:
+- **el refugio**, que los obliga a entrar y a tardar (punto 3), y
+- **las torres**, que les cobran esos segundos (punto 5).
+
+Las personas, las vacas y los recursos **se refugian de noche** en los edificios
+con `modo_noche: refugio` (o, si no hay uno cerca que los admita, en el
+[`town_center`](#51-town_center), que es el refugio por defecto del rancho). La
+[`barricada`](#58-barricada) queda **archivada**: se conserva como ficha
+histórica, no como opción de partida.
+
+**3. Robar cuesta tiempo, y ese tiempo es la ventana de defensa** (D3, cerrada).
+El alien no "toca y desaparece": entra al **primer edificio-refugio que
+encuentra en su camino** y se queda adentro cargando.
 
 | Qué se lleva | Cuánto tarda |
 |---|---|
-| Una persona | **1–3 s** — el valor exacto se sortea una vez por oleada |
-| Un recurso | **2 s** |
+| Un aldeano | **3–5 s** |
+| Comida (o cualquier recurso) | **3–5 s** |
+| Una vaca | **3–5 s** |
+
+El valor exacto se **sortea dentro del rango una vez por oleada** (con el seed
+del run, campo `tiempos_robo` de la ficha de oleada), no por robo: el jugador
+aprende el ritmo de la noche y lo puede leer.
+
+**Los aliens grandes se llevan dos cosas.** El tamaño del alien define su
+capacidad y su velocidad:
+
+| Tamaño | `capacidad_robo` | Tiempo |
+|---|---|---|
+| Chico | **1** cosa | 3–5 s |
+| Grande | **2** cosas | 3–5 s × `multiplicador_grande` (**TBD** — pendiente de balance) |
 
 Mientras carga es un blanco quieto. Si muere ahí dentro, **suelta lo que ya
 tenía encima** y la víctima se libera viva (misma regla que el abductor
 derribado, §2.2). Vaciar un refugio entero de gente es caro en segundos: ese es
 el presupuesto que el jugador le pelea con torres.
 
-**4. Los edificios suben de nivel.** Con el árbol de habilidades y la tecnología
-alien, un refugio puede ramificar:
+> Qué enemigo cuenta como grande —y cuánto es `multiplicador_grande`— es trabajo
+> de balance, no de esta regla: está anotado en el backlog de [§10](#10-backlog-de-fichas-pendientes).
+
+**4. Cada edificio tiene su propio árbol de talentos** (D6, cerrada). Se abre
+**clickeando el edificio**; lo que se compra ahí vale para *ese* edificio y para
+ningún otro, ni siquiera para otro del mismo tipo. La estrategia del jugador es
+qué árbol sube en qué edificio.
+
+La primera bifurcación del árbol son las dos ramas canónicas, y son excluyentes:
 
 - **`refugio_y_defensa`** — el edificio se arma: sigue guardando gente y además
   dispara a quien entre a robar.
@@ -805,8 +848,8 @@ alien, un refugio puede ramificar:
   (más personas y más recursos adentro). Menos edificios que defender, más huevos
   en la misma canasta.
 
-La rama se elige por edificio, no globalmente: dos graneros del mismo pueblo
-pueden ir por caminos distintos.
+Dos graneros del mismo pueblo pueden ir por caminos distintos. El contenido del
+árbol más allá de esa primera bifurcación, y sus costos, son `TBD`.
 
 **5. Las torres se colocan donde el jugador quiera** (`slot: libre`) y se
 configuran con una `prioridad_objetivo`:
@@ -817,16 +860,27 @@ configuran con una `prioridad_objetivo`:
 | `mas_cercano_a_recursos` | Al que está por alcanzar un refugio cargado |
 | `ya_cargado` | Al que ya lleva algo encima — matarlo devuelve el botín |
 
-> ⚠️ **DECISIÓN ABIERTA — variante A / variante B.** Falta decidir qué hacen los
-> aliens con las torres:
-> **(A)** las atacan primero — la torre es un obstáculo que hay que resolver, o
-> **(B)** las ignoran y van directo a los edificios — la torre nunca frena a
-> nadie, solo mata mientras roban.
-> Y si esto es **configurable** (dificultad / tipo de enemigo) o una sola de las
-> dos. Cambia por completo dónde conviene poner una torre y qué significa
-> `prioridad_objetivo`, así que **ninguna ficha la asume**. La decisión está
-> anotada como **D1** en [§9](#9-decisiones-abiertas-para-el-equipo), junto con
-> **D2** (si los muros estilo Kingdom entran como opción de partida).
+**6. Los aliens atacan las torres primero — variante A** (D1, cerrada). Las
+torres **no se ignoran**: el alien que entra en combate con una torre la
+**resuelve antes** de seguir camino al edificio. La torre es un obstáculo, no un
+espectador.
+
+Consecuencias que heredan todas las fichas:
+
+- **Colocar una torre es elegir dónde se pelea**, no solo a qué refugio cubrís.
+  Una torre adelantada compra tiempo lejos del botín; una torre pegada al
+  refugio pelea encima de la gente.
+- **La torre es gastable.** Puede caer, y el reparador que la sostiene está
+  afuera del refugio y es raptable (GDD §6.3).
+- **El [`caparazon`](#232-caparazon) funciona como escudo móvil**: absorbe el
+  fuego de las torres mientras los ladrones pasan detrás. Su lectura, que
+  dependía de esta decisión, queda confirmada.
+- `prioridad_objetivo` sigue siendo la decisión de configuración de la torre,
+  pero ahora convive con el hecho de que la torre **recibe** daño.
+
+> No se pidió que esto fuera configurable por dificultad ni por tipo de enemigo:
+> **variante A es el comportamiento único** del juego. Si más adelante hace falta
+> la palanca, es una decisión nueva, no un default que se pueda asumir.
 
 ### 5.1 town_center
 ```yaml
@@ -866,7 +920,7 @@ desbloquea: [peon]
 niveles: [refugio_y_defensa, doble_refugio]
 stats: {vida: TBD, tiempo_construccion: TBD}
 costo: {madera: TBD, chatarra: TBD}
-notas_diseno: Puerta de entrada de la población, que es el recurso vivo y el que más roban (GDD §5.1). De noche es el edificio donde el robo por persona (1–3 s, §5.0) más se nota: una taberna llena tarda mucho en vaciarse, y esa demora es lo que le da sentido a poner torres cerca.
+notas_diseno: Puerta de entrada de la población, que es el recurso vivo y el que más roban (GDD §5.1). De noche es el edificio donde el robo por aldeano (3–5 s, §5.0) más se nota: una taberna llena tarda mucho en vaciarse, y esa demora es lo que le da sentido a poner torres cerca.
 estado: propuesta
 ```
 
@@ -887,7 +941,7 @@ desbloquea: [vaquero_ganado, lazo, vaca]
 niveles: [refugio_y_defensa, doble_refugio]
 stats: {vida: TBD, tiempo_construccion: TBD}
 costo: {madera: TBD, chatarra: TBD}
-notas_diseno: El corral es el blanco del platillo_sonda — la vaca flotando es la imagen icónica del juego. Cuanto más ganado, más rápido se come el pasto (ver vaca y pasto en §7): el establo grande no es gratis, es una boca más grande. Guardar las vacas de noche las protege del abductor pero las concentra en un solo refugio robable; el nivel doble_refugio agranda esa apuesta.
+notas_diseno: El corral es el blanco del platillo_sonda — la vaca flotando es la imagen icónica del juego. Cuanto más ganado, más rápido se come el pasto (ver vaca y pasto en §7): el establo grande no es gratis, es una boca más grande. Guardar las vacas de noche las protege del abductor pero las concentra en un solo refugio robable; el nivel doble_refugio agranda esa apuesta. Con D3 cerrada el establo ES defendible: sacar cada vaca cuesta 3-5 s, igual que un aldeano, así que vaciar un corral lleno es caro en segundos y la torre llega.
 estado: propuesta
 ```
 
@@ -929,7 +983,7 @@ desbloquea: [chatarrero, campo_fuerza_alien]
 niveles: [refugio_y_defensa, doble_refugio]
 stats: {vida: TBD, tiempo_construccion: TBD}
 costo: {madera: TBD, chatarra: TBD}
-notas_diseno: Sin científico el edificio no produce nada — raptarlo detiene la investigación (ver 1.6). Es el edificio cuyo valor depende de una unidad viva, y por eso el que peor tolera ser el refugio más cercano al flanco. También habilita las recetas del árbol tecnológico (GDD §8.1), que todavía no son fichas, y las mejoras de nivel de los demás edificios (§5.0.4).
+notas_diseno: Sin científico el edificio no produce nada — raptarlo detiene la investigación (ver 1.6). Es el edificio cuyo valor depende de una unidad viva, y por eso el que peor tolera ser el refugio más cercano al flanco. También habilita las recetas del árbol tecnológico (GDD §8.1), que todavía no son fichas, y los árboles de talentos de los demás edificios (§5.0.4). D5 le dio su rol económico definitivo: la llegada del científico ABRE las mejoras, y todas se pagan con `pieza_alien` (§7.3), que se junta en el barrido del amanecer. Antes del científico las piezas se acumulan sin poder gastarse.
 estado: propuesta
 ```
 
@@ -950,8 +1004,8 @@ desbloquea: TBD
 niveles: [mejorada con cristal_psiquico]
 stats: {vida: TBD, tiempo_construccion: TBD}
 costo: {madera: TBD, chatarra: TBD}
-notas_diseno: Ya no vive en una línea de muros: se coloca libre, y decidir a qué edificio cubre es la decisión táctica del jugador. Matar a un ladrón mientras carga le hace soltar lo robado (§5.0.3), así que la torre no existe para frenar la invasión sino para cobrarle el tiempo que pasa adentro. Su prioridad_objetivo es configurable por torre. Revela al sombrero_negro: sin torre, el infiltrado camina entre tu gente sin que las defensas lo lean como hostil. Recibe las armas de montaje torre del árbol tecnológico (GDD §8.1), que todavía no son fichas. PENDIENTE: si los aliens la atacan (variante A) o la ignoran (variante B) — decisión abierta D1 de §9.
-estado: propuesta
+notas_diseno: Ya no vive en una línea de muros: se coloca libre, y decidir a qué edificio cubre es la decisión táctica del jugador. Matar a un ladrón mientras carga le hace soltar lo robado (§5.0.3), así que la torre le cobra al alien el tiempo que pasa adentro. Con D1 cerrada en variante A hace algo más: los aliens la atacan primero y la resuelven antes de seguir al refugio, así que colocarla también es elegir DÓNDE se pelea — y es gastable, porque puede caer. Su prioridad_objetivo es configurable por torre. Revela al sombrero_negro: sin torre, el infiltrado camina entre tu gente sin que las defensas lo lean como hostil. Recibe las armas de montaje torre del árbol tecnológico (GDD §8.1), que todavía no son fichas. Pasa a `canon`: lo único que la tenía en `propuesta` era D1, y D1 está cerrada — sus stats siguen `TBD` como los de todo el resto.
+estado: canon
 ```
 
 ### 5.7 granja
@@ -980,20 +1034,20 @@ estado: propuesta
 id: barricada
 nombre: Barricadas / Muros
 tipo: edificio
-funcion: Línea defensiva por niveles — VARIANTE CLÁSICA OPCIONAL, no el default (§5.0.2)
-funcion_dia: Se construye, se repara y se empuja hacia afuera para expandir territorio
-funcion_noche: Frena y encauza a los aliens terrestres hacia donde el jugador quiere
+funcion: ARCHIVADA — línea defensiva por niveles del diseño anterior; el juego no tiene muros (D2, §5.0.2)
+funcion_dia: n/a — no se construye
+funcion_noche: n/a — no existe en partida
 modo_noche: ninguno
 capacidad_refugio: 0
 prioridad_objetivo: n/a
-slot: linea_defensa
-obtencion: Solo si la partida se juega con la variante de muros estilo Kingdom (decisión abierta D2 de §9)
+slot: n/a
+obtencion: n/a — no se obtiene. D2 descartó la variante de muros estilo Kingdom
 desbloquea: n/a
-niveles: [madera, reforzada, tec alien (placa_blindaje)]
-stats: {vida: TBD, tiempo_construccion: TBD}
-costo: {madera: TBD, chatarra: TBD}
-notas_diseno: DEGRADADA A OPCIÓN. El rancho abierto es el nuevo default y la defensa la sostienen los edificios-refugio más las torres colocables (§5.0). Esta ficha se conserva entera porque los muros estilo Kingdom siguen sobre la mesa como alternativa de partida, y porque tres enemigos canon se diseñaron contra ella (manos_largas, toro_de_marte, el_ganadero). Si la variante se descarta, esos tres se rediseñan y esta ficha se archiva. Se repara de noche bajo fuego y el reparador es raptable (GDD §6.3). No desbloquea entidades (de ahí `n/a`).
-estado: propuesta
+niveles: n/a
+stats: {vida: n/a, tiempo_construccion: n/a}
+costo: {madera: n/a, chatarra: n/a}
+notas_diseno: ARCHIVADA POR D2 (29 de agosto de 2026). Mato confirmó el rancho abierto sin muros iniciales y sin modo clásico opcional: no hay barricadas que construir ni que romper. La ficha se conserva entera como referencia histórica —explica por qué manos_largas, toro_de_marte y el_ganadero existen y contra qué se diseñaron— pero no se genera contenido a partir de ella ni se la usa en partida. El "muro" que el juego sí tendrá es el campo_fuerza_alien (5.9), que llega tarde y se paga con piezas alien. Los tres enemigos que colgaban de ella se rediseñan para el rancho abierto en TASK-020.
+estado: archivada
 ```
 
 ### 5.9 campo_fuerza_alien
@@ -1001,19 +1055,19 @@ estado: propuesta
 id: campo_fuerza_alien
 nombre: Campo de fuerza alien
 tipo: edificio
-funcion: Barrera de energía T3 — la respuesta alienígena al muro, para el late game
+funcion: Barrera de energía — ESTRUCTURA (D5). Es un desbloqueo post-científico que se paga con piezas alien
 funcion_dia: Inactivo; el emisor recarga con tecnología alien
 funcion_noche: Levanta una barrera de energía entre dos emisores; los aliens no la cruzan mientras aguante
 modo_noche: defensa
 capacidad_refugio: 0
 prioridad_objetivo: n/a
 slot: libre
-obtencion: Se fabrica cuando el árbol tecnológico está avanzado (T3, GDD §8.1); requiere laboratorio
+obtencion: Desbloqueo — requiere el cientifico en el rancho (y por lo tanto el laboratorio) más X piezas alien juntadas en el barrido del amanecer (X = TBD, §7.3 y §8)
 desbloquea: n/a
 niveles: TBD
 stats: {vida: TBD, tiempo_construccion: TBD, energia: TBD, tiempo_recarga: TBD}
-costo: {madera: TBD, chatarra: TBD}
-notas_diseno: FICHA NUEVA, sin validar. Cierra el arco irónico del juego — no levantás una muralla de madera, levantás la misma tecnología con la que te robaron. Llega tarde a propósito: si estuviera disponible temprano, mataría la tensión del rancho abierto (§5.0.2). Pendiente de decidir si es una estructura (esta ficha) o el arma T3 barrera de energía de GDD §8.1 montada en torre; hoy se modela como estructura porque no dispara. Todos sus valores son TBD — no se inventan.
+costo: {pieza_alien: TBD, madera: TBD, chatarra: TBD}
+notas_diseno: D5 CERRADA — es una estructura, no el arma T3 montable en torre. Cierra el arco irónico del juego: no levantás una muralla de madera, levantás la misma tecnología con la que te robaron, hecha con los restos de las naves que te vinieron a robar. Llega tarde por construcción y no por decreto: el científico llega por objetivo (§8) y recién entonces se abren las mejoras, que se pagan en piezas alien que solo se juntan barriendo restos de mañana (§7.3). Sigue en `propuesta` porque la ficha nunca se validó en prototipo (TASK-016), no porque falte una decisión. Todos sus valores son TBD — no se inventan.
 estado: propuesta
 ```
 
@@ -1034,7 +1088,7 @@ presupuesto: TBD
 modificador_lunar: TBD
 enemigos: los que cumplan su campo aparicion para esa noche y fase (nave_nodriza nunca entra)
 spawn: {flancos: TBD, paths_voladores: TBD}
-tiempos_robo: {persona_s: 1-3, recurso_s: 2}
+tiempos_robo: {objeto_s: 3-5, multiplicador_grande: TBD}
 determinista: true
 notas_diseno: Plantilla, no balance. Existe para que el tipo oleada se ejercite de punta a punta en el pipeline mientras la curva real no está definida. Ninguna noche real debería referenciarla.
 estado: propuesta
@@ -1046,8 +1100,12 @@ estado: propuesta
 
 > Tipo de ficha nuevo (`recurso`, §0). Existe porque la comida dejó de ser un
 > número que sube solo: ahora es una cadena **pasto → vaca → comida**, y cada
-> eslabón se puede cortar. Las materias primas que no tienen mecánica propia
-> (madera, chatarra) siguen viviendo en GDD §5.1 como economía, no como fichas.
+> eslabón se puede cortar. La madera, que no tiene mecánica propia, sigue
+> viviendo en GDD §5.1 como economía y no como ficha.
+>
+> Desde que se cerró **D5** hay un tercer recurso con mecánica propia: la
+> **pieza alien** (§7.3), que se junta en el **barrido del amanecer** y es la
+> moneda de todas las mejoras post-científico.
 
 ### 7.1 pasto
 ```yaml
@@ -1077,7 +1135,23 @@ robable: si — el platillo_sonda la levanta con rayo tractor y el ratero entra 
 funcion_dia: Pasta en el radio de la granja y convierte pasto en comida
 funcion_noche: La guardan en el establo; adentro está a salvo del abductor pero expuesta al ladrón que entre a robar
 stats: {produccion: TBD, consumo_por_unidad: TBD, capacidad: TBD}
-notas_diseno: FICHA NUEVA, sin validar — estaba pendiente en el backlog de la wiki desde v0.1. La vaca es la unidad de medida emocional del juego: es lo que se ve flotando en el rayo tractor y es lo que desbloquea gente (el científico llega cuando el rancho llega a X vacas, GDD §6.4). El hambre le agrega la segunda forma de perderla: no te la roban, se te muere de a poco porque construiste mal. Si un abductor cargado cae, la vaca cae viva (§2.2).
+notas_diseno: FICHA NUEVA, sin validar — estaba pendiente en el backlog de la wiki desde v0.1. La vaca es la unidad de medida emocional del juego: es lo que se ve flotando en el rayo tractor y es lo que desbloquea gente (el científico llega cuando el rancho sostiene X vacas, GDD §6.4). El hambre le agrega la segunda forma de perderla: no te la roban, se te muere de a poco porque construiste mal. Si un abductor cargado cae, la vaca cae viva (§2.2). Con D3 cerrada, sacarla de un establo cuesta 3-5 s como cualquier otro robo: no se pierde antes de que la torre dispare. El X de "X vacas" NO se inventa acá — sale de la fase de balance de progresión (TASK-021), que le propone a Mato una curva de checkpoints.
+estado: propuesta
+```
+
+### 7.3 pieza_alien
+```yaml
+id: pieza_alien
+nombre: Pieza alien / Restos de nave
+tipo: recurso
+clase: consumible
+fuente: Barrido del amanecer — tras defender la noche, la gente sale a recolectar comida Y a levantar los restos de las naves y los aliens caídos. Cuantos más derribás de noche, más piezas hay de mañana
+consumo: Las mejoras post-científico. Sin cientifico en el rancho no hay en qué gastarlas: se acumulan
+robable: si — es la chatarra/tecnología alien de GDD §5.1, y los ladrones se la llevan como cualquier recurso del refugio
+funcion_dia: Se junta. El barrido del amanecer es la recompensa material de haber peleado bien la noche anterior
+funcion_noche: Está guardada en el refugio (el laboratorio guarda las que no se investigaron) y es robable
+stats: {produccion: TBD, consumo_por_unidad: TBD, capacidad: TBD}
+notas_diseno: FICHA NUEVA (D5, 29 de agosto de 2026), sin validar. No es un recurso más: es el bucle que cierra la noche con el día. Matar aliens dejaba drops sueltos (§3); ahora deja además una cosecha, y salir a juntarla es lo primero que se hace de mañana, junto con la comida. Tres efectos de diseño: (1) la noche mala duele el doble, porque perdés gente Y no juntás piezas; (2) la noche bien peleada se paga sola; (3) el campo de fuerza y el resto de las mejoras cuestan piezas, así que el "muro" del late game se construye literalmente con los restos de quienes te vinieron a robar. Cuántas piezas cuesta cada mejora es TBD — no se inventa.
 estado: propuesta
 ```
 
@@ -1092,12 +1166,17 @@ estado: propuesta
 
 | id del objetivo | Condición | Desbloquea | Estado |
 |---|---|---|---|
-| `objetivo_cientifico` | Sostener **X vacas vivas** en el rancho (X = `TBD`, ver §9 D4) | [`cientifico`](#16-cientifico) — y con él el `laboratorio` y el árbol tecnológico | propuesta |
+| `objetivo_cientifico` | Sostener **X vacas vivas** en el rancho, más los checkpoints de progresión previos (X y la curva = `TBD`, los propone `TASK-021` y los aprueba Mato — ver §9) | [`cientifico`](#16-cientifico) — y con él el `laboratorio` y **las mejoras**, que se pagan en [`pieza_alien`](#73-pieza_alien) | propuesta |
+| `desbloqueo_campo_fuerza` | Tener el `cientifico` en el rancho **y** juntar **X piezas alien** (X = `TBD`) | [`campo_fuerza_alien`](#59-campo_fuerza_alien) | propuesta |
 | `objetivo_sheriff` | `TBD` — candidato: sobrevivir N noches sin perder gente | [`sheriff`](#19-sheriff) | propuesta |
 | `objetivo_doctor` | `TBD` | [`doctor`](#18-doctor) | propuesta |
 
 - Un objetivo **no se compra**: se cumple jugando. Es la manera de que criar
   ganado o proteger gente sea progresión y no solo economía.
+- **El científico es la bisagra del run** (D5): antes de él las piezas alien se
+  acumulan sin uso; con él se abren las mejoras y recién ahí las piezas valen
+  algo. Por eso su umbral no es un número suelto sino el final de una **curva de
+  checkpoints** — es lo que `TASK-021` tiene que proponerle a Mato.
 - Los objetivos todavía **no son un tipo de ficha**: viven en esta tabla hasta
   que haya suficientes como para que valga un esquema propio (§10).
 - Ninguna condición numérica se inventa acá: las X son `TBD` hasta balance
@@ -1105,23 +1184,38 @@ estado: propuesta
 
 ---
 
-## 9. Decisiones abiertas para el equipo
+## 9. Decisiones registradas (y lo que sigue abierto)
 
-> Estas son las preguntas que el cambio de mecánica de v0.2 dejó abiertas.
-> **Nadie las resuelve por su cuenta** — las decide el equipo (Mato). Cada
-> ficha que depende de una la referencia por su `Dn`.
+> Las seis preguntas que dejó el cambio de mecánica. **Mato respondió cinco el
+> 29 de agosto de 2026**; la sexta (D4) dejó de ser una pregunta y pasó a ser una
+> **fase de balance**. Cada ficha que dependía de una la sigue referenciando por
+> su `Dn`, ahora como decisión y no como pendiente.
 
-| # | Decisión | Por qué importa | Quién depende |
+### 9.1 Decisiones cerradas
+
+| # | Decisión de Mato | Qué cambió | Dónde quedó registrada |
 |---|---|---|---|
-| **D1** | **Variante A o B de las torres.** (A) Los aliens **atacan las torres primero** — la torre es un obstáculo que hay que resolver. (B) Las torres **no detienen a nadie**: los aliens van directo a los edificios y la torre solo les dispara mientras roban. ¿Y es **configurable** (por dificultad o por tipo de enemigo) o se elige una sola? | Cambia por completo dónde conviene colocar una torre, qué significa `prioridad_objetivo` y si el `caparazon` funciona como escudo móvil | [`torre_vigilancia`](#56-torre_vigilancia), [`caparazon`](#232-caparazon), [`demoledor`](#233-demoledor), §5.0.5 |
-| **D2** | **¿Entran los muros estilo Kingdom como opción de partida?** El default ya está decidido (rancho abierto). Falta decidir si la variante clásica se ofrece como modo/opción o se descarta | Si se descarta, tres enemigos canon se quedan sin su razón de ser y hay que rediseñarlos | [`barricada`](#58-barricada), [`manos_largas`](#213-manos_largas), [`toro_de_marte`](#231-toro_de_marte), [`el_ganadero`](#252-el_ganadero) |
-| **D3** | **¿Cuánto tarda un alien en sacar una vaca?** Persona (1–3 s) y recurso (2 s) están decididos; el ganado no. ¿Es más lento por ser grande, o instantáneo por el rayo tractor? | Define si el establo es defendible o si la vaca se pierde antes de que la torre dispare | [`platillo_sonda`](#221-platillo_sonda), [`establo`](#53-establo), [`vaca`](#72-vaca) |
-| **D4** | **¿Cuántas vacas hacen falta para que llegue el científico?** Y qué otros objetivos de desbloqueo existen además de los tres de §8 | Es la primera puerta de progresión del run; si el número está mal, el árbol tecnológico llega tarde o regalado | [`cientifico`](#16-cientifico), §8 |
-| **D5** | **El campo de fuerza alien: ¿estructura o arma?** Hoy se modela como edificio (§5.9) porque no dispara; GDD §8.1 lo lista como arma T3 "barrera de energía" montable en torre | Decide si el late game tiene una "muralla alien" o solo torres mejores | [`campo_fuerza_alien`](#59-campo_fuerza_alien) |
-| **D6** | **Rama de nivel por edificio o global.** §5.0.4 asume que cada edificio elige por separado entre `refugio_y_defensa` y `doble_refugio`. ¿Es así, o el árbol de habilidades sube a todos los edificios de un tipo a la vez? | Cambia el costo de la progresión y cuánto micro tiene el jugador | Todas las fichas de §5 |
+| **D1** ✅ | **Variante A: los aliens atacan las torres primero.** No las ignoran — resuelven la torre que los engancha antes de llegar a los edificios. No se pidió que fuera configurable: variante A es el comportamiento único | La torre es un obstáculo y es gastable; colocarla es elegir *dónde se pelea*, no solo a qué refugio cubrís. El `caparazon` como escudo móvil queda confirmado | [§5.0](#50-reglas-de-los-edificios-de-noche-cambio-canónico) punto 6, [`torre_vigilancia`](#56-torre_vigilancia) (→ `canon`), [`caparazon`](#232-caparazon), [`demoledor`](#233-demoledor), §2.3 |
+| **D2** ✅ | **Sin muros, y sin variante clásica.** No hay muros iniciales ni modo *Kingdom* opcional. Los aliens se mueven, entran y disparan libremente; la defensa es **refugio + torres**. Gente, vacas y recursos se refugian en los edificios que los admiten o en el `town_center` | La [`barricada`](#58-barricada) pasa a `archivada`. Los tres enemigos diseñados contra ella se rediseñan para el rancho abierto: no hay barricadas que romper | §5.0 punto 2, [`barricada`](#58-barricada), [`manos_largas`](#213-manos_largas), [`toro_de_marte`](#231-toro_de_marte), [`el_ganadero`](#252-el_ganadero) |
+| **D3** ✅ | **3–5 s por cosa robada, aleatorio** — aldeano, comida o vaca, el mismo rango para las tres. **Los aliens grandes se llevan DOS cosas y tardan más** (multiplicador `TBD`) | **Revisa el 1–3 s / 2 s anterior**, que ya no rige. El establo es defendible: la vaca no se pierde antes de que la torre dispare | §5.0 punto 3, esquema de oleada (§0), [`oleada_ejemplo`](#61-oleada_ejemplo), [`platillo_sonda`](#221-platillo_sonda), [`platillo_abductor`](#222-platillo_abductor), [`ratero_gris`](#211-ratero_gris), [`coyote_plateado`](#212-coyote_plateado), [`establo`](#53-establo), [`vaca`](#72-vaca) |
+| **D5** ✅ | **El campo de fuerza es una estructura y un desbloqueo post-científico.** Cuando llega el científico se abren las mejoras; las mejoras se pagan con **X piezas alien**. Mecánica nueva: **de mañana, tras defender de noche, la gente sale a recolectar comida Y piezas de las naves alien caídas** | Ficha nueva [`pieza_alien`](#73-pieza_alien) (§7.3) y el **barrido del amanecer** como parte del día. El "muro" del late game se construye con los restos de quienes te vinieron a robar | §7.3, [`campo_fuerza_alien`](#59-campo_fuerza_alien), [`laboratorio`](#55-laboratorio), §8 (`desbloqueo_campo_fuerza`) |
+| **D6** ✅ | **Árbol de talentos POR EDIFICIO.** Se abre **clickeando el edificio**; lo que comprás vale para ese edificio y para ningún otro, ni del mismo tipo. No hay árbol global | La progresión deja de ser una compra por tipo y pasa a ser la estrategia de layout del jugador. La bifurcación `refugio_y_defensa` / `doble_refugio` es la primera rama de ese árbol | §5.0 punto 4, esquema de edificio (§0), todas las fichas de §5 |
 
-Cuando una decisión se cierre: se escribe acá el resultado, se actualizan las
-fichas que la referencian y recién ahí el GDD resume el cambio.
+### 9.2 Lo que sigue abierto — D4 no es una decisión, es balance
+
+| # | Estado | Qué pidió Mato |
+|---|---|---|
+| **D4** ⏳ | **Convertida en fase de balance** (`TASK-021`) | Mato **no sabe** cuántas vacas desbloquean al científico y no quiere elegir un número a ciegas: pidió una **fase de balance con checkpoints** de progresión que haya que cumplir antes de que el científico llegue. El equipo **propone la curva**; Mato la **aprueba**. Hasta entonces el umbral sigue `TBD` y vive como parámetro de data (`TASK-017`) |
+
+**El número de vacas no se inventa** (regla 5 del proyecto). Lo que `TASK-021`
+entrega es la *forma* de la curva —qué checkpoints, en qué orden, qué abre cada
+uno— con los valores como parámetros a completar.
+
+### 9.3 Cómo se cierra una decisión
+
+Cuando una decisión se cierra: se escribe acá el resultado, se actualizan las
+fichas que la referencian, recién ahí el GDD resume el cambio, y por último se
+destraban los tickets que la esperaban.
 
 ---
 
@@ -1131,9 +1225,11 @@ fichas que la referencian y recién ahí el GDD resume el cambio.
 - [x] Ganado como entidad → `vaca` (§7.2), con la cadena del `pasto` (§7.1). Faltan variantes de ganado, si las hay
 - [ ] Variantes de luna llena de cada enemigo (sufijo `_lunar`: stats modificados)
 - [ ] Valores de balance de todos los `TBD` (tras prototipo)
-- [ ] Reconciliar los tres enemigos diseñados contra muros (`manos_largas`, `toro_de_marte`, `el_ganadero`) con el rancho abierto de §5.0 — depende de la decisión de muros opcionales
-- [ ] Fichas de objetivo/desbloqueo (GDD §6.4): "X vacas → llega el científico" hoy es prosa, no entidad
+- [ ] Reconciliar los cinco enemigos que quedaron en `propuesta` (`manos_largas`, `toro_de_marte`, `caparazon`, `demoledor`, `el_ganadero`) con el rancho abierto de §5.0 — **destrabado**: D1 y D2 están cerradas, lo hace `TASK-020`
+- [ ] Clasificar cada enemigo que roba como **chico o grande** (`capacidad_robo` 1 o 2) y fijar el `multiplicador_grande` de §5.0 punto 3 — es balance, no diseño (D3 fijó la regla, no el reparto)
+- [ ] Fichas de objetivo/desbloqueo (GDD §6.4): "X vacas → llega el científico" y "científico + X piezas → campo de fuerza" hoy son prosa en §8, no entidades
+- [ ] Costo en `pieza_alien` de cada mejora post-científico — depende de la curva de progresión de `TASK-021`
 
 ---
 
-*Wiki v0.2 — 9 unidades, 16 enemigos, 5 armas, 9 edificios, 1 oleada, 2 recursos, 10 componentes. Fuente canónica: cambios de diseño se hacen aquí primero y se resumen en el GDD.*
+*Wiki v0.2 — 9 unidades, 16 enemigos, 5 armas, 9 edificios (1 archivada), 1 oleada, 3 recursos, 10 componentes. Fuente canónica: cambios de diseño se hacen aquí primero y se resumen en el GDD.*

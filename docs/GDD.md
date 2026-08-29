@@ -35,7 +35,9 @@ Tower Defense + gestión de recursos + roguelike, con control indirecto tipo *Ki
 ### 1.4 Hook diferenciador
 Los enemigos **no destruyen: roban.** El fallo no es binario (game over instantáneo) sino una espiral: cada noche mala te quita brazos, comida y defensas para la siguiente. Pierdes cuando la espiral te alcanza. Y el arco de poder es irónico: terminas defendiéndote de los aliens **con sus propias armas**.
 
-Desde v0.4 el robo es más concreto y más doloroso: no te roban *por encima de un muro*, te roban **de adentro de tus edificios**. Cada alien entra al refugio más cercano y tarda en sacar lo que hay — 1–3 s por persona, 2 s por recurso. No podés impedir que entren; podés cobrarles esos segundos.
+Desde v0.4 el robo es más concreto y más doloroso: no te roban *por encima de un muro*, te roban **de adentro de tus edificios**. Cada alien entra al refugio más cercano y tarda en sacar lo que hay — **3–5 s por cosa**, sea un aldeano, comida o una vaca; los aliens grandes se llevan **dos** y tardan más. No podés impedir que entren; podés cobrarles esos segundos.
+
+Y el arco irónico también tiene un bucle diario: **de mañana salís a barrer los restos**. Lo que derribaste de noche es lo que juntás de día — comida y **piezas alien** (§5.1), la moneda de todas las mejoras.
 
 ### 1.5 Pilares de diseño
 1. **El robo duele más que la muerte** — todo lo que tienes es robable; proteger es priorizar.
@@ -68,8 +70,11 @@ AMANECER ──► DÍA ──────────────► ATARDECER 
   Aliens      Explorar, recolectar,  Última        Oleadas atacan     Aliens huyen
   huyen con   construir, investigar, oportunidad   y ROBAN. Defensa   con lo robado.
   lo robado   reclutar, expandir     de replegarse y reparación       Balance de daños
+  BARRIDO
+  de restos
 ```
 
+- **Amanecer — el barrido de restos (v0.5):** apenas hay luz, la gente sale a levantar lo que dejó la noche. Traen **comida** y **piezas de las naves y los aliens caídos** ([`pieza_alien`](WIKI.md#73-pieza_alien)). Es la recompensa material de haber peleado bien: **cuantos más derribaste de noche, más juntás de mañana** — y al revés, una noche mala te cuesta dos veces, porque perdés gente *y* no hay qué barrer. Las piezas son la moneda de todas las mejoras post-científico (§8.1).
 - **Día (duración fija):** los trabajadores recolectan en el rango cercano al pueblo; el jugador cabalga a explorar más lejos, encuentra recursos, sitios de interés y reclutas.
 - **Atardecer:** la última oportunidad de replegarse tiene ahora un contenido concreto — los trabajadores entran a los **edificios-refugio** y los vaqueros guardan las vacas en el establo. Lo que quede afuera, queda afuera.
 - **Noche (duración fija):** oleadas de aliens entran por **izquierda y derecha**; más adelante, **naves por arriba**. Cada alien va al edificio-refugio más cercano que tenga lo que busca y **se queda adentro robando** durante unos segundos. Torres y unidades pelean solas y aprovechan esa ventana. El jugador reposiciona, gasta recursos de emergencia y los reparadores mantienen en pie torres y edificios.
@@ -130,8 +135,8 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 ### 5.1 Recursos (sin oro — decisión tentativa)
 | Recurso | Fuente | Uso | Robable |
 |---|---|---|---|
-| **Madera** | Árboles del entorno (taladores) | Construcción y expansión de barricadas/edificios | Sí |
-| **Chatarra / Tec. alienígena** | Restos de aliens y naves derribadas, sitios de crash, hallazgos del desierto | Investigación, armas, torres avanzadas, mejoras | Sí |
+| **Madera** | Árboles del entorno (taladores) | Construcción y expansión de edificios y torres | Sí |
+| **Chatarra / Tec. alienígena** — las [`piezas alien`](WIKI.md#73-pieza_alien) | **El barrido del amanecer** (§3.1): restos de aliens y naves derribadas la noche anterior. También sitios de crash y hallazgos del desierto | Investigación, armas, torres avanzadas y **todas las mejoras post-científico** (§8.1) | Sí |
 | **Comida** | Ganado (**ya no es pasivo**, §5.4), caza, cultivos | Mantiene a la población. Sin comida → la gente muere/deserta en ~2 días | Sí (¡y el ganado también!) |
 | **Pasto** | Crece de día alrededor de la granja; parches naturales en el mapa | Alimenta al ganado. Es el único recurso que **no** se almacena: se produce y se consume en el sitio | No — pero perderlo te mata las vacas igual |
 | **Población** | Reclutas encontrados/atraídos | Es el recurso vivo: trabajan, pelean, investigan | **Sí — es lo que más roban** |
@@ -169,7 +174,7 @@ GRANJA ──produce──► PASTO ──lo pasta──► VACA ──produce�
 - **No hay línea de muros.** La ficción lo explica: esto es un valle del oeste en 1870, no un castillo bajo asedio anunciado. Nadie levantó una muralla porque nadie sabía que venía nadie; los aliens bajan de las naves y caminan hasta lo que quieren.
 - **Las torres se colocan libres**, donde el jugador quiera. Elegir a qué edificio cubre cada torre es *la* decisión táctica de la noche.
 - El territorio se sigue pudiendo **expandir** a más slots y más recursos — pero expandirse ya no significa empujar un muro, significa tener más edificios sueltos que cubrir.
-- **Variante clásica opcional:** los muros estilo *Kingdom* siguen sobre la mesa para quien prefiera el enfoque tradicional. Es una **decisión abierta** (§13), no un default.
+- **No hay muros, y no hay variante con muros** (decidido, §13.1 D2). Los aliens **se mueven, entran y disparan libremente**: nada les impide llegar. Gente, vacas y recursos se refugian en los edificios que los admiten, o en el Town Center. Los muros estilo *Kingdom* quedaron descartados; la [`barricada`](WIKI.md#58-barricada) está archivada.
 
 ### 6.2 Edificios — dos vidas, día y noche (v0.4)
 
@@ -187,16 +192,17 @@ GRANJA ──produce──► PASTO ──lo pasta──► VACA ──produce�
 | **Laboratorio del Profesor** | El científico investiga tec alien; árbol tecnológico | Refugio del científico y de los componentes sin investigar |
 | **Torre de vigilancia** | Vigila el horizonte y revela infiltrados | **Defensa** — dispara, incluso a quien está robando adentro de un edificio. Se coloca libre y se configura (§6.3) |
 | **Campo de fuerza alien** | Inactivo, recargando | **Defensa T3** — barrera de energía entre emisores. La respuesta alien al muro (§8.1) |
-| **Barricadas / Muros** | *Variante clásica opcional* — se construye y se empuja hacia afuera | Frena y encauza a los terrestres. **No es el default** (§13) |
+| ~~**Barricadas / Muros**~~ | — | **Archivada** (§13.1 D2): el juego no tiene muros, ni siquiera como variante |
 
 ### 6.3 Defensa sin muros: la ventana de robo (v0.4)
 
 El sistema defensivo entero se apoya en una sola idea: **robar lleva tiempo, y ese tiempo es tuyo.**
 
 1. El alien entra al **primer edificio-refugio de su camino** que tenga lo que busca.
-2. Adentro, saca las víctimas de a una: **1–3 s por persona** (el valor se sortea una vez por oleada, no por robo) y **2 s por recurso**. El tiempo del ganado todavía no está decidido (§13).
-3. Mientras carga es un **blanco quieto**. Matarlo antes de que termine **cancela el robo**; matarlo cargado le hace **soltar lo robado ahí mismo** — la misma regla que derribar un abductor en el aire.
-4. No impedís que entren. Les cobrás los segundos que pasan adentro.
+2. Adentro, saca las cosas de a una: **3–5 s cada una**, sea un **aldeano**, **comida** o una **vaca** — el mismo rango para las tres (§13.1 D3). El valor se sortea dentro del rango **una vez por oleada**, no por robo, así que el jugador aprende el ritmo de la noche.
+3. **Los aliens grandes se llevan dos cosas** en vez de una, y tardan más en hacerlo. El multiplicador exacto es `TBD` (balance), igual que qué enemigo cuenta como grande.
+4. Mientras carga es un **blanco quieto**. Matarlo antes de que termine **cancela el robo**; matarlo cargado le hace **soltar lo robado ahí mismo** — la misma regla que derribar un abductor en el aire.
+5. No impedís que entren. Les cobrás los segundos que pasan adentro.
 
 **Torres colocables y configurables.** Las torres ya no viven en una línea: se colocan donde el jugador quiera, y cada una expone una **prioridad de objetivo**:
 
@@ -206,20 +212,31 @@ El sistema defensivo entero se apoya en una sola idea: **robar lleva tiempo, y e
 | **Más cercano a los recursos** | Al que está por alcanzar un refugio | Preventivo: no llegan a empezar |
 | **El que ya carga** | Al que ya lleva algo encima | Recupera botín; la respuesta a *Manos Largas* |
 
-> ⚠️ **DECISIÓN ABIERTA (§13):** falta definir qué hacen los aliens *con* las torres — **(A)** las atacan primero, o **(B)** las ignoran y van directo a los edificios. Y si eso es configurable o se elige una sola. Ningún sistema asume una de las dos.
+**Los aliens atacan las torres primero — variante A** (decidido, §13.1 D1). La torre no es un espectador: el alien que se engancha con ella **la resuelve antes** de seguir al refugio. Tres consecuencias:
+
+- **Colocar una torre es elegir dónde se pelea**, y no solo a qué refugio cubrís. Adelantada compra tiempo lejos del botín; pegada al refugio pelea encima de la gente.
+- **La torre es gastable:** puede caer, y sostenerla de noche cuesta un reparador expuesto.
+- **El *Caparazón* funciona como escudo móvil** — existe para comerse ese fuego mientras los ladrones pasan detrás.
+
+No se pidió que fuera configurable por dificultad ni por tipo de enemigo: variante A es el comportamiento único del juego.
 
 **Reparación.** Se mantiene la reparación activa estilo RTS, con el blanco cambiado: un trabajador puede reparar **torres y edificios** *mientras* reciben daño (riesgo: el reparador es raptable, y de noche está fuera del refugio). Torres y edificios se construyen/mejoran también durante la noche si hay recursos y manos.
 
 **Lo que no cambia.** Los ataques por ambos flancos obligan a repartir defensa; las naves aéreas (mid-game) obligan a tener antiaéreo.
 
 ### 6.4 Desbloqueos por objetivos (v0.4)
-- Algunas entidades no se compran ni se investigan: **se ganan cumpliendo un objetivo del rancho.** El caso canónico: **el científico llega cuando sostenés X vacas vivas** (X es `TBD`, §13).
+- Algunas entidades no se compran ni se investigan: **se ganan cumpliendo un objetivo del rancho.** El caso canónico: **el científico llega cuando sostenés X vacas vivas.**
 - Es la manera del juego de decir que criar ganado *también* es progresión tecnológica: el ranchero que prospera atrae a la gente que lo hace prosperar más.
-- El patrón es extensible — otras unidades y edificios pueden colgar de objetivos propios (sheriff, doctor: candidatos, todavía `TBD`).
+- **El científico es la bisagra del run** (§13.1 D5): su llegada **abre las mejoras**, y todas las mejoras se pagan en piezas alien. Antes de él las piezas se acumulan sin uso.
+- **Cuántas vacas es una fase de balance, no una decisión suelta** (§13.1 D4). No es un número que alguien elija de memoria: es el final de una **curva de checkpoints de progresión** que hay que cumplir antes de que el científico aparezca. La curva la propone `TASK-021` y la aprueba Mato; hasta entonces el umbral vive como parámetro de data y sigue `TBD`.
+- El patrón es extensible — otras unidades y edificios pueden colgar de objetivos propios (sheriff, doctor: candidatos, todavía `TBD`), y el **campo de fuerza** ya cuelga de uno: científico + X piezas alien.
 - Tabla canónica de objetivos: [`WIKI.md §8`](WIKI.md#8-objetivos-de-desbloqueo). Todavía **no son un tipo de ficha**: son una tabla, y volverlos entidades está en el backlog.
 
-### 6.5 Niveles de edificio (v0.4)
-Con el árbol de habilidades y la tecnología alien, un edificio-refugio sube por **una de dos ramas, excluyentes**:
+### 6.5 Niveles de edificio — un árbol de talentos por edificio (v0.4)
+
+**Cada edificio tiene su propio árbol de talentos** (decidido, §13.1 D6). Se abre **clickeando el edificio**, y lo que comprás ahí vale para *ese* edificio y para ningún otro — ni siquiera para otro del mismo tipo. No hay árbol global: la progresión **es** la estrategia de layout del jugador.
+
+La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluyentes:
 
 ```
         NIVEL 1 · refugio
@@ -228,8 +245,10 @@ Con el árbol de habilidades y la tecnología alien, un edificio-refugio sube po
 ```
 
 - Es una **elección, no una escalera**: el mismo edificio no puede ser fortín y granero a la vez.
-- *Refugio + defensa* convierte cada edificio en un punto que se aguanta solo; *doble refugio* concentra más en menos lugares — menos edificios que cubrir, más huevos en la misma canasta.
-- Costos, capacidades y qué edificios pueden tomar cada rama son `TBD` (§13).
+- *Refugio + defensa* convierte ese edificio en un punto que se aguanta solo; *doble refugio* concentra más en menos lugares — menos edificios que cubrir, más huevos en la misma canasta.
+- Dos graneros del mismo pueblo pueden ir por caminos distintos, y esa es la gracia.
+- **Las mejoras se pagan con piezas alien** y se abren con el científico (§6.4, §8.1).
+- El contenido del árbol más allá de la primera bifurcación, sus costos y qué edificios pueden tomar cada rama son `TBD`.
 
 ---
 

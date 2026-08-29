@@ -480,7 +480,8 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
   (snake_case) es el identificador canónico: se usa para nombres de archivo,
   clases, claves de datos y referencias cruzadas.
 - `estado: canon` = decidido. `estado: propuesta` = pendiente de validar en
-  prototipo.
+  prototipo. `estado: archivada` = descartada por el diseño, se conserva como
+  referencia histórica (WIKI §0, regla 7).
 - Los campos **`TBD`** están pendientes de balance y **no se inventan**
   (CLAUDE.md, regla 4). La columna *TBD* de las tablas cuenta cuántos tiene
   cada ficha.
@@ -684,7 +685,8 @@ def build_index(fichas: list[Ficha]) -> str:
 
     out.append("## Estado de completitud")
     out.append("")
-    propuestas = [f for f in fichas if f.estado != "canon"]
+    propuestas = [f for f in fichas if f.estado not in ("canon", "archivada")]
+    archivadas = [f for f in fichas if f.estado == "archivada"]
     con_tbd = [f for f in fichas if f.tbd_fields()]
     desglose = ", ".join(
         f"{len(grupo)} {singular if len(grupo) == 1 else plural}"
@@ -704,6 +706,13 @@ def build_index(fichas: list[Ficha]) -> str:
         + (", ".join(f"`{f.id}`" for f in propuestas) or "ninguna")
         + "."
     )
+    if archivadas:
+        out.append(
+            f"- **{len(archivadas)}** en `estado: archivada` — fuera de partida, "
+            "se conservan como referencia histórica: "
+            + ", ".join(f"`{f.id}`" for f in archivadas)
+            + "."
+        )
     out.append(
         f"- **{len(con_tbd)}** fichas con campos `TBD` pendientes de balance "
         f"({sum(len(f.tbd_fields()) for f in fichas)} campos en total)."
@@ -754,9 +763,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  ERROR: {p}")
 
     tbd_total = sum(len(f.tbd_fields()) for f in fichas)
-    propuestas = [f.id for f in fichas if f.estado != "canon"]
+    propuestas = [f.id for f in fichas if f.estado not in ("canon", "archivada")]
+    archivadas = [f.id for f in fichas if f.estado == "archivada"]
     print(f"  TBD pendientes de balance: {tbd_total} campos")
     print(f"  fichas en propuesta: {len(propuestas)} ({', '.join(propuestas) or '—'})")
+    if archivadas:
+        print(f"  fichas archivadas: {len(archivadas)} ({', '.join(archivadas)})")
 
     if args.emit_index:
         WIKI_INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
