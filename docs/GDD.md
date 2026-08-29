@@ -147,10 +147,10 @@ Decidido por Mato (29 de agosto de 2026). El héroe deja de ser un ranchero gen�
 | **Carpintero** | **Defensa y capacidad** | Sube la **defensa de tus recursos** (los edificios aguantan más y al alien le cuesta más sacarles algo) y la **capacidad** de los edificios: entra más gente, ganado y recursos al refugio |
 
 - **Una clase = un eje.** El Sheriff no toca la economía, el Alcalde no dispara mejor, el Carpintero no sube el daño. Elegir clase es elegir **por qué lado peleás la espiral del robo** (§5.3): matarlos antes, reponer más rápido, o que te saquen menos y te quepa más.
-- **Coop (§4.2):** cada jugador elige su clase y los bonus se aplican sobre el mismo rancho compartido. Sheriff + Carpintero se lee natural —uno estira la ventana de robo, el otro la aprovecha—; cómo se apilan **dos clases iguales** es balance pendiente.
+- **Coop (§4.2):** cada jugador elige su clase y los bonus se aplican sobre el mismo rancho compartido. Sheriff + Carpintero se lee natural —uno estira la ventana de robo, el otro la aprovecha—; y si los **dos traen la misma clase, los bonus se suman** (decidido por Mato el 29 de agosto de 2026: *"si los dos héroes son la misma clase, los buffs se suman"*). No hay máximo ni rendimiento decreciente: doblar clase es una estrategia válida, no una penalización. Lo decidido es la **regla** de apilado; la magnitud sigue `TBD`.
 - **Los números no están decididos.** La magnitud de cada bonus y su escalado por nivel son `TBD` (no se inventan): las fichas canónicas están en [`WIKI.md §11`](WIKI.md#11-clases-del-héroe), en `estado: propuesta`.
 - Las clases son además el **marco de la meta-progresión** entre runs (§8.3).
-- Pendiente de ficción: la unidad reclutable *Sheriff* ([wiki §1.9](WIKI.md#19-sheriff)) sigue existiendo y comparte nombre con la clase — hay que desambiguar.
+- **Ficción desambiguada** (Mato, 29 de agosto de 2026): la unidad reclutable que se llamaba *Sheriff* pasa a ser el **Deputy** ([wiki §1.9](WIKI.md#19-deputy)); **la clase se queda como Sheriff**. El Sheriff es el héroe que controlás, el Deputy su adjunto y segundo al mando — la jerarquía del Oeste hace el trabajo que hacía la aclaración. Ninguna mecánica de la unidad cambia con el rename.
 
 ---
 
@@ -259,7 +259,7 @@ No se pidió que fuera configurable por dificultad ni por tipo de enemigo: varia
   4. **C4 — sobrevivencia otra vez, pero bajo fuego:** sostener un rebaño grande, con C1–C3 ya cumplidas. Abre **el científico**, y con él todas las mejoras.
   Lo aprobado es la **forma**: cuántas vacas, cuánta gente y cuántas piezas siguen `TBD` y salen del prototipo. Tabla canónica en [`WIKI.md §8.1`](WIKI.md#81-curva-de-progresión-del-científico--canon-d4-aprobada-por-mato).
 - **El jugador ve la curva mientras juega.** Un tablón en el Town Center: la compuerta cumplida tachada, la actual con barra y número, las futuras con título visible y cifra en gris. Se resuelve **al amanecer**, nunca en mitad de la noche, y avisa tanto cuando falta poco como **cuando retrocedés** por un robo — que es el hook del juego dicho por la UI. Una compuerta cumplida no se pierde; lo que se reinicia es la ventana de sostenimiento de la que está en curso.
-- El patrón es extensible — otras unidades y edificios pueden colgar de objetivos propios (el `sheriff` sigue siendo candidato, `TBD`), y el **campo de fuerza** ya cuelga de uno: científico + X piezas alien.
+- El patrón es extensible — otras unidades y edificios pueden colgar de objetivos propios (el `deputy` sigue siendo candidato, `TBD`), y el **campo de fuerza** ya cuelga de uno: científico + X piezas alien.
 - Tabla canónica de objetivos: [`WIKI.md §8`](WIKI.md#8-objetivos-de-desbloqueo). Todavía **no son un tipo de ficha**: son una tabla, y volverlos entidades está en el backlog.
 
 ### 6.5 Niveles de edificio — un árbol de talentos por edificio (v0.4)
@@ -298,7 +298,7 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 | **Científico / Profesor** | Investiga tecnología alien; desbloquea armas | **Objetivo de desbloqueo: llega cuando sostenés X vacas** (§6.4; X es `TBD`). También se encuentra explorando | No pelea. Si te lo raptan, la investigación se detiene |
 | **Dinamitero** | Daño en área | Recluta especial / edificio minero | Riesgo: fuego amigo cómico |
 | **Doctor / Curandero** | Cura unidades entre noches; revive derribados | Recluta especial | Weird West: elixires dudosos |
-| **Sheriff** | Mini-héroe defensivo, buff de moral en su zona | Evento / nivel de pueblo | Ancla un flanco |
+| **Deputy** | Mini-héroe defensivo, buff de moral en su zona. El adjunto del Sheriff — la unidad, no la clase del héroe (§4.3) | Evento / nivel de pueblo | Ancla un flanco |
 
 **Por discutir:** ¿unidades con arma alien son una clase nueva ("Fusilero de plasma") o una mejora de equipo sobre el Pistolero? (Propuesta: mejora de equipo — menos sprites, más combinatoria.)
 
@@ -457,6 +457,8 @@ juego andando (`TASK-010` / `TASK-005`), no en la mesa. Tabla de parámetros en
 ### Resueltas tras v0.4 (29 de agosto de 2026)
 - ✅ **El héroe tiene clase:** Sheriff (ataque), Alcalde (economía), Carpintero (defensa y capacidad) — una clase = un eje, se elige al empezar la run (§4.3)
 - ✅ **El meta-juego cuelga de las clases:** los puntos de fin de run mejoran tu héroe o desbloquean héroes nuevos dentro de esas tres clases (§8.3)
+- ✅ **Apilado en coop: dos héroes de la misma clase SUMAN sus bonus** (§4.3). Ni máximo ni rendimiento decreciente — doblar clase es estrategia, no castigo. Lo decidido es la regla; la magnitud sigue `TBD` ([`WIKI.md §9.4`](WIKI.md#94-decisiones-posteriores--clases-del-héroe))
+- ✅ **Resuelta la colisión de nombre del Sheriff:** la **clase se queda como Sheriff** y la unidad reclutable pasa a llamarse **Deputy** (§4.3, §7, [`WIKI.md §1.9`](WIKI.md#19-deputy)). Es un rename de ficción: la unidad conserva rol, arma y stats
 
 ### Resueltas en v0.4
 - ✅ **Sin muros por defecto:** el rancho está abierto; la defensa son edificios-refugio + torres colocables (§6.1, §6.3)

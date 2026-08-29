@@ -196,8 +196,10 @@ estado:        # canon | propuesta
 > reclutás): es el personaje que controlás, y su **clase** es un multiplicador
 > global sobre el rancho. Las tres clases viven en
 > [§11](#11-clases-del-héroe). En coop cada héroe lleva su propia clase y los
-> bonus **conviven sobre el mismo rancho** — cómo se apilan dos clases iguales
-> es `TBD` de balance, no se inventa.
+> bonus **conviven sobre el mismo rancho**; si dos héroes traen la **misma**
+> clase, sus bonus **se suman** (decisión de Mato, 29 de agosto de 2026 —
+> [§9.4](#94-decisiones-posteriores--clases-del-héroe)). La *magnitud* de cada
+> bonus sigue `TBD` de balance: no se inventa.
 
 ---
 
@@ -352,12 +354,12 @@ notas_diseno: Conecta con el sistema de derribo del héroe (GDD §4.1). D4 le di
 estado: propuesta
 ```
 
-### 1.9 sheriff
+### 1.9 deputy
 ```yaml
-id: sheriff
-nombre: Sheriff
+id: deputy
+nombre: Deputy
 tipo: unidad_jugador
-rol: defensivo
+rol: defensivo — el adjunto, segundo al mando de la ley del pueblo
 obtencion: Evento / nivel de pueblo alto
 desbloqueo_objetivo: TBD (candidato a objetivo propio, §8)
 funcion_dia: Patrulla, disuade eventos negativos (por definir)
@@ -367,7 +369,7 @@ raptable: true
 stats: {vida: alta, dano: TBD, cadencia: TBD, rango: medio, velocidad: TBD}
 costo: {madera: 0, chatarra: 0, comida_upkeep: TBD}
 mejoras: [TBD]
-notas_diseno: Único por pueblo. Su rapto es un evento dramático.
+notas_diseno: Único por pueblo. Su rapto es un evento dramático. Se llamaba `sheriff` hasta el 29 de agosto de 2026: Mato resolvió la colisión de nombre con la clase del héroe (§11.1) renombrando **la unidad** a Deputy — la clase se queda como Sheriff. La ficción ordena en vez de competir: el Sheriff es el héroe que controlás, el Deputy es su adjunto, el segundo al mando que ancla un flanco cuando vos estás en el otro. El buff de moral es del adjunto, no del héroe, así que las dos entidades pueden convivir en pantalla sin ambigüedad.
 estado: propuesta
 ```
 
@@ -792,12 +794,12 @@ nombre: Revólver doble
 tipo: arma
 tier: TBD
 montaje: unidad
-fabricacion: No se fabrica — llega con el sheriff (evento / nivel de pueblo alto)
+fabricacion: No se fabrica — llega con el deputy (evento / nivel de pueblo alto)
 efecto: Par de revólveres; versión de mini-héroe del revólver, ancla un flanco
 stats: {dano: TBD, cadencia: TBD, rango: TBD, area: n/a}
 costo: {madera: TBD, chatarra: TBD, componentes: n/a}
 mejoras: [TBD]
-notas_diseno: No es una entrada propia del árbol tecnológico: es la variante que porta el sheriff, único por pueblo. Si lo raptan, el arma se va con él.
+notas_diseno: No es una entrada propia del árbol tecnológico: es la variante que porta el deputy (§1.9), único por pueblo. Si lo raptan, el arma se va con él.
 estado: propuesta
 ```
 
@@ -1203,7 +1205,7 @@ estado: propuesta
 |---|---|---|---|
 | `objetivo_cientifico` | **Última compuerta (C4)** de la curva de progresión (§8.1): sostener **X vacas vivas**, con las tres compuertas previas ya cumplidas. **La forma es canon** (Mato la aprobó el 29 de agosto de 2026); **X sigue `TBD`** — sale del prototipo, ver §9.2 | [`cientifico`](#16-cientifico) — y con él el `laboratorio` y **las mejoras**, que se pagan en [`pieza_alien`](#73-pieza_alien) | **forma canon** · valores `TBD` |
 | `desbloqueo_campo_fuerza` | Tener el `cientifico` en el rancho **y** juntar **X piezas alien** (X = `TBD`) | [`campo_fuerza_alien`](#59-campo_fuerza_alien) | propuesta |
-| `objetivo_sheriff` | `TBD` — candidato: sobrevivir N noches sin perder gente | [`sheriff`](#19-sheriff) | propuesta |
+| `objetivo_deputy` | `TBD` — candidato: sobrevivir N noches sin perder gente | [`deputy`](#19-deputy) | propuesta |
 | `objetivo_doctor` | **La compuerta C2 `cp_poblacion_sostenida`** (§8.1): sostener población **y** no perder más de `P2_perdidas_max` personas en la ventana. **Confirmado por Mato** el 29 de agosto de 2026 — *"el Doctor se desbloquea en la compuerta 2, sí; es para que pueda sobrevivir hasta el final"*. Los valores siguen `TBD` (§9.2) | [`doctor`](#18-doctor) | **forma canon** · valores `TBD` |
 
 - Un objetivo **no se compra**: se cumple jugando. Es la manera de que criar
@@ -1325,8 +1327,11 @@ rancho se recupere del pico antes de que el escalado siga subiendo.
 > al 29 de agosto de 2026**: cinco se respondieron directo y la sexta (D4) pasó
 > por una fase de balance —`TASK-021` propuso la curva, Mato la aprobó ese mismo
 > día—. Cada ficha que dependía de una la sigue referenciando por su `Dn`, ahora
-> como decisión y no como pendiente. **No queda ninguna decisión abierta**; lo
-> que queda es calibración numérica, y esa es del prototipo (§9.2).
+> como decisión y no como pendiente. Las dos preguntas que abrieron las **clases
+> del héroe** (apilado en coop y colisión de nombre) también están cerradas —
+> [§9.4](#94-decisiones-posteriores--clases-del-héroe). **No queda ninguna
+> decisión abierta**; lo que queda es calibración numérica, y esa es del
+> prototipo (§9.2).
 
 ### 9.1 Decisiones cerradas
 
@@ -1389,6 +1394,24 @@ Cuando una decisión se cierra: se escribe acá el resultado, se actualizan las
 fichas que la referencian, recién ahí el GDD resume el cambio, y por último se
 destraban los tickets que la esperaban.
 
+### 9.4 Decisiones posteriores — clases del héroe
+
+> Las clases del héroe ([§11](#11-clases-del-héroe)) dejaron dos preguntas
+> abiertas cuando se registraron. **Mato las contestó las dos el 29 de agosto de
+> 2026.** No son parte de D1–D6 (que salieron del cambio de mecánica del rancho
+> abierto), pero se registran acá porque el resto del backlog las estaba
+> esperando.
+
+| # | Decisión de Mato | Qué cambió | Dónde quedó registrada |
+|---|---|---|---|
+| **DH1** ✅ | **En coop, dos héroes de la misma clase APILAN sus bonus SUMÁNDOSE.** Textual: *"si los dos héroes son la misma clase, los buffs se suman"*. No es máximo, no es rendimiento decreciente, no hay penalización por repetir clase | El apilado deja de ser un parámetro provisional y pasa a ser la regla. Dos Sheriffs dan la suma de sus dos bonus de ataque. **La magnitud de cada bonus sigue `TBD`**: lo decidido es la regla, no el número — si sumar resulta demasiado fuerte, se corrige bajando `magnitud_bonus` en balance, no cambiando el modo de apilado | [§0](#0-instrucciones-para-sistemas-de-ia) (esquema `clase_heroe`), [§11](#11-clases-del-héroe), §10, `TASK-023`, GDD §4.3 |
+| **DH2** ✅ | **La unidad reclutable se renombra a `deputy` (Deputy); la clase se queda como Sheriff.** Textual: *"cambiamos la unidad reclutable de Sheriff a Deputy; la clase Sheriff se queda"* | Se acaba la colisión de nombre entre [`hero_clase_sheriff`](#111-hero_clase_sheriff) y la unidad de §1.9. La ficción queda jerárquica en vez de redundante: el **Sheriff** es el héroe que controlás, el **Deputy** su adjunto y segundo al mando. **Ninguna mecánica cambia** — el Deputy conserva rol, arma (`revolver_doble`), buff de moral y sus `TBD`. `objetivo_sheriff` pasa a `objetivo_deputy` (§8) | [`deputy`](#19-deputy) (§1.9), [`revolver_doble`](#45-revolver_doble), §8 (`objetivo_deputy`), [`hero_clase_sheriff`](#111-hero_clase_sheriff), GDD §4.3 y §7 |
+
+**Lo que NO se decidió acá:** ningún valor de balance. `magnitud_bonus` y
+`escalado_por_nivel` de las tres clases siguen `TBD` (regla 1 de
+[§0](#0-instrucciones-para-sistemas-de-ia)), y los `TBD` del `deputy` siguen
+donde estaban.
+
 ---
 
 ## 10. Backlog de fichas pendientes
@@ -1401,7 +1424,7 @@ destraban los tickets que la esperaban.
 - [ ] Clasificar cada enemigo que roba como **chico o grande** (`capacidad_robo` 1 o 2) y fijar el `multiplicador_grande` de §5.0 punto 3 — es balance, no diseño (D3 fijó la regla, no el reparto)
 - [ ] Fichas de objetivo/desbloqueo (GDD §6.4): "X vacas → llega el científico" y "científico + X piezas → campo de fuerza" hoy son prosa en §8, no entidades
 - [ ] Costo en `pieza_alien` de cada mejora post-científico — depende de la curva de progresión de `TASK-021`
-- [ ] Magnitud de los bonus de las tres clases de héroe (§11) y cómo se apilan en coop — es balance puro, `TASK-023` lo deja parametrizado
+- [ ] Magnitud de los bonus de las tres clases de héroe (§11) — es balance puro, `TASK-023` lo deja parametrizado. **Cómo se apilan en coop ya no está abierto**: dos héroes de la misma clase **suman** sus bonus (§9.4)
 - [ ] Héroes concretos dentro de cada clase (§11): hoy la clase es el arquetipo y el héroe es genérico. Los héroes desbloqueables entre runs son fichas que todavía no existen (`TASK-024`)
 
 ---
@@ -1421,8 +1444,11 @@ peleás mejor: matarlos antes (ataque), reponer más rápido lo que te sacaron
 
 - **Coop-ready:** cada héroe elige su clase por separado y los bonus se aplican
   sobre el mismo rancho compartido ([GDD §4.2](GDD.md#42-cooperativo-local-definido)).
-  Dos jugadores pueden traer la misma clase; cómo se apilan los bonus repetidos
-  es `TBD` de balance.
+  Dos jugadores pueden traer la misma clase, y **si lo hacen los bonus se
+  SUMAN** — decisión de Mato del 29 de agosto de 2026, ver [§9.4](#94-decisiones-posteriores--clases-del-héroe).
+  No hay máximo ni rendimiento decreciente: dos Sheriffs pegan como la suma de
+  sus dos bonus de ataque. **La magnitud de cada bonus sigue `TBD`**, así que lo
+  decidido es la *regla* de apilado, no cuánto suma.
 - **Entre runs** las clases son el marco de la meta-progresión
   ([GDD §8.3](GDD.md#83-meta-progresión-entre-runs)): los puntos de fin de run
   se gastan en **mejorar** la clase que jugás o en **desbloquear héroes nuevos**
@@ -1450,7 +1476,7 @@ funcion_dia: Sin efecto económico propio — el Sheriff no produce, prepara la 
 funcion_noche: La ventana de robo (§5.0) se cierra antes porque todo lo tuyo pega más fuerte: el alien muere cargado y suelta el botín
 stats: {magnitud_bonus: TBD, escalado_por_nivel: TBD}
 meta_progresion: Los puntos de fin de run suben el bonus de ataque y desbloquean héroes de esta clase (GDD §8.3)
-notas_diseno: La clase de "matarlos antes de que terminen de sacar". No cambia la economía ni la capacidad: si te desbordan, te desbordan igual. Ojo con el nombre — la unidad reclutable `sheriff` (§1.9) es otra cosa y sigue existiendo; si conviven en pantalla hay que desambiguar la ficción (¿el héroe Sheriff hace redundante al NPC Sheriff?), y eso es diseño pendiente, no balance.
+notas_diseno: La clase de "matarlos antes de que terminen de sacar". No cambia la economía ni la capacidad: si te desbordan, te desbordan igual. La colisión de nombre quedó resuelta el 29 de agosto de 2026: **la clase se queda como Sheriff** y la unidad reclutable pasó a llamarse [`deputy`](#19-deputy) (§1.9). El Sheriff es el héroe que controlás; el Deputy es su adjunto. Ninguna de las dos cambia de mecánica por el rename.
 estado: propuesta
 ```
 

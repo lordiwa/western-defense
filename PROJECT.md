@@ -112,6 +112,15 @@ Las tres clases son además el **marco de la meta-progresión roguelite**
 (GDD §8.3): los puntos de fin de run se gastan en **mejorar tu héroe** o
 **desbloquear héroes nuevos** que pertenecen a una de esas tres clases.
 
+Las **dos preguntas que las clases dejaron abiertas** las cerró Mato el mismo
+día (registro canónico en [`docs/WIKI.md §9.4`](docs/WIKI.md), resumen en
+GDD §4.3 y §13.1):
+
+| Decisión | Qué se decidió | Qué implica |
+|---|---|---|
+| **DH1** ✅ | **En coop, dos héroes de la misma clase SUMAN sus bonus** — *"si los dos héroes son la misma clase, los buffs se suman"* | El apilado deja de ser un parámetro provisional en `TASK-023`: es suma, sin máximo ni rendimiento decreciente. **La magnitud sigue `TBD`** — lo decidido es la regla, no el número |
+| **DH2** ✅ | **La unidad reclutable se renombra a `deputy` (Deputy); la clase se queda como Sheriff** | Se acaba la colisión de nombre. El **Sheriff** es el héroe que controlás; el **Deputy**, su adjunto y segundo al mando. Rename de ficción: la unidad conserva rol, arma y stats. `objetivo_sheriff` → `objetivo_deputy` |
+
 Fichas canónicas en [`docs/WIKI.md §11`](docs/WIKI.md) (séptimo esquema,
 `clase_heroe`), resumen en GDD §4.3 y §8.3, tickets `TASK-023` (sistema en run)
 y `TASK-024` (meta entre runs). **Las magnitudes de los bonus son `TBD`**: no se

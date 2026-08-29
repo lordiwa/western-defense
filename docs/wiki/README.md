@@ -40,7 +40,7 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 | [`cientifico`](../WIKI.md#16-cientifico) | Científico / Profesor | investigacion | Objetivo de desbloqueo — llega al pueblo cuando el rancho sostiene X vacas vivas (§8, objetivo_cientifico). También puede encontrarse explorando | ✅ canon | 2 |
 | [`dinamitero`](../WIKI.md#17-dinamitero) | Dinamitero | defensivo | Recluta especial / edificio minero (por definir) | 🧪 propuesta | 4 |
 | [`doctor`](../WIKI.md#18-doctor) | Doctor / Curandero | economico | Objetivo de desbloqueo — llega cuando el rancho sostiene su población sin perder gente (§8.1, compuerta C2 cp_poblacion_sostenida) | 🧪 propuesta | 4 |
-| [`sheriff`](../WIKI.md#19-sheriff) | Sheriff | defensivo | Evento / nivel de pueblo alto | 🧪 propuesta | 6 |
+| [`deputy`](../WIKI.md#19-deputy) | Deputy | defensivo — el adjunto, segundo al mando de la ley del pueblo | Evento / nivel de pueblo alto | 🧪 propuesta | 6 |
 
 ## Clases del héroe
 
@@ -121,7 +121,7 @@ Solo las armas ya referenciadas por el `arma_base` de alguna unidad; el resto de
 | [`rifle_largo`](../WIKI.md#42-rifle_largo) | Rifle largo | T1_humano | unidad | Se fabrica en la Armería (arma humana, GDD §6.2) | 🧪 propuesta | 5 |
 | [`lazo`](../WIKI.md#43-lazo) | Lazo | TBD | unidad | Equipo propio del vaquero; llega con el Establo | 🧪 propuesta | 6 |
 | [`dinamita`](../WIKI.md#44-dinamita) | Dinamita | T1_humano | unidad | Por definir — llega con el dinamitero (recluta especial / edificio minero) | 🧪 propuesta | 6 |
-| [`revolver_doble`](../WIKI.md#45-revolver_doble) | Revólver doble | TBD | unidad | No se fabrica — llega con el sheriff (evento / nivel de pueblo alto) | 🧪 propuesta | 7 |
+| [`revolver_doble`](../WIKI.md#45-revolver_doble) | Revólver doble | TBD | unidad | No se fabrica — llega con el deputy (evento / nivel de pueblo alto) | 🧪 propuesta | 7 |
 
 ## Edificios
 
@@ -168,6 +168,6 @@ La tabla canónica de componentes vive en [WIKI §3](../WIKI.md#3-registro-de-co
 ## Estado de completitud
 
 - **46** fichas (9 unidades, 16 enemigos, 5 armas, 9 edificios, 1 oleada, 3 recursos, 3 clases de héroe).
-- **28** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `sheriff`, `manos_largas`, `toro_de_marte`, `caparazon`, `demoledor`, `el_ganadero`, `revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`, `town_center`, `taberna`, `establo`, `armeria`, `laboratorio`, `granja`, `campo_fuerza_alien`, `oleada_ejemplo`, `pasto`, `vaca`, `pieza_alien`, `hero_clase_sheriff`, `hero_clase_alcalde`, `hero_clase_carpintero`.
+- **28** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `deputy`, `manos_largas`, `toro_de_marte`, `caparazon`, `demoledor`, `el_ganadero`, `revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`, `town_center`, `taberna`, `establo`, `armeria`, `laboratorio`, `granja`, `campo_fuerza_alien`, `oleada_ejemplo`, `pasto`, `vaca`, `pieza_alien`, `hero_clase_sheriff`, `hero_clase_alcalde`, `hero_clase_carpintero`.
 - **1** en `estado: archivada` — fuera de partida, se conservan como referencia histórica: `barricada`.
 - **33** fichas con campos `TBD` pendientes de balance (139 campos en total).
