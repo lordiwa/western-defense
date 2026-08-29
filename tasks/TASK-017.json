@@ -1,0 +1,38 @@
+{
+  "key": "TASK-017",
+  "title": "Desbloqueos por objetivos: el científico llega cuando sostenés X vacas",
+  "description": "Cambio de mecánica de Mato (agosto 2026). Tabla canónica: [`docs/WIKI.md §8`](../docs/WIKI.md); resumen en GDD §6.4.\n\nAlgunas entidades no se compran ni se investigan: **se ganan cumpliendo un objetivo del rancho.** El caso canónico es el científico, que llega cuando el rancho sostiene **X vacas vivas**. Es la manera del juego de decir que criar ganado también es progresión tecnológica.\n\n**Qué hay que construir:**\n1. Un sistema de **objetivos** genérico: condición observable sobre el estado del run (\"X vacas vivas\", \"N noches sobrevividas\", \"M componentes investigados\") → recompensa (llega una unidad, se habilita un edificio).\n2. El objetivo `objetivo_cientifico` como primer caso real, con su aviso al jugador (que se vea venir, no que aparezca de la nada).\n3. Los candidatos `objetivo_sheriff` y `objetivo_doctor` quedan declarados pero sin condición: siguen `TBD` en la wiki.\n4. **Coop-ready:** el objetivo es del rancho, no de un héroe.\n\n**⚠️ DECISIÓN ABIERTA D4:** cuántas vacas exactamente. No se inventa (regla 4 del proyecto): el sistema se construye parametrizado y el número entra cuando Mato lo cierre.\n\n**Deuda de modelado:** los objetivos hoy son una tabla en la wiki, no un tipo de ficha. Si este sistema crece, conviene darles esquema propio — anotado en el backlog de fichas de la wiki (§10).",
+  "acceptance_criteria": [
+    "Existe un sistema de objetivos con condición evaluable y recompensa, alimentado desde data.",
+    "Al alcanzar el umbral de vacas configurado, el científico llega al pueblo y el laboratorio queda disponible.",
+    "El umbral es un parámetro de data, NO un literal en C#, y está marcado como pendiente de D4.",
+    "El jugador recibe un aviso previo del objetivo en curso (no aparece sin contexto).",
+    "El objetivo se evalúa sobre el estado del rancho y funciona igual con 1 o 2 héroes.",
+    "Perder vacas por debajo del umbral no revierte un desbloqueo ya otorgado (decidido: los desbloqueos no se pierden)."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "godot",
+    "progresion",
+    "mecanica-v04",
+    "decision-abierta"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-014"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Ticket nuevo del cambio de mecánica de v0.4. Depende de TASK-014 porque sin la cadena del ganado no hay \"X vacas vivas\" que contar.\n\nEl criterio \"los desbloqueos no se pierden\" es una lectura de diseño, no un dicho de Mato: si te roban las vacas después de que llegó el científico, el científico no se va. Si Mato prefiere lo contrario, se cambia — está anotado acá para que sea visible y no quede escondido en el código."
+    }
+  ],
+  "created_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "jira_key": null
+}

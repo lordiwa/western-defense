@@ -1,0 +1,37 @@
+{
+  "key": "TASK-016",
+  "title": "Campo de fuerza alien (T3): la barrera que reemplaza al muro en el late game",
+  "description": "Cambio de mecánica de Mato (agosto 2026), explícitamente marcado como **a futuro**. Ficha nueva: [`campo_fuerza_alien`](../docs/WIKI.md) (WIKI §5.9); GDD §8.1.\n\nCuando el árbol tecnológico está avanzado, el jugador puede levantar **campos de fuerza con tecnología alien** — no muros clásicos. Cierra el arco irónico del juego: no levantás una empalizada de madera, levantás la misma tecnología con la que te robaron.\n\n**Llega tarde a propósito.** Si estuviera disponible temprano mataría la tensión del rancho abierto, que es la premisa del early y mid game. Este ticket **no se toma antes del vertical slice**.\n\n**⚠️ DECISIÓN ABIERTA D5:** falta definir si el campo de fuerza es una **estructura** (como está modelado hoy en la wiki, porque no dispara) o el **arma T3 \"barrera de energía\"** de GDD §8.1 montada en torre. La ficha existe en §5.9 con todos sus valores en `TBD` justamente para no cerrar eso por omisión.",
+  "acceptance_criteria": [
+    "La decisión D5 (estructura vs arma montable) está resuelta y registrada en la wiki antes de escribir código.",
+    "El campo de fuerza solo es construible con el árbol tecnológico T3 y requiere laboratorio.",
+    "De noche levanta una barrera que frena a los aliens terrestres mientras tenga energía, y se agota de forma observable.",
+    "De día está inactivo y no estorba el trabajo del rancho.",
+    "Ningún valor de balance del campo de fuerza se inventó: todos vienen de la ficha."
+  ],
+  "status": "todo",
+  "priority": "low",
+  "labels": [
+    "godot",
+    "tech-tree",
+    "mecanica-v04",
+    "decision-abierta"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-012"
+  ],
+  "verification_tier": "tests-after",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Ticket nuevo del cambio de mecánica de v0.4. Prioridad `low` a pedido del cambio: Mato lo planteó como \"a futuro, cuando el árbol esté avanzado\". Está en el backlog para que no se pierda, no para tomarlo ahora."
+    }
+  ],
+  "created_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "jira_key": null
+}

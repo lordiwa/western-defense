@@ -1,13 +1,14 @@
 {
   "key": "TASK-005",
-  "title": "Primera pasada de balance: proponer valores para los 39 campos TBD de la wiki",
-  "description": "13 de las 25 fichas tienen campos `TBD` — 39 campos en total (el conteo exacto y la lista por ficha están en `data/manifest.json`, campo `tbd_fields`, y resumidos en el índice de la wiki). Son principalmente `stats.vida`, `stats.dano`, `stats.cadencia`, `stats.velocidad`, `costo.chatarra`, `costo.comida_upkeep` y `capacidad_robo`.\n\n**Regla del proyecto (CLAUDE.md §4): no se inventan valores `TBD`.** Este ticket es la excepción explícita: pide *proponer*. Por lo tanto:\n- Toda ficha que reciba valores propuestos se marca `estado: propuesta`.\n- Cada valor se justifica contra una referencia: la unidad o enemigo con el que se compara, y el rol que cumple en la curva.\n- Los valores no son canon hasta que un playtest los confirme (TECH §4, semana 6).\n\nEmpezar por lo que el prototipo necesita primero, en el orden de TECH §4: `peon`, `ratero_gris`, `platillo_sonda`, `pistolero`, `cazador`. El resto puede quedar `TBD` sin bloquear.",
+  "title": "Primera pasada de balance: proponer valores para los campos TBD de la wiki",
+  "description": "La mayoría de las 42 fichas tienen campos `TBD` — **130 campos** al cierre de la wiki v0.2 (eran 39 sobre 25 fichas cuando se escribió este ticket; el cambio de mecánica de v0.4 sumó fichas y campos nuevos: `modo_noche`, `capacidad_refugio`, `prioridad_objetivo`, la cadena del ganado y el campo de fuerza) (el conteo exacto y la lista por ficha están en `data/manifest.json`, campo `tbd_fields`, y resumidos en el índice de la wiki). Son principalmente `stats.vida`, `stats.dano`, `stats.cadencia`, `stats.velocidad`, `costo.chatarra`, `costo.comida_upkeep` y `capacidad_robo` — más, desde v0.2, las capacidades de refugio y los ritmos de la cadena pasto → vaca → comida.\n\n**Regla del proyecto (CLAUDE.md §4): no se inventan valores `TBD`.** Este ticket es la excepción explícita: pide *proponer*. Por lo tanto:\n- Toda ficha que reciba valores propuestos se marca `estado: propuesta`.\n- Cada valor se justifica contra una referencia: la unidad o enemigo con el que se compara, y el rol que cumple en la curva.\n- Los valores no son canon hasta que un playtest los confirme (TECH §4, semana 6).\n\nEmpezar por lo que el prototipo necesita primero, en el orden de TECH §4: `peon`, `ratero_gris`, `platillo_sonda`, `pistolero`, `cazador`. El resto puede quedar `TBD` sin bloquear.",
   "acceptance_criteria": [
     "Las fichas necesarias para las semanas 1–4 del prototipo (`peon`, `ratero_gris`, `platillo_sonda`, `pistolero`, `cazador`) no tienen ningún `TBD` en `stats` ni en `costo`.",
     "Toda ficha modificada queda con `estado: propuesta` y una línea de justificación en `notas_diseno` o en una sección de balance de la wiki.",
     "Existe una unidad de referencia declarada (la escala contra la que se comparan el resto de los valores) y está documentada en la wiki.",
-    "`python3 tools/wiki_to_resources.py --check` reporta el nuevo conteo de `TBD` y baja respecto de los 39 actuales.",
-    "Ninguna ficha con valores propuestos queda marcada `estado: canon`."
+    "`python3 tools/wiki_to_resources.py --check` reporta el nuevo conteo de `TBD` y baja respecto de los 130 actuales.",
+    "Ninguna ficha con valores propuestos queda marcada `estado: canon`.",
+    "Los `TBD` que dependen de una decisión abierta de WIKI §9 NO se proponen acá: el tiempo de robo del ganado (D3) y el umbral de vacas del científico (D4) los decide Mato, no el balance."
   ],
   "status": "todo",
   "priority": "medium",
@@ -32,9 +33,19 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "**El conteo del título y la descripción quedó viejo:** TASK-003 sumó 14 fichas y los campos `TBD` pasaron de 39 a 110. Los 39 originales siguen siendo los de las 25 fichas preexistentes y son los que este ticket ataca — el alcance no cambia, pero el criterio de aceptación que dice «baja respecto de los 39 actuales» hay que leerlo como «baja respecto de los 39 de unidades y enemigos», no del total.\n\nLos 71 TBD nuevos son de armas, edificios y la oleada de ejemplo, y no se tocan acá: los de oleada son TASK-008 y el resto necesita que primero se decida si los stats de arma mandan sobre los de unidad (tensión que TASK-003 dejó documentada en el esquema de arma en vez de resolverla inventando)."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "**Los conteos volvieron a moverse con el cambio de mecánica de v0.4.** Los campos `TBD` pasaron de 110 a **130** y las fichas en `propuesta` de 19 a **26**. Lo nuevo no es ruido: son campos que el cambio abrió (`capacidad_refugio` de cada edificio, `tiempo_robo` del ganado, producción y consumo de `pasto` y `vaca`, el campo de fuerza entero).\n\nEl alcance de este ticket NO crece: sigue siendo las 5 fichas que el prototipo necesita primero (`peon`, `ratero_gris`, `platillo_sonda`, `pistolero`, `cazador`). Pero hay dos avisos:\n1. `platillo_sonda.tiempo_robo` es `TBD` y **no se propone acá**: es la decisión D3 de Mato (§9 de la wiki), no un valor de balance a estimar.\n2. Los tiempos de robo de persona (1-3 s) y recurso (2 s) **ya son canon** — vinieron decididos, no se tocan."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Actualizado por el cambio de mecánica de v0.4 (agosto 2026). La wiki pasó a v0.2 y el GDD a v0.4: la wiki tiene ahora 42 fichas (entró el tipo `recurso` con `pasto` y `vaca`, más `campo_fuerza_alien`), 26 en `estado: propuesta` y 130 campos `TBD`. Los conteos de este ticket estaban escritos contra la wiki v0.1 y quedaron desactualizados. El salto de 39 a 130 `TBD` es real, no un error de conteo: el cambio agregó campos a todas las fichas de edificio y creó dos fichas de recurso enteras. La prioridad no cambia — primero las cinco fichas que el prototipo necesita."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",
-  "updated_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
   "jira_key": null
 }

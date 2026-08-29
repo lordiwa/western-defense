@@ -45,6 +45,9 @@ TIPO_TO_DIR = {
     "arma": "weapons",
     "edificio": "buildings",
     "oleada": "waves",
+    # `recurso` entró con la wiki v0.2: el ganado dejó de ser "comida pasiva" y
+    # pasó a ser una cadena (pasto → vaca → comida) con fichas propias.
+    "recurso": "resources",
 }
 
 #: `tipo` → clase Resource de C# que consumirá el .tres. Todavía no existen
@@ -57,6 +60,8 @@ TIPO_TO_RESOURCE_SCRIPT = {
     "edificio": "res://src/Buildings/BuildingData.cs",
     # La oleada la consume el WaveDirector, que en TECH §2 vive en Enemies/.
     "oleada": "res://src/Enemies/WaveData.cs",
+    # Los recursos los consume el ResourceLedger (TECH §2, Economy/).
+    "recurso": "res://src/Economy/ResourceData.cs",
 }
 
 TBD = "TBD"
@@ -245,6 +250,7 @@ REQUIRED_FIELDS = {
     "arma": ["id", "nombre", "tipo", "tier", "montaje", "efecto", "estado"],
     "edificio": ["id", "nombre", "tipo", "funcion", "slot", "estado"],
     "oleada": ["id", "nombre", "tipo", "noche", "fase_lunar", "estado"],
+    "recurso": ["id", "nombre", "tipo", "clase", "fuente", "estado"],
 }
 
 
@@ -557,6 +563,7 @@ def build_index(fichas: list[Ficha]) -> str:
     weapons = [f for f in fichas if f.tipo == "arma"]
     buildings = [f for f in fichas if f.tipo == "edificio"]
     waves = [f for f in fichas if f.tipo == "oleada"]
+    resources = [f for f in fichas if f.tipo == "recurso"]
 
     out = [INDEX_PREAMBLE, "---", ""]
 
@@ -654,6 +661,17 @@ def build_index(fichas: list[Ficha]) -> str:
         "([TECH §3.3](../TECH.md#33-wavedirector)).",
     )
 
+    out += _table_section(
+        "Recursos",
+        "7. Recursos vivos y consumibles",
+        resources,
+        [("Nombre", "nombre"), ("Clase", "clase"), ("Fuente", "fuente"),
+         ("Robable", "robable")],
+        intro="La cadena del ganado (pasto → vaca → comida) y todo recurso con "
+        "mecánica propia. Las materias primas sin mecánica (madera, chatarra) "
+        "viven en [GDD §5.1](../GDD.md#51-recursos-sin-oro--decisión-tentativa).",
+    )
+
     out.append("## Componentes (drops)")
     out.append("")
     out.append(
@@ -676,6 +694,7 @@ def build_index(fichas: list[Ficha]) -> str:
             ("arma", "armas", weapons),
             ("edificio", "edificios", buildings),
             ("oleada", "oleadas", waves),
+            ("recurso", "recursos", resources),
         )
         if grupo
     )

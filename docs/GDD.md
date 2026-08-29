@@ -1,8 +1,19 @@
-# COWBOY DEFENSE — Game Design Document v0.3
+# COWBOY DEFENSE — Game Design Document v0.4
 
-> **Estado:** Tercer borrador · **Fecha:** Agosto 2026 · **Equipo:** 2 personas + sistemas agénicos
+> **Estado:** Cuarto borrador · **Fecha:** Agosto 2026 · **Equipo:** 2 personas + sistemas agénicos
 > **Documentos hermanos:** [`WIKI.md`](WIKI.md) (fuente canónica de unidades y enemigos) · [`TECH.md`](TECH.md) (documento técnico) · [índice navegable de la wiki](wiki/README.md)
 > **Nombre tentativo:** Cowboy Defense (working title)
+
+> ### ⚠️ v0.4 — cambia el núcleo defensivo
+> **No hay muros.** La invasión es una sorpresa: el rancho está abierto, los
+> aliens bajan de sus naves y caminan hasta lo que quieren. La defensa deja de
+> ser un perímetro y pasa a ser **edificios que de noche se vuelven refugio o
+> defensa**, más **torres colocables** que castigan al alien mientras roba.
+> Los muros estilo *Kingdom* siguen sobre la mesa como **variante opcional**, y
+> su versión de late-game es un **campo de fuerza alien**, no una empalizada.
+> Lo tocado: §3.1, §5, §6 entero, §7, §8.1, §10 y §13. Las fichas canónicas
+> están en [`WIKI.md`](WIKI.md); las **decisiones que siguen abiertas** están en
+> §13 y ninguna se resuelve sin Mato.
 
 ---
 
@@ -23,6 +34,8 @@ Tower Defense + gestión de recursos + roguelike, con control indirecto tipo *Ki
 
 ### 1.4 Hook diferenciador
 Los enemigos **no destruyen: roban.** El fallo no es binario (game over instantáneo) sino una espiral: cada noche mala te quita brazos, comida y defensas para la siguiente. Pierdes cuando la espiral te alcanza. Y el arco de poder es irónico: terminas defendiéndote de los aliens **con sus propias armas**.
+
+Desde v0.4 el robo es más concreto y más doloroso: no te roban *por encima de un muro*, te roban **de adentro de tus edificios**. Cada alien entra al refugio más cercano y tarda en sacar lo que hay — 1–3 s por persona, 2 s por recurso. No podés impedir que entren; podés cobrarles esos segundos.
 
 ### 1.5 Pilares de diseño
 1. **El robo duele más que la muerte** — todo lo que tienes es robable; proteger es priorizar.
@@ -58,7 +71,8 @@ AMANECER ──► DÍA ──────────────► ATARDECER 
 ```
 
 - **Día (duración fija):** los trabajadores recolectan en el rango cercano al pueblo; el jugador cabalga a explorar más lejos, encuentra recursos, sitios de interés y reclutas.
-- **Noche (duración fija):** oleadas de aliens entran por **izquierda y derecha**; más adelante, **naves por arriba**. Torres y unidades pelean solas. El jugador reposiciona, gasta recursos de emergencia y los reparadores mantienen barricadas.
+- **Atardecer:** la última oportunidad de replegarse tiene ahora un contenido concreto — los trabajadores entran a los **edificios-refugio** y los vaqueros guardan las vacas en el establo. Lo que quede afuera, queda afuera.
+- **Noche (duración fija):** oleadas de aliens entran por **izquierda y derecha**; más adelante, **naves por arriba**. Cada alien va al edificio-refugio más cercano que tenga lo que busca y **se queda adentro robando** durante unos segundos. Torres y unidades pelean solas y aprovechan esa ventana. El jugador reposiciona, gasta recursos de emergencia y los reparadores mantienen en pie torres y edificios.
 - **Excepción — días especiales:** con aviso previo, puede ocurrir un ataque diurno con enemigo/jefe especial (evento raro, telegráfiado).
 
 ### 3.2 Loop de una run (roguelike, 30–60 min)
@@ -118,11 +132,25 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 |---|---|---|---|
 | **Madera** | Árboles del entorno (taladores) | Construcción y expansión de barricadas/edificios | Sí |
 | **Chatarra / Tec. alienígena** | Restos de aliens y naves derribadas, sitios de crash, hallazgos del desierto | Investigación, armas, torres avanzadas, mejoras | Sí |
-| **Comida** | Ganado (pasivo), caza, cultivos | Mantiene a la población. Sin comida → la gente muere/deserta en ~2 días | Sí (¡y el ganado también!) |
+| **Comida** | Ganado (**ya no es pasivo**, §5.4), caza, cultivos | Mantiene a la población. Sin comida → la gente muere/deserta en ~2 días | Sí (¡y el ganado también!) |
+| **Pasto** | Crece de día alrededor de la granja; parches naturales en el mapa | Alimenta al ganado. Es el único recurso que **no** se almacena: se produce y se consume en el sitio | No — pero perderlo te mata las vacas igual |
 | **Población** | Reclutas encontrados/atraídos | Es el recurso vivo: trabajan, pelean, investigan | **Sí — es lo que más roban** |
 
 - Chatarra y tecnología alien son **el mismo recurso**: recoges tec alien y la refinas/mejoras.
 - Nota de diseño: si en prototipo la economía pide una moneda blanda universal, se reevalúa el oro.
+
+### 5.4 La cadena del ganado (v0.4)
+El ganado dejó de ser un número que sube solo. Ahora es una cadena de tres eslabones, y cada uno se puede cortar:
+
+```
+GRANJA ──produce──► PASTO ──lo pasta──► VACA ──produce──► COMIDA
+```
+
+- **De día** los vaqueros sacan las vacas a pastar el pasto que crece alrededor de la granja y el establo. **Más vacas = el pasto se consume más rápido.**
+- Si el rebaño crece más rápido que las granjas, las vacas **pasan hambre** y dejan de producir comida. Escalar ganado obliga a escalar granjas: tener muchas vacas es una decisión con costo, no una acumulación gratis.
+- **De noche** las vacas se guardan en el establo. Adentro están a salvo del rayo tractor, pero concentradas: un ladrón que entre las encuentra a todas juntas.
+- Fichas canónicas: [`pasto`](WIKI.md#71-pasto) y [`vaca`](WIKI.md#72-vaca) (WIKI §7). Los ritmos de crecimiento y consumo son `TBD` — es justamente lo que hay que balancear.
+- **Segunda forma de perder ganado:** ya no solo te lo roban; también se te muere de a poco porque construiste mal. Es la espiral del robo aplicada a la economía propia.
 
 ### 5.2 Transporte físico de recursos
 - Los recursos **existen físicamente**: aparecen en el mundo, un trabajador los carga y los deposita en el almacén/edificio correspondiente.
@@ -136,26 +164,72 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 ## 6. El Rancho (Base)
 
-### 6.1 Layout
-- **Layout fijo con slots de mejora.** Centro: **Town Center**. A los lados, slots de edificios; en los bordes, líneas de defensa.
-- El territorio se puede **expandir** (como Kingdom): empujar las barricadas hacia afuera abarca más slots, más recursos… y más frente que defender.
+### 6.1 Layout — el rancho abierto (v0.4)
+- **Layout fijo con slots de mejora.** Centro: **Town Center**. A los lados, slots de edificios de economía.
+- **No hay línea de muros.** La ficción lo explica: esto es un valle del oeste en 1870, no un castillo bajo asedio anunciado. Nadie levantó una muralla porque nadie sabía que venía nadie; los aliens bajan de las naves y caminan hasta lo que quieren.
+- **Las torres se colocan libres**, donde el jugador quiera. Elegir a qué edificio cubre cada torre es *la* decisión táctica de la noche.
+- El territorio se sigue pudiendo **expandir** a más slots y más recursos — pero expandirse ya no significa empujar un muro, significa tener más edificios sueltos que cubrir.
+- **Variante clásica opcional:** los muros estilo *Kingdom* siguen sobre la mesa para quien prefiera el enfoque tradicional. Es una **decisión abierta** (§13), no un default.
 
-### 6.2 Edificios (propuesta inicial — por definir en detalle)
-| Edificio | Función |
-|---|---|
-| **Town Center** | Núcleo. Almacén principal. Nivel del pueblo = desbloqueos |
-| **Taberna / Inn** | Atrae y aloja reclutas; asignación de roles |
-| **Establo / Corral** | Aloja ganado; produce comida pasiva; mejorable (más vacas, vacas protegidas) |
-| **Armería / Herrería** | Fabrica y mejora armas humanas; equipa unidades |
-| **Laboratorio del Profesor** | Llega con científicos (§7); investiga tecnología alien; árbol tecnológico |
-| **Torre de vigilancia** | Slot de torre defensiva; recibe las armas del árbol tec |
-| **Granja** | Comida activa (cultivos), complementa al ganado |
-| **Barricadas / Muros** | Línea defensiva por niveles (madera → reforzada → tec alien) |
+### 6.2 Edificios — dos vidas, día y noche (v0.4)
 
-### 6.3 Defensa y reparación
-- Muros y torres se construyen/mejoran **también durante la noche** si hay recursos y manos.
-- **Reparación activa estilo RTS:** un trabajador puede reparar una barricada *mientras* recibe daño (riesgo: el reparador es raptable).
-- Ataques por ambos flancos obligan a repartir defensa; las naves aéreas (mid-game) obligan a tener antiaéreo.
+> ⚠️ Fichas canónicas en [`WIKI.md §5`](WIKI.md#5-edificios); las reglas normativas del ciclo día/noche están en [WIKI §5.0](WIKI.md#50-reglas-de-los-edificios-de-noche-cambio-canónico).
+
+**La regla nueva:** todo edificio cumple su función económica de día y **al caer la noche se convierte en refugio o en defensa**. El edificio dejó de ser decorado: de noche *es* el sistema defensivo.
+
+| Edificio | De día | De noche |
+|---|---|---|
+| **Town Center** | Núcleo y almacén principal. Nivel del pueblo = desbloqueos | Refugio principal — el que más gente y más recursos tiene adentro |
+| **Taberna / Inn** | Atrae y aloja reclutas; asignación de roles | Refugio de personas — el objetivo más goloso por densidad de gente |
+| **Establo / Corral** | Los vaqueros sacan las vacas a pastar; el ganado convierte pasto en comida | Refugio de ganado — se guardan las vacas y se espera la invasión |
+| **Granja / Granero** | Cultiva comida **y hace crecer el pasto a su alrededor** (§5.4) | Refugio de gente y de la comida almacenada |
+| **Armería / Herrería** | Fabrica y mejora armas humanas; equipa unidades | Refugio; es el candidato natural a la rama *refugio+defensa* — ya tiene las armas adentro |
+| **Laboratorio del Profesor** | El científico investiga tec alien; árbol tecnológico | Refugio del científico y de los componentes sin investigar |
+| **Torre de vigilancia** | Vigila el horizonte y revela infiltrados | **Defensa** — dispara, incluso a quien está robando adentro de un edificio. Se coloca libre y se configura (§6.3) |
+| **Campo de fuerza alien** | Inactivo, recargando | **Defensa T3** — barrera de energía entre emisores. La respuesta alien al muro (§8.1) |
+| **Barricadas / Muros** | *Variante clásica opcional* — se construye y se empuja hacia afuera | Frena y encauza a los terrestres. **No es el default** (§13) |
+
+### 6.3 Defensa sin muros: la ventana de robo (v0.4)
+
+El sistema defensivo entero se apoya en una sola idea: **robar lleva tiempo, y ese tiempo es tuyo.**
+
+1. El alien entra al **primer edificio-refugio de su camino** que tenga lo que busca.
+2. Adentro, saca las víctimas de a una: **1–3 s por persona** (el valor se sortea una vez por oleada, no por robo) y **2 s por recurso**. El tiempo del ganado todavía no está decidido (§13).
+3. Mientras carga es un **blanco quieto**. Matarlo antes de que termine **cancela el robo**; matarlo cargado le hace **soltar lo robado ahí mismo** — la misma regla que derribar un abductor en el aire.
+4. No impedís que entren. Les cobrás los segundos que pasan adentro.
+
+**Torres colocables y configurables.** Las torres ya no viven en una línea: se colocan donde el jugador quiera, y cada una expone una **prioridad de objetivo**:
+
+| Prioridad | A quién le dispara primero | Para qué sirve |
+|---|---|---|
+| **Primero en llegar** | Al que entró antes al alcance | Corta el goteo, defensa pareja |
+| **Más cercano a los recursos** | Al que está por alcanzar un refugio | Preventivo: no llegan a empezar |
+| **El que ya carga** | Al que ya lleva algo encima | Recupera botín; la respuesta a *Manos Largas* |
+
+> ⚠️ **DECISIÓN ABIERTA (§13):** falta definir qué hacen los aliens *con* las torres — **(A)** las atacan primero, o **(B)** las ignoran y van directo a los edificios. Y si eso es configurable o se elige una sola. Ningún sistema asume una de las dos.
+
+**Reparación.** Se mantiene la reparación activa estilo RTS, con el blanco cambiado: un trabajador puede reparar **torres y edificios** *mientras* reciben daño (riesgo: el reparador es raptable, y de noche está fuera del refugio). Torres y edificios se construyen/mejoran también durante la noche si hay recursos y manos.
+
+**Lo que no cambia.** Los ataques por ambos flancos obligan a repartir defensa; las naves aéreas (mid-game) obligan a tener antiaéreo.
+
+### 6.4 Desbloqueos por objetivos (v0.4)
+- Algunas entidades no se compran ni se investigan: **se ganan cumpliendo un objetivo del rancho.** El caso canónico: **el científico llega cuando sostenés X vacas vivas** (X es `TBD`, §13).
+- Es la manera del juego de decir que criar ganado *también* es progresión tecnológica: el ranchero que prospera atrae a la gente que lo hace prosperar más.
+- El patrón es extensible — otras unidades y edificios pueden colgar de objetivos propios (sheriff, doctor: candidatos, todavía `TBD`).
+- Tabla canónica de objetivos: [`WIKI.md §8`](WIKI.md#8-objetivos-de-desbloqueo). Todavía **no son un tipo de ficha**: son una tabla, y volverlos entidades está en el backlog.
+
+### 6.5 Niveles de edificio (v0.4)
+Con el árbol de habilidades y la tecnología alien, un edificio-refugio sube por **una de dos ramas, excluyentes**:
+
+```
+        NIVEL 1 · refugio
+        ├── refugio + defensa → sigue guardando gente, y además dispara
+        └── doble refugio     → no dispara, pero duplica la capacidad
+```
+
+- Es una **elección, no una escalera**: el mismo edificio no puede ser fortín y granero a la vez.
+- *Refugio + defensa* convierte cada edificio en un punto que se aguanta solo; *doble refugio* concentra más en menos lugares — menos edificios que cubrir, más huevos en la misma canasta.
+- Costos, capacidades y qué edificios pueden tomar cada rama son `TBD` (§13).
 
 ---
 
@@ -163,7 +237,7 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 > ⚠️ **Fuente canónica: [`WIKI.md`](WIKI.md#1-unidades-del-jugador)** ([índice](wiki/README.md#unidades-del-jugador)). Las tablas de este documento son el resumen de diseño; las fichas completas, stats y drops viven en la wiki.
 
-> Todas las unidades son **raptables**. Perder una unidad no es solo perder DPS: es perder su función económica.
+> Todas las unidades son **raptables**. Perder una unidad no es solo perder DPS: es perder su función económica. Desde v0.4, de noche la gente está **dentro de los edificios-refugio** — sacarla de ahí le cuesta al alien 1–3 s por persona (§6.3).
 
 | Unidad | Rol | Cómo se obtiene | Notas |
 |---|---|---|---|
@@ -171,8 +245,8 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 | **Pistolero** | Defensa básica a distancia | Peón + revólver (Armería) | Evoluciona con armas del árbol tec |
 | **Cazador** | Genera comida de día; francotirador de noche | Peón + rifle | Largo alcance, cadencia lenta. Bueno contra voladores |
 | **Chatarrero (Scavenger)** | Especialista en recoger tec alien del campo y de la batalla | Peón + mejora en Laboratorio | Recoge más rápido y más lejos; clave para el árbol tec |
-| **Vaquero de ganado** | Pastorea y protege el ganado; lazo | Peón + Establo | Puede **enlazar** aliens pequeños o jalar de vuelta ganado abducido (a validar) |
-| **Científico / Profesor** | Investiga tecnología alien; desbloquea armas | Llega al pueblo al alcanzar cierto nivel/renombre (o se encuentra explorando) | No pelea. Si te lo raptan, la investigación se detiene |
+| **Vaquero de ganado** | Lleva las vacas al pasto de día (§5.4) y las guarda en el establo de noche; lazo | Peón + Establo | Puede **enlazar** aliens pequeños o jalar de vuelta ganado abducido (a validar). Cuántas vacas saca a pastar es una decisión: más comida hoy, menos pasto mañana |
+| **Científico / Profesor** | Investiga tecnología alien; desbloquea armas | **Objetivo de desbloqueo: llega cuando sostenés X vacas** (§6.4; X es `TBD`). También se encuentra explorando | No pelea. Si te lo raptan, la investigación se detiene |
 | **Dinamitero** | Daño en área | Recluta especial / edificio minero | Riesgo: fuego amigo cómico |
 | **Doctor / Curandero** | Cura unidades entre noches; revive derribados | Recluta especial | Weird West: elixires dudosos |
 | **Sheriff** | Mini-héroe defensivo, buff de moral en su zona | Evento / nivel de pueblo | Ancla un flanco |
@@ -190,7 +264,8 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 - Tiers tentativos:
   - **T1 Humano:** revólver, rifle, escopeta, dinamita, torre Gatling.
   - **T2 Híbrido:** balas recubiertas de aleación alien, gatling sobrecargada, trampas de pulso.
-  - **T3 Alien:** rifle de plasma, torre de rayo, bomba de gas lumínico, barrera de energía, arpón antigravedad (baja naves).
+  - **T3 Alien:** rifle de plasma, torre de rayo, bomba de gas lumínico, **barrera de energía** (el [campo de fuerza alien](WIKI.md#59-campo_fuerza_alien) — la respuesta del juego a "quiero un muro": no una empalizada de madera, sino la misma tecnología con la que te robaron), arpón antigravedad (baja naves).
+- El campo de fuerza llega **tarde a propósito**: si estuviera disponible temprano mataría la tensión del rancho abierto (§6.1). Si es una estructura o un arma montable en torre es una decisión abierta (§13).
 
 ### 8.2 Captura de tecnología, no de aliens
 - **No hay captura de aliens vivos** (descartado). Toda la tec viene de restos y sitios de crash.
@@ -219,6 +294,8 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 > Regla de oro: **cada enemigo quiere llevarse algo.** Su diseño responde a: ¿qué roba, cómo lo roba y cómo lo evitas?
 
+> **Cambio v0.4 — a quién le roban.** Ya no hay muro que cruzar: el alien va al **edificio-refugio más cercano** que tenga lo que busca y **tarda en sacarlo** (1–3 s por persona, 2 s por recurso, ganado `TBD`). Durante esa ventana está quieto y expuesto (§6.3). Consecuencia sobre la taxonomía: los **tanques**, que existían para romper muros, pasan a atacar **torres y edificios**; y tres fichas canon diseñadas contra barricadas (*Manos Largas*, *Toro de Marte*, *El Ganadero*) volvieron a `propuesta` en la wiki hasta validar su nuevo mecanismo.
+
 ### 10.1 Categoría: LADRONES (rateros rápidos)
 *Roban recursos sueltos y objetos. Frágiles, veloces, vienen en grupo. Entran, agarran y huyen.*
 
@@ -226,7 +303,7 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 |---|---|---|
 | **Ratero Gris** | Alien pequeño; corre al depósito más cercano, toma lo que puede y huye por donde vino | Cualquier defensa; el problema es el volumen |
 | **Coyote Plateado** | Bestia alienizada; muy rápido, esquiva en zigzag; prioriza comida | Escopetas / trampas |
-| **Manos Largas** | Brazos elásticos: roba **por encima** de barricadas bajas sin romperlas | Muros altos o eliminarlo a distancia |
+| **Manos Largas** | Brazos elásticos: roba **desde afuera del refugio**, por la ventana, sin cruzar la puerta — los defensores de adentro no lo alcanzan (con muros opcionales activos, roba además por encima de las barricadas bajas) | Eliminarlo a distancia, o una torre en prioridad *"el que ya carga"* |
 
 ### 10.2 Categoría: ABDUCTORES (se llevan lo vivo)
 *El corazón del hook. Voladores con rayo tractor. Si derribas la nave a tiempo, la víctima cae y se salva.*
@@ -238,12 +315,12 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 | **Sombrero Negro** | Alien terrestre con disfraz de forastero; se infiltra de noche y "se lleva caminando" a un aldeano hipnotizado | Torre de vigilancia lo revela; tensión de detección |
 
 ### 10.3 Categoría: TANQUES (abren camino)
-*No roban: rompen. Existen para destruir barricadas y dejar pasar a los demás.*
+*No roban: rompen. Sin muros que derribar, su blanco pasa a ser lo que sí estorba — **torres y edificios-refugio**. Reventar un refugio no destruye lo de adentro: lo deja al descubierto y acelera el saqueo de los demás.*
 
 | Enemigo | Comportamiento | Contramedida |
 |---|---|---|
-| **Toro de Marte** | Cuadrúpedo masivo; embiste muros; telegrafiada su carga | Daño concentrado, dinamita |
-| **Caparazón** | Lento, blindaje frontal total | Flanqueo, daño en área, plasma (ignora armadura) |
+| **Toro de Marte** | Cuadrúpedo masivo; embiste torres y las puertas de los refugios; telegrafiada su carga | Daño concentrado, dinamita |
+| **Caparazón** | Lento, blindaje frontal total; absorbe el fuego de las torres mientras los ladrones saquean detrás | Flanqueo, daño en área, plasma (ignora armadura) |
 | **Demoledor** | Lanza proyectiles de asedio contra torres desde media distancia | Salir a cazarlo o fuego de largo alcance |
 
 ### 10.4 Categoría: SOPORTE (los "magos")
@@ -260,7 +337,7 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 | Enemigo | Comportamiento |
 |---|---|
 | **Nave Capataz** | Mini-jefe de luna llena; combina rayo tractor masivo + escolta |
-| **El Ganadero** | Jefe mid-game; alien colosal que "cosecha" — arranca barricadas y las usa de arma |
+| **El Ganadero** | Jefe mid-game; alien colosal que "cosecha" — arranca del suelo las torres colocadas (y las barricadas, si la variante clásica está activa) y las usa de arma |
 | **Nave Nodriza** | Objetivo final. No ataca tu pueblo: la asaltas tú, de día, con tu milicia armada con tec alien. Fases: escudo → torretas → núcleo |
 
 ### 10.6 Reglas de comportamiento comunes
@@ -287,13 +364,40 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 ---
 
-## 13. Preguntas Abiertas (para v0.4)
-1. Lista final de edificios y sus árboles de mejora. (§6.2)
+## 13. Preguntas Abiertas (para v0.5)
+
+### 13.1 Decisiones que bloquean el diseño defensivo (para Mato)
+
+> Salieron del cambio de mecánica de v0.4. **Ninguna se resuelve sin él**: ni la
+> wiki ni este documento asumen una respuesta. Tabla espejo en
+> [`WIKI.md §9`](WIKI.md#9-decisiones-abiertas-para-el-equipo).
+
+| # | Decisión | Por qué bloquea |
+|---|---|---|
+| **D1** | **Variante A o B de las torres.** (A) los aliens **atacan las torres primero** — la torre es un obstáculo que hay que resolver; (B) las torres **no detienen a nadie** — los aliens van directo a los edificios y la torre solo les dispara mientras roban. ¿Y es **configurable** (dificultad, tipo de enemigo) o se elige una sola? | Cambia dónde conviene poner una torre, qué significa la prioridad de objetivo, y si el *Caparazón* funciona como escudo móvil |
+| **D2** | **¿Entran los muros clásicos estilo *Kingdom* como opción de partida?** | De eso depende si `barricada` se archiva y si hay que rediseñar *Manos Largas*, *Toro de Marte* y *El Ganadero* |
+| **D3** | **Tiempo de robo del ganado.** Persona (1–3 s) y recurso (2 s) están decididos; la vaca no | Sin él, el establo no se puede balancear ni el `platillo_sonda` cerrar |
+| **D4** | **Cuántas vacas hacen llegar al científico** (§6.4) | Es el primer objetivo de desbloqueo y marca el ritmo del árbol tecnológico |
+| **D5** | **El campo de fuerza: ¿estructura o arma T3 montada en torre?** | Decide si el late game tiene una "muralla alien" o solo torres mejores |
+| **D6** | **La rama de nivel, ¿se elige por edificio o sube global?** (§6.5) | Cambia el costo de la progresión y cuánto micro tiene el jugador |
+
+### 13.2 Preguntas de fondo (venían de v0.3)
+1. Lista final de edificios y sus árboles de mejora. (§6.2, §6.5)
 2. ¿Armas alien = clase nueva o mejora de equipo? (§7)
 3. Nombre y tamaño del sistema de meta-progresión. (§8.3)
 4. Duración exacta del ciclo lunar y curvas de dificultad. (§9)
 5. Economía: ¿confirmamos la ausencia de oro tras el primer prototipo?
 6. Nombre definitivo del juego.
+
+### Resueltas en v0.4
+- ✅ **Sin muros por defecto:** el rancho está abierto; la defensa son edificios-refugio + torres colocables (§6.1, §6.3)
+- ✅ **Los edificios tienen dos vidas:** función económica de día, refugio o defensa de noche (§6.2)
+- ✅ **El robo lleva tiempo y esa ventana es el juego:** 1–3 s por persona, 2 s por recurso; matarlo cargado le hace soltar el botín (§6.3)
+- ✅ **Torres colocables libremente y configurables** por prioridad de objetivo (§6.3)
+- ✅ **El ganado come:** cadena pasto → vaca → comida, con hambre si el rebaño crece más rápido que las granjas (§5.4)
+- ✅ **Los edificios suben de nivel** por una de dos ramas excluyentes: refugio+defensa o doble refugio (§6.5)
+- ✅ **Hay desbloqueos por objetivos:** el científico llega por criar ganado, no por renombre difuso (§6.4)
+- ✅ **La barrera alien es el "muro" del late game**, y llega tarde a propósito (§8.1)
 
 ### Resueltas en v0.3
 - ✅ Split screen dinámico: se une cuando los jugadores están cerca (§4.2)
@@ -308,8 +412,8 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 ---
 
 ## 14. Roadmap Sugerido
-1. **Prototipo de core loop (4–6 semanas):** ciclo día/noche, 1 recurso, peones, 2 enemigos (Ratero + Platillo Sonda con rayo tractor y drop de víctima), barricada reparable, **arquitectura preparada para 2 héroes** (aunque el coop se pruebe en fase 2). **Meta: validar que "el robo duele" se siente.**
-2. **Vertical slice:** economía completa, 5–6 enemigos, árbol tec T1→T2, primera luna llena.
+1. **Prototipo de core loop (4–6 semanas):** ciclo día/noche, 1 recurso, peones, 2 enemigos (Ratero + Platillo Sonda con rayo tractor y drop de víctima), **un edificio-refugio con ventana de robo y una torre colocable con prioridad de objetivo**, **arquitectura preparada para 2 héroes** (aunque el coop se pruebe en fase 2). **Meta: validar que "el robo duele" se siente** — y que la ventana de robo se lee sin explicación.
+2. **Vertical slice:** economía completa (incluida la cadena pasto → vaca → comida), 5–6 enemigos, árbol tec T1→T2, niveles de edificio, primera luna llena.
 3. **Loop de run completo:** derrota por espiral, asalto a nodriza, meta-progresión mínima.
 4. **Contenido y balance:** wiki completa de enemigos/unidades, T3, jefes.
 
@@ -331,4 +435,4 @@ El héroe nunca muere ni es raptado — se degrada en dos estados:
 
 ---
 
-*Documento vivo. Siguiente iteración: v0.3 tras resolver §13 y validar el prototipo del core loop.*
+*Documento vivo. Siguiente iteración: v0.5 tras resolver las decisiones de §13.1 con Mato y validar el prototipo del core loop.*

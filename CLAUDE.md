@@ -9,7 +9,8 @@ Este archivo define cómo trabajar en este repo.
 - **TECH:** `docs/TECH.md` — arquitectura, stack, plan de implementación
 - **WIKI:** `docs/WIKI.md` — **fuente canónica** de todas las entidades
   (unidades, enemigos, armas, edificios, oleadas, componentes). Fichas YAML con
-  esquema fijo (cinco esquemas, definidos en §0).
+  esquema fijo (seis esquemas desde la wiki v0.2, definidos en §0 — el sexto es
+  `recurso`).
 - **Índice de la wiki:** `docs/wiki/README.md` — navegación por categoría.
   **Generado** desde la wiki; no lo edites a mano, regeneralo.
 
@@ -21,13 +22,21 @@ Este archivo define cómo trabajar en este repo.
 2. **La regla de diseño de todo enemigo:** *quiere llevarse algo*. Si generas
    enemigos nuevos, deben responder: ¿qué roba, cómo lo roba, cómo se evita?
 3. **El robo duele más que la muerte.** Los enemigos roban (no destruyen); el
-   fallo es una espiral, no un game over instantáneo.
-4. **Nunca inventes valores de balance marcados `TBD`.** Los campos `TBD` en la
+   fallo es una espiral, no un game over instantáneo. Desde v0.4 roban **a los
+   edificios**: no hay muros, cada edificio es refugio o defensa de noche, y
+   sacar cada víctima les lleva tiempo (1–3 s por persona, 2 s por recurso).
+   Esa ventana es toda la defensa del juego. Ver WIKI §5.0 (normativo).
+4. **Las decisiones abiertas son de Mato.** WIKI §9 (D1–D6) y GDD §13.1 listan
+   preguntas que ningún agente contesta por su cuenta, ni por deducción ni por
+   default silencioso. Tienen dueño en `TASK-018`, asignado a Mato. Si una te
+   bloquea: parametrizá y dejá el valor marcado como provisional, y seguí con
+   lo que no dependa de ella.
+5. **Nunca inventes valores de balance marcados `TBD`.** Los campos `TBD` en la
    wiki están pendientes de balance. Si se te pide proponer, marcá la ficha con
    `estado: propuesta` y justificá.
-5. **Tono:** Weird West 1870s, cómic pulp — gracioso en la superficie,
+6. **Tono:** Weird West 1870s, cómic pulp — gracioso en la superficie,
    inquietante en la incertidumbre. Sin gore.
-6. **Coop-ready siempre.** Ningún sistema asume "el jugador" en singular.
+7. **Coop-ready siempre.** Ningún sistema asume "el jugador" en singular.
 
 ## Dónde está cada cosa
 
@@ -39,7 +48,8 @@ Este archivo define cómo trabajar en este repo.
 | Arquitectura / stack / plan | `docs/TECH.md` |
 | Reglas de diseño general | `docs/GDD.md` |
 | Pipeline wiki → datos | `tools/wiki_to_resources.py` |
-| Recursos de datos (generados) | `data/` (units/, enemies/, weapons/, buildings/, waves/) |
+| Recursos de datos (generados) | `data/` (units/, enemies/, weapons/, buildings/, waves/, resources/) |
+| Las decisiones abiertas de Mato | `docs/WIKI.md §9` (D1–D6) + GDD §13.1 + `tasks/TASK-018.json` |
 | Código C# | `src/` (Core/, Economy/, Units/, Enemies/, Buildings/, Tech/, Coop/, UI/) |
 | Escenas Godot | `scenes/` |
 | Arte | `art/` |

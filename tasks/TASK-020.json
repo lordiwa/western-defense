@@ -1,0 +1,41 @@
+{
+  "key": "TASK-020",
+  "title": "Reconciliar los enemigos diseñados contra muros con el rancho abierto",
+  "description": "Trabajo de wiki derivado del cambio de mecánica de v0.4. Tres enemigos **canon** se habían diseñado contra la barricada y quedaron sin su premisa cuando desaparecieron los muros por defecto. En la wiki v0.2 pasaron a `estado: propuesta` con un mecanismo reescrito **provisional**, que hay que validar o reemplazar:\n\n| Enemigo | Mecanismo viejo | Reescritura provisional |\n|---|---|---|\n| `manos_largas` | Roba por encima de barricadas bajas sin romperlas | Roba desde afuera del refugio, por la ventana, sin cruzar la puerta |\n| `toro_de_marte` | Embiste muros con carga telegrafiada | Embiste torres y las puertas de los refugios; reventarlos expone lo de adentro |\n| `el_ganadero` | Arranca barricadas y las usa de arma | Arranca del suelo las torres colocadas y las usa de arma |\n\nAdemás `caparazon` y `demoledor` pasaron a `propuesta` por el cambio de blanco de la categoría TANQUE (de muros a torres y edificios).\n\n**Qué hay que hacer:** validar cada mecanismo contra la regla de oro (¿qué roba, cómo lo roba, cómo se evita?), ajustar `como_roba` / `contramedida` / `notas_diseno`, y devolver a `canon` lo que sobreviva. Lo que no sobreviva, se rediseña o se archiva.\n\n**⚠️ Depende de TASK-018** — de D2 para los tres enemigos diseñados contra barricadas, y de D1 para `caparazon` y `demoledor`: si los muros vuelven como opción de partida, estos tres enemigos necesitan comportamiento en los dos modos. Si se descartan, la reescritura provisional pasa a ser la definitiva.",
+  "acceptance_criteria": [
+    "Cada uno de los cinco enemigos afectados tiene un mecanismo que contesta las tres preguntas de la regla de oro sin depender de que exista un muro.",
+    "Los que se validen vuelven a `estado: canon`; los que no, quedan documentados como rediseño pendiente o archivados.",
+    "Si D2 mantiene los muros como opción, cada ficha describe su comportamiento en los dos modos.",
+    "`python3 tools/wiki_to_resources.py --check` en verde y el índice regenerado.",
+    "GDD §10.1 y §10.3 quedan alineados con las fichas."
+  ],
+  "status": "blocked",
+  "priority": "medium",
+  "labels": [
+    "wiki",
+    "docs",
+    "mecanica-v04"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-018"
+  ],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Ticket nuevo del cambio de mecánica de v0.4. Es la deuda más concreta que dejó el cambio: cinco fichas que eran canon volvieron a propuesta. Se marcaron así a propósito en vez de reescribirlas como si nada — el mecanismo nuevo es una lectura razonable, no una decisión tomada."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Dependencia unificada en TASK-018, que agrupa las seis decisiones abiertas. Este ticket necesita dos de ellas: D2 (si vuelven los muros) para los tres enemigos diseñados contra barricadas, y D1 (qué hacen los aliens con las torres) para `caparazon` y `demoledor`, que cambiaron de blanco pero no de premisa."
+    }
+  ],
+  "created_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "jira_key": null
+}

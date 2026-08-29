@@ -1,0 +1,35 @@
+{
+  "key": "TASK-019",
+  "title": "Alinear TECH.md con la mecánica v0.4: refugio, ventana de robo, targeting y recursos",
+  "description": "El cambio de mecánica de agosto 2026 movió el GDD y la wiki, y dejó al documento técnico describiendo un juego que ya no es el que se va a construir. Este ticket es la puesta al día de `docs/TECH.md` como diseño técnico, no como redacción.\n\n**Lo que quedó desalineado:**\n\n1. **§3.2 `TheftSystem`** describe el robo como \"un enemigo con carga referencia a su víctima\". Falta el modelo nuevo: el enemigo entra a un edificio-refugio, entra en estado *saqueando* durante una ventana de tiempo (1–3 s por persona sorteados **una vez por oleada**, 2 s por recurso), y esa ventana es interrumpible. Hay que decidir dónde vive esa máquina de estados — extender `TheftSystem` o un `ShelterSystem` aparte que le entregue víctimas.\n2. **§2 `Buildings/`** no tiene el ciclo día/noche del edificio ni el modelo de niveles de dos ramas. Falta también `data/resources/` en el árbol y `Economy/ResourceData.cs` como clase Resource del tipo nuevo.\n3. **Targeting de torres:** no existe hoy en el documento. Necesita un componente propio (la prioridad de objetivo es configurable por torre en runtime) y tiene que quedar escrito de forma que sirva para las dos variantes de D1, porque esa decisión todavía no está tomada.\n4. **§3.7 pipeline:** el conteo dice 25 fichas; son 42, con un tipo de ficha más (`recurso`). El escritor `.tres` ahora debe cinco clases Resource, no cuatro.\n5. **§4 plan de prototipo:** la semana 2 entrega \"barricada construible\", que ya no es el núcleo defensivo. El entregable equivalente es un edificio-refugio con ventana de robo más una torre colocable.\n6. **§6 riesgos:** el riesgo \"IA de unidades frustrante\" cambia de forma — ahora las unidades tienen que entrar al refugio al atardecer y salir a reparar bajo fuego. Es exactamente el síndrome Kingdom que el riesgo describe, con más superficie.\n\n**Nota:** las correcciones puramente factuales (conteos y el entregable de la semana 2) ya se aplicaron junto con el cambio de mecánica. Lo que queda es el diseño técnico de los sistemas nuevos, que es trabajo, no una corrección de texto.",
+  "acceptance_criteria": [
+    "TECH §3 describe el modelo de refugio y la ventana de robo con suficiente detalle para implementar TASK-012 sin volver a diseñar.",
+    "Está decidido y escrito si la ventana de robo vive en `TheftSystem` o en un sistema de refugio aparte, con la razón.",
+    "El targeting configurable de torres tiene su lugar en la arquitectura y sirve para las variantes A y B de D1 sin reescritura.",
+    "El árbol de §2 incluye `data/resources/` y la clase Resource del tipo `recurso`.",
+    "El plan de prototipo de §4 refleja los entregables reales de v0.4 semana a semana.",
+    "Ningún número de balance nuevo aparece en TECH: los valores siguen viviendo en la wiki."
+  ],
+  "status": "todo",
+  "priority": "high",
+  "labels": [
+    "docs",
+    "arquitectura",
+    "mecanica-v04"
+  ],
+  "assignee": null,
+  "depends_on": [],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Ticket nuevo del cambio de mecánica de v0.4. Conviene tomarlo ANTES que TASK-012: si el modelo de refugio y ventana de robo no está escrito, cada quien lo va a inventar distinto, y es el sistema del que cuelgan las torres, el ganado y los niveles.\n\nNo depende de las decisiones abiertas de TASK-018: la arquitectura tiene que sostener las dos variantes de D1, que es justamente el criterio de aceptación 3."
+    }
+  ],
+  "created_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "jira_key": null
+}

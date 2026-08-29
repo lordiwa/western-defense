@@ -40,7 +40,7 @@ cowboy-defense/
 │   │   ├── TheftSystem.cs          # qué carga cada enemigo, drop al morir, huida al amanecer
 │   │   └── WaveDirector.cs         # presupuesto por noche × modificador lunar → composición
 │   ├── Buildings/
-│   │   ├── BuildingBase.cs         # slots, niveles, HP
+│   │   ├── BuildingBase.cs         # slots, niveles, HP, ciclo día/noche (refugio | defensa)
 │   │   ├── BuildSlotManager.cs     # layout fijo del rancho
 │   │   └── RepairSystem.cs         # reparación bajo fuego
 │   ├── Tech/
@@ -55,7 +55,8 @@ cowboy-defense/
 │   ├── enemies/    (ratero_gris.tres, ...)
 │   ├── weapons/
 │   ├── buildings/
-│   └── waves/      (curvas de presupuesto por noche)
+│   ├── waves/      (curvas de presupuesto por noche)
+│   └── resources/  (pasto, vaca — la cadena del ganado, wiki §7)
 ├── scenes/
 │   ├── Main.tscn
 │   ├── World.tscn              # terreno + capas parallax generadas
@@ -103,7 +104,7 @@ cowboy-defense/
 - El "arte generativo" del fondo entra al pipeline de assets (herramientas de generación → curación humana → pool de piezas), no a runtime.
 
 ### 3.7 Pipeline wiki → datos
-- `tools/wiki_to_resources.py` parsea los bloques YAML de [`docs/WIKI.md`](WIKI.md) y genera/actualiza los recursos en `data/`. Hoy es un **andamio**: emite JSON completo para las 25 fichas + `data/manifest.json`, valida campos requeridos y contabiliza los `TBD` sin rellenarlos; el escritor `.tres` (`--format tres`) es un esqueleto a la espera de las clases Resource de C# de §2. El mismo script regenera el índice navegable de la wiki con `--emit-index`.
+- `tools/wiki_to_resources.py` parsea los bloques YAML de [`docs/WIKI.md`](WIKI.md) y genera/actualiza los recursos en `data/`. Hoy es un **andamio**: emite JSON completo para las 42 fichas + `data/manifest.json`, valida campos requeridos y contabiliza los `TBD` sin rellenarlos; el escritor `.tres` (`--format tres`) es un esqueleto a la espera de las **seis** clases Resource de C# de §2 (`recurso` entró con la wiki v0.2). El mismo script regenera el índice navegable de la wiki con `--emit-index`.
 - Regla: **la wiki es la fuente canónica**; el balance se edita en la wiki (o en los .tres y se sincroniza de vuelta). Diseñado para que un agente proponga cambios de balance como PRs sobre la wiki.
 
 ---
@@ -115,8 +116,8 @@ cowboy-defense/
 | Semana | Entregable |
 |---|---|
 | 1 | Proyecto Godot + C#; TimeCycle; héroe con movimiento y disparo automático; spike de DynamicSplitScreen (validar riesgo) |
-| 2 | ResourceLedger + pickups físicos; Peón con FSM (recolectar/depositar); barricada construible |
-| 3 | `ratero_gris` completo (entra, roba, huye) + TheftSystem; WaveDirector mínimo; primera noche jugable |
+| 2 | ResourceLedger + pickups físicos; Peón con FSM (recolectar/depositar/refugiarse); **edificio-refugio con ciclo día/noche** (GDD §6.2) |
+| 3 | `ratero_gris` completo (entra, **saquea el refugio con su ventana de tiempo**, huye) + TheftSystem; **torre colocable con prioridad de objetivo**; WaveDirector mínimo; primera noche jugable |
 | 4 | `platillo_sonda` + ganado + rayo tractor + rescate por derribo (la vaca cae viva) |
 | 5 | Reparación bajo fuego; estados de derribo del héroe; resumen post-noche; espiral de derrota funcional |
 | 6 | Buffer: balance de 5 noches jugables, playtest a 2 jugadores, decisión go/no-go sobre sensaciones del core |

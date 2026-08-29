@@ -1,13 +1,14 @@
 {
   "key": "TASK-010",
-  "title": "Validar en prototipo las 5 fichas en estado: propuesta",
-  "description": "Cinco fichas están marcadas `estado: propuesta` porque describen mecánicas que nadie probó todavía. Cada una es una apuesta de diseño distinta y ninguna se convierte en canon hasta que se juegue:\n\n- **`vaquero_ganado`** — el lazo. La ficha dice explícitamente «mecánica a validar en prototipo»: jalar de vuelta ganado que está siendo abducido, o inmovilizar aliens pequeños. Es la contramedida manual al `platillo_sonda` y toca el corazón del TheftSystem (TECH §3.2: si el abductor muere antes de salir de pantalla, la víctima cae viva).\n- **`dinamitero`** — daño en área con «riesgo de fuego amigo cómico». Divertido en el papel; hay que ver si en la práctica es gracioso o solo frustrante.\n- **`doctor`** — conecta con el sistema de derribo del héroe (GDD §4.1, TECH §3.4). Depende de que esos estados existan.\n- **`sheriff`** — mini-héroe único por pueblo con buff de moral en su zona. «Buff de moral» no está definido como sistema en ninguna parte.\n- **`el_ganadero`** — jefe mid-game con fases; su `contramedida` es literalmente `TBD` y las fases están sin diseñar.\n\nCada una que sobreviva al playtest pasa a `estado: canon`; cada una que no, se rediseña o se corta. Cortarla es un resultado válido y hay que registrarlo.",
+  "title": "Validar en prototipo las fichas en estado: propuesta",
+  "description": "**⚠️ Alcance ampliado por el cambio de mecánica de v0.4.** Este ticket se escribió cuando había **5** fichas en `estado: propuesta`. Hoy hay **26** de 42: el rediseño del rancho abierto tocó todos los edificios, creó fichas nuevas (`campo_fuerza_alien`, `pasto`, `vaca`) y devolvió a `propuesta` a cinco enemigos que eran canon.\n\nConviene tratarlo en tres lotes, porque no son la misma clase de apuesta:\n\n**Lote 1 — las cinco originales** (mecánicas que nadie probó):\n\n- **`vaquero_ganado`** — el lazo. La ficha dice explícitamente «mecánica a validar en prototipo»: jalar de vuelta ganado que está siendo abducido, o inmovilizar aliens pequeños. Es la contramedida manual al `platillo_sonda` y toca el corazón del TheftSystem (TECH §3.2). En v0.4 le entró trabajo nuevo: llevar las vacas a pastar de día y guardarlas de noche (TASK-014).\n- **`dinamitero`** — daño en área con «riesgo de fuego amigo cómico». Divertido en el papel; hay que ver si en la práctica es gracioso o solo frustrante.\n- **`doctor`** — conecta con el sistema de derribo del héroe (GDD §4.1, TECH §3.4). Depende de que esos estados existan.\n- **`sheriff`** — mini-héroe único por pueblo con buff de moral en su zona. «Buff de moral» no está definido como sistema en ninguna parte.\n- **`el_ganadero`** — jefe mid-game con fases; su `contramedida` es literalmente `TBD` y las fases están sin diseñar.\n\n**Lote 2 — los cinco enemigos que el cambio devolvió a `propuesta`** (`manos_largas`, `toro_de_marte`, `caparazon`, `demoledor`, y otra vez `el_ganadero`): **no son de este ticket**, los lleva TASK-020, que a su vez espera la decisión D2 (TASK-019).\n\n**Lote 3 — los edificios y recursos nuevos o rediseñados** (los 9 edificios, `pasto`, `vaca`): se validan implementando TASK-012, TASK-014, TASK-015 y TASK-016. Pasan a `canon` cuando su sistema esté jugado, no antes.\n\nCada ficha que sobreviva al playtest pasa a `estado: canon`; cada una que no, se rediseña o se corta. Cortarla es un resultado válido.",
   "acceptance_criteria": [
-    "Cada una de las cinco fichas termina en `estado: canon` (validada) o eliminada/rediseñada, con el motivo registrado en la wiki.",
+    "Cada una de las cinco fichas del lote 1 termina en `estado: canon` (validada) o eliminada/rediseñada, con el motivo registrado en la wiki.",
     "El lazo de `vaquero_ganado` se probó contra un `platillo_sonda` cargando ganado y el resultado (funciona / no funciona / se rediseña) está escrito.",
     "El `buff de moral` del `sheriff` queda definido como sistema en el GDD o la ficha se rediseña sin él.",
     "La `contramedida` `TBD` de `el_ganadero` deja de ser `TBD` o el jefe se difiere explícitamente fuera del prototipo.",
-    "Ninguna ficha queda en `estado: propuesta` al cerrar el ticket."
+    "Ninguna ficha del lote 1 queda en `estado: propuesta` al cerrar el ticket.",
+    "Los lotes 2 y 3 quedan enlazados a sus tickets (TASK-020 y los de la mecánica v0.4) en vez de arrastrarse acá."
   ],
   "status": "todo",
   "priority": "medium",
@@ -28,9 +29,19 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "Sembrado en el andamiaje inicial de la wiki. Prioridad y dependencias reflejan el orden natural: primero se repara la fuente canónica, después se cierra diseño, después se implementa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "**El conteo del título quedó viejo dos veces.** Eran 5 fichas en `propuesta`, después 19, y con el cambio de mecánica de v0.4 son **26**. Las siete que se sumaron ahora no son fichas nuevas sin validar: son fichas que **eran canon y volvieron a propuesta** porque el cambio les sacó la premisa — `manos_largas`, `toro_de_marte`, `caparazon`, `demoledor` (los muros que atacaban ya no existen) más `campo_fuerza_alien`, `pasto` y `vaca`, que sí son nuevas.\n\nEsas cuatro degradaciones tienen ticket propio (TASK-020) porque no se validan en prototipo: se rediseñan en la wiki primero. Este ticket se queda con las que sí son cuestión de playtest."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Actualizado por el cambio de mecánica de v0.4 (agosto 2026). La wiki pasó a v0.2 y el GDD a v0.4: la wiki tiene ahora 42 fichas (entró el tipo `recurso` con `pasto` y `vaca`, más `campo_fuerza_alien`), 26 en `estado: propuesta` y 130 campos `TBD`. Los conteos de este ticket estaban escritos contra la wiki v0.1 y quedaron desactualizados. De 5 fichas en `propuesta` se pasó a 26. Se partió en tres lotes en vez de ampliar el ticket a 26 validaciones sueltas: las apuestas de mecánica del lote 1 son lo único que sigue siendo de este ticket; los enemigos van por TASK-020 y los edificios se validan con el sistema que los usa."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",
-  "updated_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
   "jira_key": null
 }

@@ -1,0 +1,37 @@
+{
+  "key": "TASK-014",
+  "title": "Cadena pasto → vaca → comida: pastoreo y hambre del ganado",
+  "description": "Cambio de mecánica de Mato (agosto 2026). El ganado deja de ser comida pasiva. Fichas canónicas nuevas: [`pasto`](../docs/WIKI.md) y [`vaca`](../docs/WIKI.md) (WIKI §7); resumen en GDD §5.4.\n\n**Qué hay que construir:**\n1. **La granja produce pasto** en un radio a su alrededor mientras hay luz (`radio_pasto`, `TBD`). El pasto no se almacena: se produce y se consume en el sitio.\n2. **Las vacas pastan de día**, llevadas por los vaqueros. **Más vacas = el pasto se consume más rápido.**\n3. **Hambre:** si el rebaño consume más pasto del que las granjas producen, las vacas dejan de producir comida (el efecto exacto es `TBD` — no se inventa; se implementa como curva parametrizada en data).\n4. **De noche las vacas se guardan en el establo**: a salvo del rayo tractor, pero concentradas y robables por quien entre (TASK-012).\n5. Ganchos de economía en `ResourceLedger` / `FoodUpkeep` (TECH §2).\n\n**Regla del proyecto:** los ritmos de crecimiento y consumo son `TBD` y siguen `TBD`. Este ticket construye el sistema y deja los números en data, no los decide.\n\n**Decisión abierta relacionada (D3):** el tiempo que tarda un alien en robarse una vaca no está definido (persona 1–3 s y recurso 2 s sí lo están). Coordinar con TASK-012.",
+  "acceptance_criteria": [
+    "La granja genera pasto en un radio configurable durante el día y no genera de noche.",
+    "Duplicar la cantidad de vacas duplica de forma observable el ritmo de consumo de pasto.",
+    "Cuando el pasto disponible no alcanza, las vacas entran en estado de hambre y su producción de comida cae según una curva leída de data (no hardcodeada).",
+    "Al atardecer las vacas quedan dentro del establo; una vaca dentro del establo no puede ser levantada por un rayo tractor.",
+    "Ningún valor de balance de `pasto` ni de `vaca` queda hardcodeado en C#: todos vienen del Resource generado desde la wiki.",
+    "Las fichas `pasto` y `vaca` se generan a `data/resources/` y `--check` sigue en verde."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "godot",
+    "economia",
+    "mecanica-v04"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-012"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Ticket nuevo del cambio de mecánica de v0.4. Cierra el ítem \"ganado como entidad\" que estaba en el backlog de fichas de la wiki desde v0.1, pero con más alcance del previsto: no es solo una ficha, es una cadena con hambre.\n\nValor de diseño: le agrega al ganado una segunda forma de perderse — no te lo roban, se te muere de a poco porque construiste mal. Es la espiral del robo aplicada a tu propia economía."
+    }
+  ],
+  "created_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "jira_key": null
+}

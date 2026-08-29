@@ -1,0 +1,37 @@
+{
+  "key": "TASK-018",
+  "title": "DECISIÓN (Mato) — D1: ¿los aliens atacan las torres o las ignoran?",
+  "description": "**Este ticket no se implementa: se responde.** Primera decisión que Mato dejó abierta al cambiar la mecánica de defensa (agosto 2026), y la única con un ticket detenido en seco detrás. Las otras cinco (D2–D6) viven en su hermano `TASK-021`. Registrada en [`docs/WIKI.md §9`](../docs/WIKI.md) (D1) y §5.0 punto 5, y en GDD §13.1 y §6.3.\n\nCon el rancho abierto, las torres se colocan libremente y le disparan al alien mientras roba. Lo que falta definir es qué hacen los aliens **con la torre**:\n\n- **Variante A — la atacan primero.** La torre es un obstáculo que hay que resolver antes de llegar al refugio. Colocarla es elegir dónde se pelea, y el `caparazon` cobra sentido como escudo móvil que absorbe fuego mientras los ladrones pasan.\n- **Variante B — la ignoran.** Los aliens van derecho a los edificios y la torre nunca frena a nadie: solo mata mientras roban. Colocarla es elegir a qué refugio cubrís, y la `prioridad_objetivo` pasa a ser *la* decisión de la torre.\n\nY una pregunta encima de esas dos: **¿es configurable** —por dificultad, o por tipo de enemigo, de modo que un tanque ataque torres y un ratero no— **o se elige una sola** para todo el juego?\n\n**Por qué bloquea:** cambia el sentido de colocar una torre, qué significa cada `prioridad_objetivo`, y si `caparazon` y `demoledor` tienen razón de ser. Implementar el targeting antes de la respuesta significa reescribirlo después. **TASK-013 está `blocked` esperando esto**, y TASK-020 la necesita para cerrar `caparazon` y `demoledor`.\n\n**Regla que aplica:** ninguna ficha asume hoy una de las dos variantes, y ninguna la va a asumir por deducción ni por default silencioso. Si la respuesta tarda, la salida es implementar la parte no afectada de TASK-013 —colocación libre, previsualización, andamiaje de configuración— y dejar el comportamiento detrás de una bandera. No elegir por Mato.\n\n**Nota de alcance para cuando se decida:** \"configurable\" suena a lo mejor de los dos mundos, pero significa que cada enemigo nuevo tiene que contestar una pregunta más además de \"¿qué roba?\", y que el balance de la noche se prueba dos veces. Vale la pena si la diferencia entre A y B es una palanca de dificultad real; no vale si es indecisión.\n\n**Cuando se cierre**, en este orden: (1) resultado escrito en `docs/WIKI.md §9`; (2) fichas que la referencian por `D1` actualizadas — `torre_vigilancia`, `caparazon`, `demoledor` — y el aviso de decisión abierta sale de §5.0 punto 5; (3) resumen en GDD §6.3 y fila movida a \"Resueltas\" en §13.1; (4) TASK-013 fuera de `blocked` y sin la etiqueta `decision-abierta`.",
+  "acceptance_criteria": [
+    "Mato eligió variante A, variante B, o \"configurable\" — y si es configurable, por qué eje (dificultad o tipo de enemigo).",
+    "La respuesta está escrita en `docs/WIKI.md` §9 (D1) como decisión registrada y no como pregunta, y §5.0 punto 5 deja de tener el aviso de decisión abierta.",
+    "Las fichas `torre_vigilancia`, `caparazon` y `demoledor` quedan actualizadas con el comportamiento decidido.",
+    "GDD §6.3 y §13.1 reflejan la decisión y la fila pasa a \"Resueltas\".",
+    "TASK-013 queda desbloqueado, con la etiqueta `decision-abierta` removida y su alcance de targeting cerrado.",
+    "Ningún valor `TBD` se rellenó de paso: esta decisión es de comportamiento, no de balance."
+  ],
+  "status": "blocked",
+  "priority": "high",
+  "labels": [
+    "decision-abierta",
+    "docs",
+    "diseno",
+    "mecanica-v04",
+    "bloqueante"
+  ],
+  "assignee": "mato",
+  "depends_on": [],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Bloqueado esperando a un humano. D1 se separó de las otras cinco decisiones (`TASK-021`) por una razón operativa: es la única que tiene un ticket parado en seco — TASK-013 no puede empezar su targeting sin ella. D3–D6 no frenan nada porque viajan adentro del ticket que las necesita (TASK-014, TASK-017, TASK-016, TASK-015), cada uno con la instrucción de parametrizar en vez de asumir.\n\nEs, junto a TASK-021, el hermano de TASK-002: ese cierra las preguntas de fondo que venían de v0.3 (GDD §13.2), estos cierran las que abrió el cambio de mecánica (§13.1)."
+    }
+  ],
+  "created_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "jira_key": null
+}

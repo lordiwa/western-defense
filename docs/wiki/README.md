@@ -36,10 +36,10 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 | [`cazador`](../WIKI.md#13-cazador) | Cazador | mixto | Peón + rifle largo | ✅ canon | 4 |
 | [`chatarrero`](../WIKI.md#14-chatarrero) | Chatarrero (Scavenger) | economico | Peón + mejora en el Laboratorio | ✅ canon | 3 |
 | [`vaquero_ganado`](../WIKI.md#15-vaquero_ganado) | Vaquero de ganado | mixto | Peón + Establo construido | 🧪 propuesta | 5 |
-| [`cientifico`](../WIKI.md#16-cientifico) | Científico / Profesor | investigacion | Llega al pueblo al alcanzar cierto nivel/renombre, o se encuentra explorando | ✅ canon | 1 |
+| [`cientifico`](../WIKI.md#16-cientifico) | Científico / Profesor | investigacion | Objetivo de desbloqueo — llega al pueblo cuando el rancho sostiene X vacas vivas (§8, objetivo_cientifico). También puede encontrarse explorando | ✅ canon | 2 |
 | [`dinamitero`](../WIKI.md#17-dinamitero) | Dinamitero | defensivo | Recluta especial / edificio minero (por definir) | 🧪 propuesta | 4 |
 | [`doctor`](../WIKI.md#18-doctor) | Doctor / Curandero | economico | Recluta especial | 🧪 propuesta | 4 |
-| [`sheriff`](../WIKI.md#19-sheriff) | Sheriff | defensivo | Evento / nivel de pueblo alto | 🧪 propuesta | 5 |
+| [`sheriff`](../WIKI.md#19-sheriff) | Sheriff | defensivo | Evento / nivel de pueblo alto | 🧪 propuesta | 6 |
 
 ## Enemigos
 
@@ -53,7 +53,7 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 | --- | --- | --- | --- | --- | --- | --- |
 | [`ratero_gris`](../WIKI.md#211-ratero_gris) | Ratero Gris | recursos | terrestre | noche 1+ | ✅ canon | — |
 | [`coyote_plateado`](../WIKI.md#212-coyote_plateado) | Coyote Plateado | comida | terrestre | noche 2+ | ✅ canon | 1 |
-| [`manos_largas`](../WIKI.md#213-manos_largas) | Manos Largas | recursos | terrestre | noche 4+ | ✅ canon | 1 |
+| [`manos_largas`](../WIKI.md#213-manos_largas) | Manos Largas | recursos | terrestre | noche 4+ | 🧪 propuesta | 1 |
 
 ### ABDUCTOR
 
@@ -61,7 +61,7 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 
 | Ficha | Nombre | Qué roba | Movimiento | Aparición | Estado | TBD |
 | --- | --- | --- | --- | --- | --- | --- |
-| [`platillo_sonda`](../WIKI.md#221-platillo_sonda) | Platillo Sonda | ganado | volador | noche 3+ | ✅ canon | — |
+| [`platillo_sonda`](../WIKI.md#221-platillo_sonda) | Platillo Sonda | ganado | volador | noche 3+ | ✅ canon | 1 |
 | [`platillo_abductor`](../WIKI.md#222-platillo_abductor) | Platillo Abductor | personas | volador | noche 6+ | ✅ canon | — |
 | [`sombrero_negro`](../WIKI.md#223-sombrero_negro) | Sombrero Negro | personas | terrestre | noche 7+ | ✅ canon | — |
 
@@ -71,9 +71,9 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 
 | Ficha | Nombre | Qué roba | Movimiento | Aparición | Estado | TBD |
 | --- | --- | --- | --- | --- | --- | --- |
-| [`toro_de_marte`](../WIKI.md#231-toro_de_marte) | Toro de Marte | nada (rompe) | terrestre | noche 5+ | ✅ canon | — |
-| [`caparazon`](../WIKI.md#232-caparazon) | Caparazón | nada (rompe) | terrestre | noche 8+ | ✅ canon | — |
-| [`demoledor`](../WIKI.md#233-demoledor) | Demoledor | nada (rompe) | terrestre | noche 9+ | ✅ canon | — |
+| [`toro_de_marte`](../WIKI.md#231-toro_de_marte) | Toro de Marte | nada (rompe) | terrestre | noche 5+ | 🧪 propuesta | — |
+| [`caparazon`](../WIKI.md#232-caparazon) | Caparazón | nada (rompe) | terrestre | noche 8+ | 🧪 propuesta | — |
+| [`demoledor`](../WIKI.md#233-demoledor) | Demoledor | nada (rompe) | terrestre | noche 9+ | 🧪 propuesta | — |
 
 ### SOPORTE
 
@@ -118,12 +118,13 @@ Solo las armas ya referenciadas por el `arma_base` de alguna unidad; el resto de
 | --- | --- | --- | --- | --- | --- | --- |
 | [`town_center`](../WIKI.md#51-town_center) | Town Center | Núcleo del rancho y almacén principal; el nivel del pueblo marca los desbloqueos | centro | TBD | 🧪 propuesta | 3 |
 | [`taberna`](../WIKI.md#52-taberna) | Taberna / Inn | Atrae y aloja reclutas; asignación de roles | lateral | peon | 🧪 propuesta | 5 |
-| [`establo`](../WIKI.md#53-establo) | Establo / Corral | Aloja ganado y produce comida pasiva | lateral | vaquero_ganado, lazo | 🧪 propuesta | 4 |
+| [`establo`](../WIKI.md#53-establo) | Establo / Corral | Aloja el ganado, lo saca a pastar de día y lo guarda de noche | lateral | vaquero_ganado, lazo, vaca | 🧪 propuesta | 5 |
 | [`armeria`](../WIKI.md#54-armeria) | Armería / Herrería | Fabrica y mejora armas humanas; equipa unidades | lateral | pistolero, revolver, rifle_largo | 🧪 propuesta | 5 |
-| [`laboratorio`](../WIKI.md#55-laboratorio) | Laboratorio del Profesor | Investiga tecnología alien y desbloquea las recetas del árbol tecnológico | lateral | chatarrero | 🧪 propuesta | 5 |
-| [`torre_vigilancia`](../WIKI.md#56-torre_vigilancia) | Torre de vigilancia | Slot de torre defensiva; recibe las armas del árbol tecnológico | linea_defensa | TBD | 🧪 propuesta | 5 |
-| [`granja`](../WIKI.md#57-granja) | Granja | Comida activa (cultivos), complementa al ganado | lateral | n/a | 🧪 propuesta | 5 |
-| [`barricada`](../WIKI.md#58-barricada) | Barricadas / Muros | Línea defensiva por niveles | linea_defensa | n/a | 🧪 propuesta | 4 |
+| [`laboratorio`](../WIKI.md#55-laboratorio) | Laboratorio del Profesor | Investiga tecnología alien y desbloquea las recetas del árbol tecnológico | lateral | chatarrero, campo_fuerza_alien | 🧪 propuesta | 5 |
+| [`torre_vigilancia`](../WIKI.md#56-torre_vigilancia) | Torre de vigilancia | Torre defensiva colocable; recibe las armas del árbol tecnológico | libre | TBD | 🧪 propuesta | 5 |
+| [`granja`](../WIKI.md#57-granja) | Granja / Granero | Cultiva comida y hace crecer el pasto a su alrededor | lateral | pasto | 🧪 propuesta | 6 |
+| [`barricada`](../WIKI.md#58-barricada) | Barricadas / Muros | Línea defensiva por niveles — VARIANTE CLÁSICA OPCIONAL, no el default (§5.0.2) | linea_defensa | n/a | 🧪 propuesta | 4 |
+| [`campo_fuerza_alien`](../WIKI.md#59-campo_fuerza_alien) | Campo de fuerza alien | Barrera de energía T3 — la respuesta alienígena al muro, para el late game | libre | n/a | 🧪 propuesta | 8 |
 
 ## Oleadas
 
@@ -135,12 +136,23 @@ La curva real de presupuesto por noche está pendiente ([TECH §3.3](../TECH.md#
 | --- | --- | --- | --- | --- | --- | --- |
 | [`oleada_ejemplo`](../WIKI.md#61-oleada_ejemplo) | Oleada de ejemplo | TBD | cualquiera | TBD | 🧪 propuesta | 5 |
 
+## Recursos
+
+→ [Sección completa](../WIKI.md#7-recursos-vivos-y-consumibles)
+
+La cadena del ganado (pasto → vaca → comida) y todo recurso con mecánica propia. Las materias primas sin mecánica (madera, chatarra) viven en [GDD §5.1](../GDD.md#51-recursos-sin-oro--decisión-tentativa).
+
+| Ficha | Nombre | Clase | Fuente | Robable | Estado | TBD |
+| --- | --- | --- | --- | --- | --- | --- |
+| [`pasto`](../WIKI.md#71-pasto) | Pasto / Forraje | consumible | Crece de día en el radio que rodea a la granja; también hay parches naturales en el mapa | no — nadie se lleva el pasto; lo que se pierde es el ganado que lo come | 🧪 propuesta | 4 |
+| [`vaca`](../WIKI.md#72-vaca) | Vaca | vivo | Se alojan en el establo; se compran o se encuentran explorando (por definir) | si — el platillo_sonda la levanta con rayo tractor y el ratero entra al establo a llevársela | 🧪 propuesta | 3 |
+
 ## Componentes (drops)
 
 La tabla canónica de componentes vive en [WIKI §3](../WIKI.md#3-registro-de-componentes-drops). Los componentes son la moneda del árbol tecnológico ([GDD §8](../GDD.md#81-árbol-tecnológico-in-run)).
 
 ## Estado de completitud
 
-- **39** fichas (9 unidades, 16 enemigos, 5 armas, 8 edificios, 1 oleada).
-- **19** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `sheriff`, `el_ganadero`, `revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`, `town_center`, `taberna`, `establo`, `armeria`, `laboratorio`, `torre_vigilancia`, `granja`, `barricada`, `oleada_ejemplo`.
-- **27** fichas con campos `TBD` pendientes de balance (110 campos en total).
+- **42** fichas (9 unidades, 16 enemigos, 5 armas, 9 edificios, 1 oleada, 2 recursos).
+- **26** en `estado: propuesta` — pendientes de validar: `vaquero_ganado`, `dinamitero`, `doctor`, `sheriff`, `manos_largas`, `toro_de_marte`, `caparazon`, `demoledor`, `el_ganadero`, `revolver`, `rifle_largo`, `lazo`, `dinamita`, `revolver_doble`, `town_center`, `taberna`, `establo`, `armeria`, `laboratorio`, `torre_vigilancia`, `granja`, `barricada`, `campo_fuerza_alien`, `oleada_ejemplo`, `pasto`, `vaca`.
+- **31** fichas con campos `TBD` pendientes de balance (130 campos en total).

@@ -33,9 +33,14 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "**Desbloqueada por TASK-003:** el esquema de `oleada` ya existe en WIKI §0 y hay una ficha de ejemplo (`oleada_ejemplo`, §6) con toda la parte numérica en `TBD`, así que este ticket tiene una forma concreta que rellenar en vez de una hoja en blanco. `data/waves/` ya se genera.\n\nTASK-003 dejó **a propósito** el costo en puntos por enemigo fuera de la ficha de oleada, porque el primer criterio de aceptación de este ticket lo reclama para la ficha de **enemigo**. Sigue siendo trabajo de acá."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Nota del cambio de mecánica de v0.4: la ficha de oleada ganó un campo `tiempos_robo` — el tiempo por persona (1–3 s) se sortea **una vez por oleada** con el seed del run, no por robo. Cae dentro del determinismo por seed que este ticket ya exige, así que el criterio \"mismo seed → misma composición\" ahora también cubre ese sorteo. TASK-012 lo consume."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",
-  "updated_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
   "jira_key": null
 }

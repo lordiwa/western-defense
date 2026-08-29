@@ -1,7 +1,7 @@
 {
   "key": "TASK-004",
   "title": "Terminar el pipeline wiki → datos: escritor .tres real y validación estricta",
-  "description": "`tools/wiki_to_resources.py` es hoy un **andamio**. Lee las 25 fichas de la wiki, emite JSON completo por entidad más `data/manifest.json`, valida campos requeridos, cuenta `TBD` sin rellenarlos y regenera el índice navegable (`--emit-index`). Lo que le falta para ser el pipeline de TECH §3.7:\n\n1. **Escritor `.tres` real.** `--format tres` ya emite recursos de texto de Godot 4, pero apuntan a `res://src/Units/UnitData.cs` y `res://src/Enemies/EnemyData.cs`, que **no existen todavía**. Godot no puede cargarlos. Hay que escribir esas clases Resource de C# (con `[Export]` por campo del esquema) y hacer que el escritor emita tipos nativos en vez de strings donde corresponda.\n2. **Valores simbólicos vs numéricos.** Muchas fichas usan escalas verbales (`vida: baja`, `dano: alto`, `cadencia: muy_lenta`). El pipeline las pasa como strings. Definir si se resuelven contra una tabla de escalas o si el balance las reemplaza por números (ver TASK-005) — y hasta entonces, que el pipeline las valide contra el vocabulario permitido en vez de aceptar cualquier string.\n3. **Sincronización de vuelta.** TECH §3.7 dice que el balance se puede editar en los `.tres` y sincronizarse de vuelta a la wiki. Eso no existe: hoy el flujo es unidireccional.\n4. **Tests.** El parser YAML es un subconjunto tolerante escrito a mano (PyYAML no está instalado y varias fichas contienen `: ` dentro de escalares planos, que PyYAML rechaza). No tiene tests; los casos difíciles reales de la wiki — `el_ganadero` (`Coloso que \"cosecha\": arranca…`), `nave_nodriza` (`notas_diseno` con comillas y `1)` `2)` `3)`), las plantillas de esquema de §0 que deben descartarse — merecen quedar fijados.",
+  "description": "`tools/wiki_to_resources.py` es hoy un **andamio**. Lee las 42 fichas de la wiki (25 cuando se escribió este ticket; la wiki v0.2 sumó edificios, el tipo `recurso` y sus fichas), emite JSON completo por entidad más `data/manifest.json`, valida campos requeridos, cuenta `TBD` sin rellenarlos y regenera el índice navegable (`--emit-index`). Lo que le falta para ser el pipeline de TECH §3.7:\n\n1. **Escritor `.tres` real.** `--format tres` ya emite recursos de texto de Godot 4, pero apuntan a `res://src/Units/UnitData.cs` y `res://src/Enemies/EnemyData.cs`, que **no existen todavía**. Godot no puede cargarlos. Hay que escribir esas clases Resource de C# (con `[Export]` por campo del esquema) y hacer que el escritor emita tipos nativos en vez de strings donde corresponda.\n2. **Valores simbólicos vs numéricos.** Muchas fichas usan escalas verbales (`vida: baja`, `dano: alto`, `cadencia: muy_lenta`). El pipeline las pasa como strings. Definir si se resuelven contra una tabla de escalas o si el balance las reemplaza por números (ver TASK-005) — y hasta entonces, que el pipeline las valide contra el vocabulario permitido en vez de aceptar cualquier string.\n3. **Sincronización de vuelta.** TECH §3.7 dice que el balance se puede editar en los `.tres` y sincronizarse de vuelta a la wiki. Eso no existe: hoy el flujo es unidireccional.\n4. **Tests.** El parser YAML es un subconjunto tolerante escrito a mano (PyYAML no está instalado y varias fichas contienen `: ` dentro de escalares planos, que PyYAML rechaza). No tiene tests; los casos difíciles reales de la wiki — `el_ganadero` (`Coloso que \"cosecha\": arranca…`), `nave_nodriza` (`notas_diseno` con comillas y `1)` `2)` `3)`), las plantillas de esquema de §0 que deben descartarse — merecen quedar fijados.\n5. **El tipo `recurso`, nuevo en la wiki v0.2.** El cambio de mecánica de v0.4 agregó un sexto esquema de ficha (`recurso`: `pasto`, `vaca`) y el pipeline ya lo mapea a `data/resources/` y a `res://src/Economy/ResourceData.cs`. Esa clase C# **tampoco existe todavía**, igual que las otras cinco.",
   "acceptance_criteria": [
     "Existen las clases Resource de C# (`UnitData`, `EnemyData`) con un `[Export]` por campo del esquema de la wiki.",
     "Godot abre el proyecto y carga `data/units/peon.tres` y `data/enemies/ratero_gris.tres` sin errores.",
@@ -9,7 +9,7 @@
     "Existe una suite de tests del parser que cubre al menos: `el_ganadero` (`: ` dentro de escalar plano), `nave_nodriza` (comillas y numerales en `notas_diseno`), el descarte de las plantillas de esquema de §0, y la detección de un fence ```yaml sin cerrar.",
     "Los campos `TBD` siguen propagándose literalmente: ningún camino del pipeline los sustituye por un valor.",
     "Los tests cubren `detect_truncation()`: las dos truncaduras reales de `bf85836` se detectan y el documento completo pasa limpio.",
-    "Existen también las clases Resource `WeaponData`, `BuildingData` y `WaveData`, y el pipeline distingue `n/a` (no aplica) de `TBD` (pendiente de balance) al emitirlas."
+    "Existen también las clases Resource `WeaponData`, `BuildingData`, `WaveData` y `ResourceData` (esta última para el tipo `recurso` que entró con la wiki v0.2), y el pipeline distingue `n/a` (no aplica) de `TBD` (pendiente de balance) al emitirlas."
   ],
   "status": "todo",
   "priority": "high",
@@ -39,9 +39,19 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "**Actualización de alcance por TASK-003:** ya no son 25 fichas sino 39, y las clases Resource de C# pendientes pasan de dos a cinco. `TIPO_TO_RESOURCE_SCRIPT` apunta a `res://src/Tech/WeaponData.cs`, `res://src/Buildings/BuildingData.cs` y `res://src/Enemies/WaveData.cs` además de `UnitData.cs` y `EnemyData.cs`; ninguna de las cinco existe todavía. Los `.tres` de weapons/buildings/waves ya se generan y arrastran el mismo andamio conocido.\n\nEl vocabulario de valores simbólicos del punto 2 del ticket también creció: las fichas nuevas suman `n/a` como valor legítimo distinto de `TBD` (usado donde el campo no aplica — `town_center.costo`, `granja.desbloquea`), y `tier` tiene su propio enum (`T1_humano | T2_hibrido | T3_alien`, más `TBD` para equipo fuera del árbol)."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "**Cambio de mecánica de v0.4 — el pipeline ya soporta el tipo de ficha nuevo.** La wiki v0.2 sumó `recurso` (fichas `pasto` y `vaca`), y `tools/wiki_to_resources.py` se extendió en el mismo commit: `TIPO_TO_DIR`, `TIPO_TO_RESOURCE_SCRIPT`, `REQUIRED_FIELDS` y una sección de recursos en el índice generado. Sin eso las fichas se descartaban con aviso.\n\nLo que este ticket sigue debiendo, ahora con un tipo más: el escritor `.tres` necesita `res://src/Economy/ResourceData.cs` además de las otras cuatro clases Resource, y la validación estricta tiene que cubrir el vocabulario nuevo (`modo_noche`, `prioridad_objetivo`, `clase` de recurso).\n\nConteo actualizado: 42 fichas (era 25)."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Actualizado por el cambio de mecánica de v0.4 (agosto 2026). La wiki pasó a v0.2 y el GDD a v0.4: la wiki tiene ahora 42 fichas (entró el tipo `recurso` con `pasto` y `vaca`, más `campo_fuerza_alien`), 26 en `estado: propuesta` y 130 campos `TBD`. Los conteos de este ticket estaban escritos contra la wiki v0.1 y quedaron desactualizados. Para este ticket el efecto concreto es una clase Resource más: `ResourceData`, para el tipo `recurso`."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",
-  "updated_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
   "jira_key": null
 }

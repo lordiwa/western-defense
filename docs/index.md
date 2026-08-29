@@ -20,6 +20,11 @@ roban te deja más débil para el día siguiente. No hay un *game over* de golpe
 hay una espiral. Y de los enemigos caídos sacás su tecnología para armarte
 mejor, hasta poder marchar contra la nave nodriza y liberar el valle.
 
+**No hay muros.** La invasión es una sorpresa y el valle está abierto: de noche
+cada edificio se vuelve refugio o defensa, y el alien que entra a robar *tarda*
+en sacar lo que hay. Esos segundos son tu defensa — y las torres las ponés donde
+quieras para cobrárselos.
+
 *1870s, Weird West, cómic pulp. Gracioso en la superficie, inquietante en lo que
 no te termina de explicar.*
 
@@ -37,13 +42,14 @@ no te termina de explicar.*
   <a class="card" href="{{ '/wiki/' | relative_url }}">
     <h3>Wiki de entidades — índice</h3>
     <p>Tablas navegables de todo lo que existe en el juego: unidades, enemigos,
-    armas, edificios y oleadas. La forma más rápida de ver el catálogo entero.</p>
+    armas, edificios, oleadas y recursos. La forma más rápida de ver el catálogo
+    entero.</p>
   </a>
 
   <a class="card" href="{{ '/WIKI.html' | relative_url }}">
     <h3>Fichas completas</h3>
     <p>El documento canónico entero, ficha por ficha, con todos los campos.
-    39 fichas. Lo que dice acá es lo que vale.</p>
+    42 fichas. Lo que dice acá es lo que vale.</p>
   </a>
 
   <a class="card" href="{{ '/TECH.html' | relative_url }}">
@@ -71,7 +77,7 @@ Dos cosas que conviene saber antes de leer la wiki:
   que está mal es el código.
 - **`TBD` significa "todavía no decidido".** Los números de balance marcados así
   están deliberadamente en blanco. Nadie los inventa: se llenan probando.
-  Ahora mismo hay **110 campos TBD** repartidos en las fichas, y 19 fichas en
+  Ahora mismo hay **130 campos TBD** repartidos en las fichas, y 26 fichas en
   estado `propuesta` (o sea, escritas pero sin validar en prototipo).
 
 ## La regla que ordena todo el diseño
@@ -92,5 +98,5 @@ Todo esto vive en el repositorio y se puede comentar ahí:
 - [Abrir un issue]({{ site.repo_url }}/issues/new) — la forma más simple de
   dejar una duda, una idea o un "esto no se entiende". No hace falta saber
   programar.
-- [Preguntas abiertas del GDD]({{ '/GDD.html#13-preguntas-abiertas-para-v04' | relative_url }})
+- [Preguntas abiertas del GDD]({{ '/GDD.html#13-preguntas-abiertas-para-v05' | relative_url }})
   — las decisiones que todavía están en el aire. Buen lugar para meter mano.

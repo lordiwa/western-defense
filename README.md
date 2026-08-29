@@ -8,6 +8,11 @@ torres, hasta poder marchar contra la nave nodriza y liberar el valle.
 
 **Los enemigos no destruyen: roban.** El fallo es una espiral, no un game over.
 
+Y roban **de adentro de tus edificios**: no hay muros. El rancho está abierto,
+de noche cada edificio se vuelve refugio o defensa, y al alien le lleva tiempo
+sacar lo que hay (1–3 s por persona, 2 s por recurso). No le impedís entrar —
+le cobrás esos segundos con torres que colocás donde quieras.
+
 ## Documentación
 
 📖 **Se lee en el navegador: <https://lordiwa.github.io/western-defense/>**
@@ -15,9 +20,9 @@ torres, hasta poder marchar contra la nave nodriza y liberar el valle.
 
 | Documento | En el sitio | Descripción |
 |---|---|---|
-| [`docs/GDD.md`](docs/GDD.md) | [/GDD.html](https://lordiwa.github.io/western-defense/GDD.html) | Game Design Document v0.3 — visión, core loop, recursos |
+| [`docs/GDD.md`](docs/GDD.md) | [/GDD.html](https://lordiwa.github.io/western-defense/GDD.html) | Game Design Document v0.4 — visión, core loop, recursos, defensa sin muros |
 | [`docs/TECH.md`](docs/TECH.md) | [/TECH.html](https://lordiwa.github.io/western-defense/TECH.html) | Documento técnico v0.1 — arquitectura, stack, plan |
-| [`docs/WIKI.md`](docs/WIKI.md) | [/WIKI.html](https://lordiwa.github.io/western-defense/WIKI.html) | Wiki de entidades v0.1 — **fuente canónica** (39 fichas YAML) |
+| [`docs/WIKI.md`](docs/WIKI.md) | [/WIKI.html](https://lordiwa.github.io/western-defense/WIKI.html) | Wiki de entidades v0.2 — **fuente canónica** (42 fichas YAML) |
 | [`docs/wiki/README.md`](docs/wiki/README.md) | [/wiki/](https://lordiwa.github.io/western-defense/wiki/) | **Índice navegable de la wiki** — tablas por categoría (generado) |
 
 ## Pipeline wiki → datos

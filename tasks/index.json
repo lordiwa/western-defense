@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T00:00:00Z",
+  "generated_at": "2026-08-29T00:00:00Z",
   "tasks": [
     {
       "key": "TASK-001",
@@ -9,7 +9,7 @@
     },
     {
       "key": "TASK-002",
-      "title": "Cerrar las preguntas abiertas del GDD §13",
+      "title": "Cerrar las preguntas de fondo del GDD §13.2 (las que vienen de v0.3)",
       "status": "todo",
       "priority": "high"
     },
@@ -27,7 +27,7 @@
     },
     {
       "key": "TASK-005",
-      "title": "Primera pasada de balance: proponer valores para los 39 campos TBD de la wiki",
+      "title": "Primera pasada de balance: proponer valores para los campos TBD de la wiki",
       "status": "todo",
       "priority": "medium"
     },
@@ -57,7 +57,7 @@
     },
     {
       "key": "TASK-010",
-      "title": "Validar en prototipo las 5 fichas en estado: propuesta",
+      "title": "Validar en prototipo las fichas en estado: propuesta",
       "status": "todo",
       "priority": "medium"
     },
@@ -66,6 +66,60 @@
       "title": "Publicar la wiki navegable fuera del repo",
       "status": "todo",
       "priority": "low"
+    },
+    {
+      "key": "TASK-012",
+      "title": "Sistema de edificios-refugio: ciclo día/noche y ventana de robo",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-013",
+      "title": "Torres colocables libremente con prioridad de objetivo configurable",
+      "status": "blocked",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-014",
+      "title": "Cadena pasto → vaca → comida: pastoreo y hambre del ganado",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-015",
+      "title": "Niveles de edificio: rama refugio+defensa vs doble refugio",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-016",
+      "title": "Campo de fuerza alien (T3): la barrera que reemplaza al muro en el late game",
+      "status": "todo",
+      "priority": "low"
+    },
+    {
+      "key": "TASK-017",
+      "title": "Desbloqueos por objetivos: el científico llega cuando sostenés X vacas",
+      "status": "todo",
+      "priority": "medium"
+    },
+    {
+      "key": "TASK-018",
+      "title": "DECISIÓN (Mato) — cerrar las seis decisiones abiertas D1–D6 del cambio de mecánica v0.4",
+      "status": "blocked",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-019",
+      "title": "Alinear TECH.md con la mecánica v0.4: refugio, ventana de robo, targeting y recursos",
+      "status": "todo",
+      "priority": "high"
+    },
+    {
+      "key": "TASK-020",
+      "title": "Reconciliar los enemigos diseñados contra muros con el rancho abierto",
+      "status": "blocked",
+      "priority": "medium"
     }
   ]
 }

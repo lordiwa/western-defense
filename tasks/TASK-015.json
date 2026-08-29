@@ -1,0 +1,37 @@
+{
+  "key": "TASK-015",
+  "title": "Niveles de edificio: rama refugio+defensa vs doble refugio",
+  "description": "Cambio de mecánica de Mato (agosto 2026). Fuente canónica: [`docs/WIKI.md §5.0`](../docs/WIKI.md) punto 4; resumen en GDD §6.5.\n\nCon el árbol de habilidades y la tecnología alien, un edificio-refugio sube por **una de dos ramas excluyentes**:\n\n- **`refugio_y_defensa`** — sigue guardando gente y además dispara a quien entre a robar.\n- **`doble_refugio`** — no dispara, pero duplica la capacidad de personas y recursos.\n\nEs una **elección, no una escalera**: el mismo edificio no puede ser fortín y granero a la vez. Esa exclusión es la parte canónica y la que hay que hacer legible en la UI.\n\n**Qué hay que construir:** el modelo de niveles en `BuildingBase`, el gasto de requisitos (árbol de habilidades + componentes alien), la conmutación de `modo_noche` al subir por la rama de defensa, el cambio de `capacidad_refugio` al subir por la rama de capacidad, y la UI que deja claro que elegir una cierra la otra.\n\n**⚠️ DECISIÓN ABIERTA D6:** falta que Mato defina si la rama se elige **por edificio** (lo que §5.0 asume hoy) o si el árbol de habilidades sube **a todos los edificios de un tipo a la vez**. Cambia el costo de la progresión y cuánto micro tiene el jugador. Implementar por edificio y dejar la alternativa detrás de una bandera es aceptable; asumir la global no.\n\n**No inventar balance:** costos, capacidades y qué edificios pueden tomar cada rama son `TBD`.",
+  "acceptance_criteria": [
+    "Un edificio en nivel 1 ofrece las dos ramas y tomar una deshabilita la otra de forma permanente para ese edificio.",
+    "La rama `refugio_y_defensa` cambia el `modo_noche` del edificio y lo hace disparar de noche sin perder su función de refugio.",
+    "La rama `doble_refugio` aumenta `capacidad_refugio` según el valor de data y NO habilita disparo.",
+    "La UI comunica la exclusión antes de confirmar (no después).",
+    "Costos y capacidades vienen de data; ningún `TBD` de la wiki se rellenó en código.",
+    "La elección por edificio vs global está detrás de una bandera de configuración hasta que se cierre D6."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "godot",
+    "mecanica-v04",
+    "decision-abierta"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-012"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Ticket nuevo del cambio de mecánica de v0.4. Lleva la decisión abierta D6 adentro en vez de en un ticket propio, porque no bloquea el arranque: el modelo de dos ramas excluyentes es el mismo, lo que cambia es el alcance de la compra."
+    }
+  ],
+  "created_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
+  "jira_key": null
+}

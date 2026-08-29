@@ -1,13 +1,14 @@
 {
   "key": "TASK-002",
-  "title": "Cerrar las preguntas abiertas del GDD §13",
-  "description": "Con §13 restaurada (TASK-001), tomar cada pregunta abierta y convertirla en una decisión registrada en el GDD, o en un ticket propio si necesita prototipo para resolverse.\n\nPreguntas ya identificables desde el texto que sí sobrevivió, y que hay que cerrar sí o sí:\n- **GDD §7:** ¿las armas alien son una clase nueva («Fusilero de plasma») o una mejora de equipo sobre el Pistolero? La propuesta en el documento es *mejora de equipo* (menos sprites, más combinatoria), y la ficha `pistolero` de la wiki ya la asume marcándola como pendiente de confirmar. Decidir y sincronizar ambos documentos.\n- **GDD §8.3:** nombre y ficción de los puntos de meta-progresión (¿«Renombre»? ¿«Recortes de periódico»?) y tamaño del árbol meta.\n- **GDD §9:** duración del ciclo lunar (¿cada 6–8 noches?) y si la luna llena coincide con hitos del escalado.\n- **GDD §5.1:** confirmar la decisión tentativa de economía sin oro.\n- **GDD §6.2:** los edificios están como «propuesta inicial — por definir en detalle».\n\nCada decisión cerrada sube la versión del GDD y, si toca entidades, se refleja en la wiki.",
+  "title": "Cerrar las preguntas de fondo del GDD §13.2 (las que vienen de v0.3)",
+  "description": "Con §13 restaurada (TASK-001), tomar cada pregunta abierta y convertirla en una decisión registrada en el GDD, o en un ticket propio si necesita prototipo para resolverse.\n\n**⚠️ Alcance recortado por el cambio de mecánica de v0.4.** El GDD ya subió a v0.4 y su §13 quedó partida en dos:\n\n- **§13.1 — decisiones del cambio de mecánica (D1–D6).** NO son de este ticket. Las dos que bloquean trabajo tienen ticket propio (D1 → TASK-018, D2 → TASK-019) y las otras cuatro viajan adentro del ticket que las necesita (D3 → TASK-014, D4 → TASK-017, D5 → TASK-016, D6 → TASK-015).\n- **§13.2 — preguntas de fondo, que vienen de v0.3.** Son las de este ticket.\n\nLo que sigue abierto acá:\n- **GDD §7:** ¿las armas alien son una clase nueva («Fusilero de plasma») o una mejora de equipo sobre el Pistolero? La propuesta en el documento es *mejora de equipo* (menos sprites, más combinatoria), y la ficha `pistolero` de la wiki ya la asume marcándola como pendiente de confirmar. Decidir y sincronizar ambos documentos.\n- **GDD §8.3:** nombre y ficción de los puntos de meta-progresión (¿«Renombre»? ¿«Recortes de periódico»?) y tamaño del árbol meta.\n- **GDD §9:** duración del ciclo lunar (¿cada 6–8 noches?) y si la luna llena coincide con hitos del escalado.\n- **GDD §5.1:** confirmar la decisión tentativa de economía sin oro. Ojo: v0.4 le sumó un recurso más a la ecuación — el `pasto`, que no se almacena (§5.4).\n- **GDD §6.2:** ~~los edificios están como «propuesta inicial — por definir en detalle»~~ **resuelto en v0.4**: §6.2 ya tiene la tabla de edificios con su función de día y su modo de noche, y §6.5 el modelo de niveles. Lo que falta de edificios es balance (TASK-005), no diseño.\n- **Nombre definitivo del juego** (§13.2 punto 6).\n\nCada decisión cerrada sube la versión del GDD y, si toca entidades, se refleja en la wiki.",
   "acceptance_criteria": [
-    "Cada pregunta de §13 queda en uno de tres estados explícitos en el GDD: decidida (con la decisión escrita), diferida al prototipo (con el ticket que la resuelve enlazado), o descartada.",
+    "Cada pregunta de §13.2 queda en uno de tres estados explícitos en el GDD: decidida (con la decisión escrita), diferida al prototipo (con el ticket que la resuelve enlazado), o descartada.",
     "La pregunta de clase-nueva-vs-mejora-de-equipo queda decidida y la nota `pendiente de confirmar` de la ficha `pistolero` en `docs/WIKI.md` se actualiza para reflejarlo.",
-    "El GDD sube de versión (v0.3 → v0.4) y el encabezado lo refleja.",
+    "El GDD sube de versión (v0.4 → v0.5) y el encabezado lo refleja.",
     "Ninguna decisión de balance numérico se toma acá: los valores siguen siendo `TBD` hasta TASK-005.",
-    "La pregunta #6 (nombre definitivo del juego) queda decidida o explícitamente diferida; si se decide, se propagan las referencias al working title en PROJECT.md, README.md y el encabezado de los tres documentos."
+    "El nombre definitivo del juego queda decidido o explícitamente diferido; si se decide, se propagan las referencias al working title en PROJECT.md, README.md, docs/index.md y el encabezado de los tres documentos.",
+    "Las decisiones D1–D6 de §13.1 NO se tocan acá: son de TASK-018, TASK-019 y los tickets que las llevan adentro."
   ],
   "status": "todo",
   "priority": "high",
@@ -32,9 +33,19 @@
       "author": "orchestrator",
       "at": "2026-08-28T00:00:00Z",
       "body": "**Desbloqueada:** TASK-001 cerró y §13 ya existe. El ticket se escribió infiriendo las preguntas desde el texto que sobrevivió al truncamiento; ahora tenemos la lista literal. Contraste:\n\n| §13 real | ¿estaba en el ticket? |\n|---|---|\n| 1. Lista final de edificios y sus árboles de mejora (§6.2) | sí |\n| 2. ¿Armas alien = clase nueva o mejora de equipo? (§7) | sí |\n| 3. Nombre y tamaño del sistema de meta-progresión (§8.3) | sí |\n| 4. Duración exacta del ciclo lunar y curvas de dificultad (§9) | sí |\n| 5. Economía: ¿confirmamos la ausencia de oro tras el primer prototipo? | sí (§5.1) |\n| 6. Nombre definitivo del juego | **no — nueva** |\n\nSe agrega un criterio para la #6: el working title «Cowboy Defense» está en PROJECT.md, README.md, el encabezado de los tres docs y el nombre del repo, así que decidirlo tiene cola de cambios.\n\nDos matices que trae el texto real: la #5 el propio GDD ya la difiere al primer prototipo, y la #4 incluye las curvas de dificultad (no sólo la duración del ciclo). §13 también trae los bloques «Resueltas en v0.2/v0.3», así que el formato de cierre ya está establecido: las decididas se mueven a un bloque «Resueltas en v0.4».\n\n**Sigue en `todo`: son decisiones de diseño del equipo, no las toma un agente.** El pie del GDD además dice «Siguiente iteración: v0.3» estando ya en v0.3; corregirlo a v0.4 entra acá junto con el bump de versión."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "**El alcance de este ticket cambió con el cambio de mecánica de v0.4.** El GDD §13 ya no es una lista plana de seis preguntas: se partió en §13.1 (seis decisiones D1-D6 que salieron del cambio de defensa, dirigidas a Mato y bloqueantes de código) y §13.2 (las seis preguntas de fondo que este ticket ya tenía).\n\nD1 y D2 tienen ticket propio (TASK-018, TASK-019) porque bloquean implementación. D3-D6 viven dentro de los tickets que las necesitan (TASK-012/014, TASK-017, TASK-016, TASK-015). Este ticket se queda con §13.2.\n\nOjo con la pregunta 1 de §13.2 (\"lista final de edificios y sus árboles de mejora\"): ya no se responde sola — depende de §6.5 y de D6."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T00:00:00Z",
+      "body": "Alcance recortado por el cambio de mecánica de v0.4. Dos cosas cambiaron para este ticket: (1) el GDD ya subió a v0.4 solo — el criterio de \"subir de versión\" ahora apunta a v0.5; (2) §6.2 (lista de edificios) se resolvió de paso al rediseñar el rancho, así que sale de la lista. Lo que queda son las cuatro preguntas de fondo más el nombre del juego, y ninguna bloquea código del prototipo."
     }
   ],
   "created_at": "2026-08-28T00:00:00Z",
-  "updated_at": "2026-08-28T00:00:00Z",
+  "updated_at": "2026-08-29T00:00:00Z",
   "jira_key": null
 }
