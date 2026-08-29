@@ -1,21 +1,23 @@
 {
   "key": "TASK-015",
   "title": "Niveles de edificio: rama refugio+defensa vs doble refugio",
-  "description": "Cambio de mecánica de Mato (agosto 2026). Fuente canónica: [`docs/WIKI.md §5.0`](../docs/WIKI.md) punto 4; resumen en GDD §6.5.\n\nCon el árbol de habilidades y la tecnología alien, un edificio-refugio sube por **una de dos ramas excluyentes**:\n\n- **`refugio_y_defensa`** — sigue guardando gente y además dispara a quien entre a robar.\n- **`doble_refugio`** — no dispara, pero duplica la capacidad de personas y recursos.\n\nEs una **elección, no una escalera**: el mismo edificio no puede ser fortín y granero a la vez. Esa exclusión es la parte canónica y la que hay que hacer legible en la UI.\n\n**Qué hay que construir:** el modelo de niveles en `BuildingBase`, el gasto de requisitos (árbol de habilidades + componentes alien), la conmutación de `modo_noche` al subir por la rama de defensa, el cambio de `capacidad_refugio` al subir por la rama de capacidad, y la UI que deja claro que elegir una cierra la otra.\n\n**⚠️ DECISIÓN ABIERTA D6:** falta que Mato defina si la rama se elige **por edificio** (lo que §5.0 asume hoy) o si el árbol de habilidades sube **a todos los edificios de un tipo a la vez**. Cambia el costo de la progresión y cuánto micro tiene el jugador. Implementar por edificio y dejar la alternativa detrás de una bandera es aceptable; asumir la global no.\n\n**No inventar balance:** costos, capacidades y qué edificios pueden tomar cada rama son `TBD`.",
+  "description": "Cambio de mecánica de Mato (agosto 2026). Fuente canónica: [`docs/WIKI.md §5.0`](../docs/WIKI.md) punto 4; resumen en GDD §6.5.\n\nCon el árbol de habilidades y la tecnología alien, un edificio-refugio sube por **una de dos ramas excluyentes**:\n\n- **`refugio_y_defensa`** — sigue guardando gente y además dispara a quien entre a robar.\n- **`doble_refugio`** — no dispara, pero duplica la capacidad de personas y recursos.\n\nEs una **elección, no una escalera**: el mismo edificio no puede ser fortín y granero a la vez. Esa exclusión es la parte canónica y la que hay que hacer legible en la UI.\n\n**Qué hay que construir:** el modelo de niveles en `BuildingBase`, el gasto de requisitos (talentos + piezas alien), la conmutación de `modo_noche` al subir por la rama de defensa, el cambio de `capacidad_refugio` al subir por la rama de capacidad, y la UI que deja claro que elegir una cierra la otra.\n\n**✅ D6 CERRADA (29/08/2026) — árbol de talentos POR EDIFICIO.** Mato decidió: **cada edificio tiene su propio árbol**, se abre **clickeando ese edificio**, y lo que comprás ahí vale para *ese* edificio y para ningún otro — **ni siquiera para otro del mismo tipo**. **No hay árbol global.** Registrado en [`docs/WIKI.md §5.0`](../docs/WIKI.md) punto 4, §9.1, el esquema de edificio (§0) y GDD §6.5.\n\n**Qué implica para este ticket:**\n- **La bandera se va.** No hay que dejar la alternativa global detrás de una configuración: no existe. El estado del árbol es **estado de instancia**, no de tipo, y eso cambia dónde vive el dato (por edificio colocado, no por `BuildingResource`).\n- **Las dos ramas son la primera bifurcación de ese árbol**, no un sistema aparte. Vale la pena modelarlas como el primer nodo y no como un caso especial, porque el resto del árbol viene después.\n- **Dos graneros del mismo pueblo pueden ir por caminos distintos, y esa es la gracia**: la progresión *es* la estrategia de layout del jugador.\n- **El punto de entrada de UI es el edificio.** Clickearlo abre su árbol. No hay pantalla global de mejoras.\n- **Se pagan con piezas alien y se abren con el científico** (D5): antes de que llegue, el árbol está cerrado. Ver TASK-017.\n\n**No inventar balance:** costos, capacidades, el contenido del árbol más allá de la primera bifurcación y qué edificios pueden tomar cada rama son `TBD`.",
   "acceptance_criteria": [
     "Un edificio en nivel 1 ofrece las dos ramas y tomar una deshabilita la otra de forma permanente para ese edificio.",
     "La rama `refugio_y_defensa` cambia el `modo_noche` del edificio y lo hace disparar de noche sin perder su función de refugio.",
     "La rama `doble_refugio` aumenta `capacidad_refugio` según el valor de data y NO habilita disparo.",
     "La UI comunica la exclusión antes de confirmar (no después).",
     "Costos y capacidades vienen de data; ningún `TBD` de la wiki se rellenó en código.",
-    "La elección por edificio vs global está detrás de una bandera de configuración hasta que se cierre D6."
+    "El árbol se abre clickeando un edificio concreto y lo comprado afecta SOLO a esa instancia: dos edificios del mismo tipo pueden tener ramas distintas al mismo tiempo, y eso es verificable.",
+    "El progreso del árbol se guarda como estado de la instancia colocada, no del `BuildingResource` del tipo.",
+    "No existe pantalla ni ruta de compra global de mejoras, ni bandera que habilite una: D6 la descartó."
   ],
   "status": "todo",
   "priority": "medium",
   "labels": [
     "godot",
     "mecanica-v04",
-    "decision-abierta"
+    "tech-tree"
   ],
   "assignee": null,
   "depends_on": [
@@ -29,9 +31,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T00:00:00Z",
       "body": "Ticket nuevo del cambio de mecánica de v0.4. Lleva la decisión abierta D6 adentro en vez de en un ticket propio, porque no bloquea el arranque: el modelo de dos ramas excluyentes es el mismo, lo que cambia es el alcance de la compra."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "**D6 cerrada** (commit `8f06ea9`): árbol de talentos **por edificio**, abierto clickeando el edificio, sin árbol global y sin compartir nada entre edificios del mismo tipo.\n\nSalió la etiqueta `decision-abierta` y salió la bandera de configuración de los criterios. Entró `tech-tree`, que es lo que este ticket resultó ser: la apuesta era \"dos ramas excluyentes\" y la decisión la convirtió en la **primera bifurcación de un árbol por instancia**.\n\nEl detalle que más pesa en implementación: el progreso es **estado de la instancia colocada**, no del recurso del tipo. Modelarlo al revés funciona hasta el segundo granero y ahí se rompe."
     }
   ],
   "created_at": "2026-08-29T00:00:00Z",
-  "updated_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
   "jira_key": null
 }

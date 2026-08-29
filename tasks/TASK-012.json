@@ -1,13 +1,13 @@
 {
   "key": "TASK-012",
   "title": "Sistema de edificios-refugio: ciclo día/noche y ventana de robo",
-  "description": "Cambio de mecánica de Mato (agosto 2026). Reemplaza el perímetro de barricadas como núcleo defensivo. Fuente canónica: [`docs/WIKI.md §5.0`](../docs/WIKI.md) (normativo) y GDD §6.2/§6.3.\n\n**Qué hay que construir:**\n1. **Dos vidas por edificio.** Cada `BuildingBase` cumple su `funcion_dia` mientras hay luz y al `NightStarted` conmuta a su `modo_noche` (`refugio` | `defensa` | `refugio_y_defensa` | `ninguno`), leído del Resource generado desde la wiki.\n2. **Ocupación al atardecer.** En `DuskWarning` los trabajadores entran al refugio asignado y los vaqueros guardan las vacas (ver TASK-014). Lo que quede afuera, queda afuera.\n3. **Búsqueda de objetivo del enemigo.** El alien va al **primer edificio-refugio de su camino** que contenga lo que roba. Ya no existe \"romper el muro para entrar\".\n4. **Ventana de robo.** Sacar cada víctima lleva tiempo: **1–3 s por persona** (el valor se sortea **una vez por oleada**, con el seed del run — campo `tiempos_robo` de la ficha de oleada) y **2 s por recurso**. El tiempo del ganado es una decisión abierta (D3, §9 de la wiki) y **no se inventa**: hasta que Mato lo cierre, el ganado usa un valor de configuración explícitamente marcado como provisional en código.\n5. **Interrupción.** Matar al alien durante la carga **cancela el robo**; matarlo con carga le hace **soltar lo robado en el sitio**. Es la misma regla que el rescate por derribo del abductor — reusar `TheftSystem` (TECH §3.2), no duplicarla.\n\n**Fuera de alcance:** las torres y su prioridad de objetivo (TASK-013), los niveles de edificio (TASK-015).\n\n**Coop-ready:** la asignación de refugio y el resumen post-noche operan sobre 1–2 héroes; nada asume un jugador en singular.",
+  "description": "Cambio de mecánica de Mato (agosto 2026). Reemplaza el perímetro de barricadas como núcleo defensivo. Fuente canónica: [`docs/WIKI.md §5.0`](../docs/WIKI.md) (normativo) y GDD §6.2/§6.3.\n\n**Qué hay que construir:**\n1. **Dos vidas por edificio.** Cada `BuildingBase` cumple su `funcion_dia` mientras hay luz y al `NightStarted` conmuta a su `modo_noche` (`refugio` | `defensa` | `refugio_y_defensa` | `ninguno`), leído del Resource generado desde la wiki.\n2. **Ocupación al atardecer.** En `DuskWarning` los trabajadores entran al refugio asignado y los vaqueros guardan las vacas (ver TASK-014). Lo que quede afuera, queda afuera.\n3. **Búsqueda de objetivo del enemigo.** El alien va al **primer edificio-refugio de su camino** que contenga lo que roba. Ya no existe \"romper el muro para entrar\".\n4. **Ventana de robo.** Sacar cada cosa lleva tiempo: **3–5 s, aleatorio dentro del rango y el mismo para aldeano, comida o vaca** (D3 cerrada el 29/08/2026 — ver [WIKI §5.0](../docs/WIKI.md) punto 3 y §9.1). El valor se sortea **una vez por oleada**, con el seed del run — campo `tiempos_robo` de la ficha de oleada. **Los aliens grandes se llevan DOS cosas** en vez de una y tardan más; el multiplicador y qué enemigo cuenta como grande son `TBD` de balance, así que van a data, no a código.\n\n> ⚠️ **El 1–3 s por persona / 2 s por recurso de la versión anterior de este ticket quedó invalidado por D3.** Si aparece en alguna rama o nota, es obsoleto.\n5. **Interrupción.** Matar al alien durante la carga **cancela el robo**; matarlo con carga le hace **soltar lo robado en el sitio**. Es la misma regla que el rescate por derribo del abductor — reusar `TheftSystem` (TECH §3.2), no duplicarla.\n\n**Fuera de alcance:** las torres y su prioridad de objetivo (TASK-013), los niveles de edificio (TASK-015).\n\n**Coop-ready:** la asignación de refugio y el resumen post-noche operan sobre 1–2 héroes; nada asume un jugador en singular.",
   "acceptance_criteria": [
     "Un edificio con `modo_noche: refugio` conmuta de función en `NightStarted` y vuelve a su función económica en `DawnStarted`.",
-    "Un enemigo ladrón entra al edificio-refugio más cercano de su camino y tarda 2 s por recurso y el valor sorteado de la oleada (entre 1 y 3 s) por persona.",
-    "El valor por persona se sortea UNA vez por oleada y es reproducible con el mismo seed del run.",
+    "Un enemigo ladrón entra al edificio-refugio más cercano de su camino y tarda el valor sorteado de la oleada (entre 3 y 5 s) por cada cosa que saca, sea aldeano, comida o vaca.",
+    "El valor se sortea UNA vez por oleada y es reproducible con el mismo seed del run.",
     "Matar al enemigo durante la carga no le deja llevarse nada; matarlo cargado deposita lo robado en el suelo y la víctima viva se libera.",
-    "El tiempo de robo del ganado NO está hardcodeado como si fuera canon: está en config y marcado como provisional hasta que se cierre D3.",
+    "Un enemigo marcado como grande se lleva dos cosas y tarda más; `capacidad_robo` y el multiplicador vienen de data (`TBD` de balance), no de literales en C#.",
     "`python3 tools/wiki_to_resources.py --check` sigue en verde y los campos `modo_noche`/`capacidad_refugio` llegan al Resource generado."
   ],
   "status": "todo",
@@ -29,9 +29,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T00:00:00Z",
       "body": "Ticket nuevo del cambio de mecánica de v0.4. Es el corazón del cambio: sin esto, el resto (torres con prioridad, niveles, ganado) no tiene contra qué jugar. Sustituye funcionalmente al trabajo de barricadas que TECH §4 tenía previsto para la semana 2 del prototipo.\n\nNo depende de la decisión abierta D1 (variante A/B de torres): el edificio-refugio se comporta igual en las dos variantes. Por eso arranca sin bloquear."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "**Corrección por D3.** Este ticket no estaba en la lista de los que llevaban una decisión adentro, pero era el que tenía los números viejos escritos en criterios de aceptación: 1–3 s por persona y 2 s por recurso. D3 los reemplazó por **3–5 s aleatorio, igual para las tres cosas**, más la regla de los aliens grandes (se llevan dos, tardan más).\n\nSe corrigieron la descripción y dos criterios, y se sacó el criterio del \"valor provisional del ganado\": ya no hay caso especial para la vaca que marcar como provisional.\n\nD1 tampoco lo afecta, como decía el comentario anterior — pero ahora por una razón cerrada y no por una hipótesis sobre las dos variantes."
     }
   ],
   "created_at": "2026-08-29T00:00:00Z",
-  "updated_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
   "jira_key": null
 }

@@ -1,10 +1,11 @@
 {
   "key": "TASK-016",
   "title": "Campo de fuerza alien (T3): la barrera que reemplaza al muro en el late game",
-  "description": "Cambio de mecánica de Mato (agosto 2026), explícitamente marcado como **a futuro**. Ficha nueva: [`campo_fuerza_alien`](../docs/WIKI.md) (WIKI §5.9); GDD §8.1.\n\nCuando el árbol tecnológico está avanzado, el jugador puede levantar **campos de fuerza con tecnología alien** — no muros clásicos. Cierra el arco irónico del juego: no levantás una empalizada de madera, levantás la misma tecnología con la que te robaron.\n\n**Llega tarde a propósito.** Si estuviera disponible temprano mataría la tensión del rancho abierto, que es la premisa del early y mid game. Este ticket **no se toma antes del vertical slice**.\n\n**⚠️ DECISIÓN ABIERTA D5:** falta definir si el campo de fuerza es una **estructura** (como está modelado hoy en la wiki, porque no dispara) o el **arma T3 \"barrera de energía\"** de GDD §8.1 montada en torre. La ficha existe en §5.9 con todos sus valores en `TBD` justamente para no cerrar eso por omisión.",
+  "description": "Cambio de mecánica de Mato (agosto 2026), explícitamente marcado como **a futuro**. Ficha nueva: [`campo_fuerza_alien`](../docs/WIKI.md) (WIKI §5.9); GDD §8.1.\n\nCuando el árbol tecnológico está avanzado, el jugador puede levantar **campos de fuerza con tecnología alien** — no muros clásicos. Cierra el arco irónico del juego: no levantás una empalizada de madera, levantás la misma tecnología con la que te robaron.\n\n**Llega tarde a propósito.** Si estuviera disponible temprano mataría la tensión del rancho abierto, que es la premisa del early y mid game. Este ticket **no se toma antes del vertical slice**.\n\n**✅ D5 CERRADA (29/08/2026).** Mato definió tres cosas de una:\n\n1. **Es una estructura**, no el arma T3 montable en torre. Se queda como edificio en [WIKI §5.9](../docs/WIKI.md), que es como ya estaba modelado — pero ahora por decisión y no por omisión.\n2. **Es un desbloqueo post-científico.** No cuelga solo del árbol tecnológico: el objetivo [`desbloqueo_campo_fuerza`](../docs/WIKI.md) pide **tener al científico en el rancho** (TASK-017) **y** juntar **X piezas alien** (X = `TBD`). El científico es la bisagra: antes de él las piezas se acumulan sin uso.\n3. **Se paga en [`pieza_alien`](../docs/WIKI.md)** (ficha nueva, §7.3), que sale del **barrido del amanecer** — mecánica nueva que trajo D5: tras defender la noche, la gente sale de mañana a recolectar comida **y** los restos de las naves y los aliens caídos. Cuantos más derribás de noche, más piezas hay de mañana.\n\n**El arco irónico se cierra literal:** el \"muro\" del late game se construye con los restos de quienes te vinieron a robar.\n\n**Dependencias nuevas que trajo D5:** el barrido del amanecer y el recurso `pieza_alien` son su propio trabajo (**TASK-022**), y el desbloqueo por objetivo es TASK-017. Este ticket construye el campo de fuerza **encima** de esos dos, no los incluye.",
   "acceptance_criteria": [
-    "La decisión D5 (estructura vs arma montable) está resuelta y registrada en la wiki antes de escribir código.",
-    "El campo de fuerza solo es construible con el árbol tecnológico T3 y requiere laboratorio.",
+    "El campo de fuerza se implementa como ESTRUCTURA (edificio), no como arma montable en torre: no dispara, y no aparece como opción de arma de una torre.",
+    "No es construible hasta que el objetivo `desbloqueo_campo_fuerza` esté cumplido: científico en el rancho MÁS el umbral de piezas alien leído de data.",
+    "Su costo se paga en `pieza_alien` y el valor sale de la ficha, no de un literal.",
     "De noche levanta una barrera que frena a los aliens terrestres mientras tenga energía, y se agota de forma observable.",
     "De día está inactivo y no estorba el trabajo del rancho.",
     "Ningún valor de balance del campo de fuerza se inventó: todos vienen de la ficha."
@@ -14,12 +15,13 @@
   "labels": [
     "godot",
     "tech-tree",
-    "mecanica-v04",
-    "decision-abierta"
+    "mecanica-v04"
   ],
   "assignee": null,
   "depends_on": [
-    "TASK-012"
+    "TASK-012",
+    "TASK-017",
+    "TASK-022"
   ],
   "verification_tier": "tests-after",
   "linked_commits": [],
@@ -29,9 +31,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T00:00:00Z",
       "body": "Ticket nuevo del cambio de mecánica de v0.4. Prioridad `low` a pedido del cambio: Mato lo planteó como \"a futuro, cuando el árbol esté avanzado\". Está en el backlog para que no se pierda, no para tomarlo ahora."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "**D5 cerrada** (commit `8f06ea9`): estructura (no arma montable), desbloqueo post-científico, pagado en piezas alien.\n\nCae el primer criterio de aceptación —era \"que se resuelva D5 antes de escribir código\", y ya está resuelta— y se reemplaza por los criterios de lo que la decisión definió.\n\n**La decisión le agregó dependencias, no se las sacó.** D5 no solo eligió entre dos opciones: trajo una mecánica nueva (el barrido del amanecer y el recurso `pieza_alien`) que ningún ticket tenía. Se abrió **TASK-022** para eso, y este ticket ahora depende de él y de TASK-017 (sin científico no hay desbloqueo). Sigue en `low` y post-vertical-slice — pero ahora es la punta de una cadena, no una hoja suelta.\n\nSalió `decision-abierta`."
     }
   ],
   "created_at": "2026-08-29T00:00:00Z",
-  "updated_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
   "jira_key": null
 }

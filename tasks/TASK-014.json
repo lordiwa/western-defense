@@ -1,12 +1,13 @@
 {
   "key": "TASK-014",
   "title": "Cadena pasto → vaca → comida: pastoreo y hambre del ganado",
-  "description": "Cambio de mecánica de Mato (agosto 2026). El ganado deja de ser comida pasiva. Fichas canónicas nuevas: [`pasto`](../docs/WIKI.md) y [`vaca`](../docs/WIKI.md) (WIKI §7); resumen en GDD §5.4.\n\n**Qué hay que construir:**\n1. **La granja produce pasto** en un radio a su alrededor mientras hay luz (`radio_pasto`, `TBD`). El pasto no se almacena: se produce y se consume en el sitio.\n2. **Las vacas pastan de día**, llevadas por los vaqueros. **Más vacas = el pasto se consume más rápido.**\n3. **Hambre:** si el rebaño consume más pasto del que las granjas producen, las vacas dejan de producir comida (el efecto exacto es `TBD` — no se inventa; se implementa como curva parametrizada en data).\n4. **De noche las vacas se guardan en el establo**: a salvo del rayo tractor, pero concentradas y robables por quien entre (TASK-012).\n5. Ganchos de economía en `ResourceLedger` / `FoodUpkeep` (TECH §2).\n\n**Regla del proyecto:** los ritmos de crecimiento y consumo son `TBD` y siguen `TBD`. Este ticket construye el sistema y deja los números en data, no los decide.\n\n**Decisión abierta relacionada (D3):** el tiempo que tarda un alien en robarse una vaca no está definido (persona 1–3 s y recurso 2 s sí lo están). Coordinar con TASK-012.",
+  "description": "Cambio de mecánica de Mato (agosto 2026). El ganado deja de ser comida pasiva. Fichas canónicas nuevas: [`pasto`](../docs/WIKI.md) y [`vaca`](../docs/WIKI.md) (WIKI §7); resumen en GDD §5.4.\n\n**Qué hay que construir:**\n1. **La granja produce pasto** en un radio a su alrededor mientras hay luz (`radio_pasto`, `TBD`). El pasto no se almacena: se produce y se consume en el sitio.\n2. **Las vacas pastan de día**, llevadas por los vaqueros. **Más vacas = el pasto se consume más rápido.**\n3. **Hambre:** si el rebaño consume más pasto del que las granjas producen, las vacas dejan de producir comida (el efecto exacto es `TBD` — no se inventa; se implementa como curva parametrizada en data).\n4. **De noche las vacas se guardan en el establo**: a salvo del rayo tractor, pero concentradas y robables por quien entre (TASK-012).\n5. Ganchos de economía en `ResourceLedger` / `FoodUpkeep` (TECH §2).\n\n**Regla del proyecto:** los ritmos de crecimiento y consumo son `TBD` y siguen `TBD`. Este ticket construye el sistema y deja los números en data, no los decide.\n\n**✅ D3 CERRADA (29/08/2026) — y revisa los números viejos.** Mato definió el tiempo de robo: **3–5 s por cosa robada, aleatorio dentro del rango, igual para aldeano, comida o vaca.** El 1–3 s por persona / 2 s por recurso que circulaba antes **ya no rige**. Además: **los aliens grandes se llevan DOS cosas y tardan más** (multiplicador `TBD`, es balance). El valor se sortea **una vez por oleada**, no por robo, para que el jugador aprenda el ritmo de la noche. Registrado en [`docs/WIKI.md §5.0`](../docs/WIKI.md) punto 3 y §9.1.\n\n**Qué significa para el ganado:** la vaca **no tiene un tiempo especial**. Sacarla del establo cuesta lo mismo que sacar a un aldeano de la taberna, y por eso **el establo es defendible**: la vaca no se pierde antes de que la torre alcance a disparar. Ya no hay valor provisional que marcar — la regla es la misma para todo. Lo único que sigue `TBD` acá es *qué enemigos cuentan como grandes* y su multiplicador, que es reparto de balance (WIKI §10) y no toca este ticket.",
   "acceptance_criteria": [
     "La granja genera pasto en un radio configurable durante el día y no genera de noche.",
     "Duplicar la cantidad de vacas duplica de forma observable el ritmo de consumo de pasto.",
     "Cuando el pasto disponible no alcanza, las vacas entran en estado de hambre y su producción de comida cae según una curva leída de data (no hardcodeada).",
     "Al atardecer las vacas quedan dentro del establo; una vaca dentro del establo no puede ser levantada por un rayo tractor.",
+    "Sacar una vaca del establo cuesta el mismo tiempo sorteado por oleada (3–5 s) que cualquier otro robo — sin caso especial para el ganado — y matar al alien durante esos segundos deja la vaca en el establo.",
     "Ningún valor de balance de `pasto` ni de `vaca` queda hardcodeado en C#: todos vienen del Resource generado desde la wiki.",
     "Las fichas `pasto` y `vaca` se generan a `data/resources/` y `--check` sigue en verde."
   ],
@@ -29,9 +30,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T00:00:00Z",
       "body": "Ticket nuevo del cambio de mecánica de v0.4. Cierra el ítem \"ganado como entidad\" que estaba en el backlog de fichas de la wiki desde v0.1, pero con más alcance del previsto: no es solo una ficha, es una cadena con hambre.\n\nValor de diseño: le agrega al ganado una segunda forma de perderse — no te lo roban, se te muere de a poco porque construiste mal. Es la espiral del robo aplicada a tu propia economía."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "**D3 cerrada** (commit `8f06ea9`): 3–5 s aleatorio por cosa robada, el mismo rango para persona, comida y vaca; los aliens grandes se llevan dos y tardan más.\n\nEste ticket queda **más simple** de lo que estaba: no hay que modelar un tiempo especial para el ganado ni marcar nada como provisional. La vaca se roba como todo lo demás.\n\nOjo con la parte que sí cambió para peor: la decisión **invalida** el 1–3 s / 2 s que TASK-012 tenía escrito en sus criterios de aceptación. Ese ticket ya quedó corregido en la misma pasada."
     }
   ],
   "created_at": "2026-08-29T00:00:00Z",
-  "updated_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
   "jira_key": null
 }

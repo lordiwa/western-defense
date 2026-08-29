@@ -1,27 +1,28 @@
 {
   "key": "TASK-013",
   "title": "Torres colocables libremente con prioridad de objetivo configurable",
-  "description": "Cambio de mecánica de Mato (agosto 2026). Las torres dejan de vivir en una línea de defensa fija. Fuente canónica: [`docs/WIKI.md §5.0`](../docs/WIKI.md) punto 5 y la ficha `torre_vigilancia`; resumen en GDD §6.3.\n\n**Qué hay que construir:**\n1. **Colocación libre** (`slot: libre`): el jugador coloca la torre donde quiera, no en slots predefinidos. Validación de terreno y de solapamiento, previsualización del radio.\n2. **Prioridad de objetivo por torre**, configurable en runtime por el jugador:\n   - `primero_en_llegar` — al que entró antes al alcance,\n   - `mas_cercano_a_recursos` — al que está por alcanzar un refugio,\n   - `ya_cargado` — al que ya lleva botín (matarlo lo devuelve).\n3. **Disparo a enemigos que están robando dentro de un edificio**: la torre tiene que poder resolver como objetivo a un alien en estado \"saqueando\" (depende de TASK-012).\n4. UI mínima de configuración, **coop-ready**: dos héroes pueden estar configurando torres distintas a la vez.\n\n**⚠️ BLOQUEADO POR DECISIÓN ABIERTA D1 (TASK-018).** Falta que Mato defina si los aliens **atacan las torres primero** (variante A) o **las ignoran y van directo a los edificios** (variante B), y si eso es configurable. La diferencia cambia el sentido de la colocación y de la prioridad de objetivo, así que no se implementa el targeting definitivo antes de esa respuesta. Lo que SÍ se puede adelantar sin riesgo: colocación libre, previsualización y el andamiaje de configuración.",
+  "description": "Cambio de mecánica de Mato (agosto 2026). Las torres dejan de vivir en una línea de defensa fija. Fuente canónica: [`docs/WIKI.md §5.0`](../docs/WIKI.md) punto 5 y la ficha `torre_vigilancia`; resumen en GDD §6.3.\n\n**Qué hay que construir:**\n1. **Colocación libre** (`slot: libre`): el jugador coloca la torre donde quiera, no en slots predefinidos. Validación de terreno y de solapamiento, previsualización del radio.\n2. **Prioridad de objetivo por torre**, configurable en runtime por el jugador:\n   - `primero_en_llegar` — al que entró antes al alcance,\n   - `mas_cercano_a_recursos` — al que está por alcanzar un refugio,\n   - `ya_cargado` — al que ya lleva botín (matarlo lo devuelve).\n3. **Disparo a enemigos que están robando dentro de un edificio**: la torre tiene que poder resolver como objetivo a un alien en estado \"saqueando\" (depende de TASK-012).\n4. UI mínima de configuración, **coop-ready**: dos héroes pueden estar configurando torres distintas a la vez.\n5. **Targeting recíproco — variante A** (ver abajo): la torre es también un blanco, así que necesita vida, estado de daño, muerte y reparación (TASK-012 comparte el sistema de reparación).\n\n**✅ DESBLOQUEADO — D1 cerrada (variante A).** Mato decidió el 29/08/2026: **los aliens atacan las torres primero.** El alien que se engancha con una torre **la resuelve antes** de seguir hacia el refugio; no las ignora. **No es configurable** — no hay variante B ni palanca por dificultad ni por tipo de enemigo: variante A es el comportamiento único del juego. Registrado en [`docs/WIKI.md §9.1`](../docs/WIKI.md) y GDD §6.3.\n\n**Qué implica la variante A para este ticket:**\n- **Colocar una torre es elegir dónde se pelea**, no solo a qué refugio cubrís: adelantada compra tiempo lejos del botín, pegada al refugio pelea encima de la gente.\n- **La torre es gastable.** Puede caer. Sostenerla de noche cuesta un reparador expuesto (y raptable).\n- El [`caparazon`](../docs/WIKI.md) queda confirmado como **escudo móvil**: existe para comerse el fuego de la torre mientras los ladrones pasan detrás. Su ficha se reconcilia en TASK-020.\n- La `prioridad_objetivo` sigue siendo relevante, pero ya no es *la* única decisión de la torre: la posición pesa igual o más.\n\n**Nada de esto se pone detrás de una bandera.** La bandera A/B que pedía la versión bloqueada de este ticket ya no va: se implementa variante A directo.",
   "acceptance_criteria": [
     "El jugador coloca una torre en cualquier posición válida del terreno, con previsualización de radio y rechazo de posiciones inválidas.",
     "Cada torre expone las tres prioridades de objetivo y cambiarlas altera de forma observable a quién dispara primero.",
     "Con prioridad `ya_cargado`, la torre elige al enemigo que lleva botín aunque haya otro más cercano.",
     "Una torre puede tomar como objetivo a un enemigo que está saqueando dentro de un edificio-refugio.",
     "Dos héroes pueden configurar torres distintas simultáneamente sin pisarse.",
-    "El comportamiento de los aliens FRENTE a la torre (variante A o B) está detrás de una bandera de configuración y no hardcodeado, hasta que se cierre D1."
+    "Variante A implementada: un alien que entra en contacto con una torre la ataca ANTES de seguir hacia el edificio-refugio, y eso es observable en el prototipo.",
+    "La torre tiene vida, recibe daño y puede ser destruida; una torre destruida deja de disparar y su posición vuelve a estar libre.",
+    "Un trabajador puede reparar una torre mientras recibe daño, y queda expuesto (raptable) mientras lo hace.",
+    "El comportamiento variante A NO está detrás de una bandera: es el único comportamiento, sin rama B en el código."
   ],
-  "status": "blocked",
+  "status": "todo",
   "priority": "high",
   "labels": [
     "godot",
     "prototipo",
-    "mecanica-v04",
-    "decision-abierta"
+    "mecanica-v04"
   ],
   "assignee": null,
   "depends_on": [
-    "TASK-012",
-    "TASK-018"
+    "TASK-012"
   ],
   "verification_tier": "tdd",
   "linked_commits": [],
@@ -31,9 +32,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T00:00:00Z",
       "body": "Ticket nuevo del cambio de mecánica de v0.4. Nace `blocked` a propósito: implementar el targeting antes de que Mato cierre D1 significa reescribirlo después. La parte de colocación libre no está bloqueada — si hace falta avanzar, se parte en dos tickets."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "**Desbloqueado.** Mato cerró D1 el 29/08/2026: **variante A, los aliens atacan las torres primero, y no es configurable.** Registrado en la wiki y el GDD por el commit `8f06ea9`.\n\nCambios en el ticket: `blocked` → `todo`, fuera la etiqueta `decision-abierta`, fuera `TASK-018` del `depends_on` (queda solo TASK-012, que es una dependencia real: la torre necesita poder disparar a un alien en estado saqueando).\n\nEl alcance **creció**: la variante A hace de la torre un blanco, así que entran vida, daño, destrucción y reparación de torres, que la variante B no habría necesitado. Salió el criterio de la bandera A/B — no hay rama B que mantener."
     }
   ],
   "created_at": "2026-08-29T00:00:00Z",
-  "updated_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
   "jira_key": null
 }

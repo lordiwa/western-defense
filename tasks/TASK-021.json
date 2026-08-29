@@ -1,0 +1,38 @@
+{
+  "key": "TASK-021",
+  "title": "BALANCE DE PROGRESIÓN (D4) — proponerle a Mato la curva de checkpoints que trae al científico",
+  "description": "**Este ticket propone una curva; no la decide.** Nace de D4, la única de las seis decisiones del cambio de mecánica que Mato NO contestó con una respuesta: contestó con un encargo. Registrado en [`docs/WIKI.md §9.2`](../docs/WIKI.md) y GDD §6.4.\n\n> **Lo que dijo Mato (29/08/2026):** no sabe cuántas vacas desbloquean al científico y no quiere elegir un número a ciegas. Pidió una **fase de balance con checkpoints de progresión** que haya que cumplir antes de que el científico llegue. **El equipo propone la curva; Mato la aprueba.**\n\n**Por qué importa más que un número suelto.** Con D5 cerrada, el científico es **la bisagra del run**: antes de él las [`pieza_alien`](../docs/WIKI.md) se acumulan sin uso, y con él se abren TODAS las mejoras (incluido el campo de fuerza, TASK-016). Si llega temprano, el early game de rancho abierto —que es la premisa del juego— se salta. Si llega tarde, el jugador junta piezas durante noches sin nada que hacer con ellas. El umbral no es un dato de la ficha del `cientifico`: es el punto de inflexión de la partida.\n\n## Qué hay que entregar\n\n1. **La forma de la curva**, no los valores: cuántos checkpoints, en qué orden, y **qué abre cada uno**. Un checkpoint es una condición observable sobre el estado del rancho, del mismo tipo que las de [`WIKI §8`](../docs/WIKI.md) — evaluable por el sistema de objetivos de TASK-017.\n2. **Los ejes candidatos, con su justificación de diseño** — qué mide cada uno y qué comportamiento premia. Sobre la mesa hay al menos cuatro, y parte del trabajo es decidir cuáles entran y cuáles sobran:\n\n| Eje candidato | Qué mide | Qué premia | Riesgo |\n|---|---|---|---|\n| **Ganado sostenido** (X vacas vivas) | La cadena `pasto → vaca → comida` funcionando | Construir bien la economía, no solo defender | Es el eje que Mato nombró; solo, se puede farmear sin riesgo |\n| **Noches sobrevividas** | Tiempo de exposición al robo | Aguantar, no esconderse | Solo, es un temporizador disfrazado |\n| **Población sostenida** | Que no te vacíen la taberna | Defender gente, que es lo que más duele perder | Se solapa con \"noches\" si las oleadas son parejas |\n| **Piezas alien recolectadas** | El barrido del amanecer (D5) | Matar aliens, no solo sobrevivirlos | Es el recurso que el científico habilita: pedirlo antes es circular… o es exactamente el punto |\n\n3. **Una recomendación explícita**: qué ejes entran, en qué orden, y por qué esa combinación y no otra. La forma sugerida —a discutir— es una **secuencia de compuertas**, cada una abriendo algo visible, con el científico al final; no un único umbral de vacas.\n4. **Los valores como parámetros vacíos**, con la unidad y el rango plausible anotados, listos para que Mato ponga el número o para que salga del prototipo.\n5. **El aviso al jugador**: cómo se ve la curva desde adentro del juego. Un checkpoint que el jugador no puede leer no es progresión, es una sorpresa. Esto alimenta el criterio de aviso previo de TASK-017.\n\n## Reglas de este ticket\n\n- **No se inventa ningún número como definitivo** (regla 5 del proyecto). Todo lo que entregue este ticket entra a la wiki como `estado: propuesta` con los valores en `TBD`, y ahí se queda hasta que Mato apruebe.\n- **La propuesta se justifica o no vale.** Cada checkpoint tiene que contestar: ¿qué comportamiento del jugador premia, y qué pasa si lo ignora?\n- **No bloquea a TASK-017.** Ese ticket construye el sistema de objetivos parametrizado; este le dice qué meterle. Se pueden hacer en cualquier orden.\n- **Los números finales salen del prototipo, no de la mesa.** Lo que se apruebe acá es la forma; la calibración es TASK-010 / TASK-005 con el juego andando.",
+  "acceptance_criteria": [
+    "Existe una propuesta escrita de curva de progresión: N checkpoints ordenados, cada uno con su condición (eje + parámetro), lo que desbloquea, y la justificación de diseño de por qué está ahí.",
+    "La propuesta dice explícitamente qué ejes candidatos NO entran y por qué — descartar es parte del entregable.",
+    "Todos los valores numéricos quedan como parámetros con unidad y rango plausible anotados; ninguno se escribe como definitivo ni sale de `TBD` en la wiki.",
+    "Cada checkpoint es evaluable por el sistema de objetivos de TASK-017 (condición observable sobre el estado del rancho, coop-ready: es del rancho, no de un héroe).",
+    "La propuesta explica cómo el jugador VE la curva mientras juega — qué se le muestra de cada checkpoint antes de cumplirlo.",
+    "El resultado se le presenta a Mato para aprobación y su respuesta queda registrada en este ticket; sin esa aprobación el ticket no pasa a `done`.",
+    "Aprobada la forma, `WIKI §8` (`objetivo_cientifico`) y `§9.2` quedan actualizadas con la curva como `propuesta`, y `python3 tools/wiki_to_resources.py --check` sigue en verde."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "balance",
+    "progresion",
+    "diseno",
+    "mecanica-v04",
+    "aprobacion-mato"
+  ],
+  "assignee": null,
+  "depends_on": [],
+  "verification_tier": "uat-only",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "Ticket nuevo, salido del cierre de las decisiones D1–D6 (commit `8f06ea9`). Cinco decisiones se cerraron con una respuesta; **D4 se cerró convirtiéndose en trabajo**, y este es ese trabajo.\n\nLa wiki ya lo referencia por su key en cuatro lugares (§8, §9.2, §10 y la ficha `vaca`), así que la key `TASK-021` estaba reservada antes de que el archivo existiera. Este ticket la ocupa.\n\n**El reparto de roles es la parte importante y es explícita:** el equipo agéntico propone la forma, Mato aprueba. No es una decisión abierta más (esas eran D1–D6 y ya no quedan), pero tampoco es trabajo que se cierre solo: sin la aprobación de Mato no pasa a `done`. Por eso la etiqueta `aprobacion-mato` en vez de `decision-abierta`.\n\nNo lleva `depends_on`: la propuesta se escribe en papel. Los números salen después, del prototipo."
+    }
+  ],
+  "created_at": "2026-08-29T18:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
+  "jira_key": null
+}

@@ -1,0 +1,39 @@
+{
+  "key": "TASK-022",
+  "title": "Barrido del amanecer: recolección diurna de comida y piezas alien",
+  "description": "**Mecánica nueva que trajo D5** (decidida el 29/08/2026), sin ticket propio hasta ahora. Ficha canónica: [`pieza_alien`](../docs/WIKI.md) (WIKI §7.3); contexto en §9.1 D5 y GDD §6.4.\n\n> **La regla:** tras defender la noche, **de mañana la gente sale a recolectar comida Y a levantar los restos** de las naves y los aliens caídos. Cuantos más derribaste de noche, más piezas hay al amanecer.\n\nHasta acá el juego mataba aliens y soltaba drops sueltos (§3). D5 le agrega **una cosecha**: salir a juntarla es lo primero que se hace de mañana. Es el bucle que cierra la noche con el día.\n\n**Por qué es su propio ticket.** Las `pieza_alien` son la moneda de TODO el post-científico: el árbol de talentos por edificio (TASK-015), las mejoras, el campo de fuerza (TASK-016). Si esa moneda no se produce, la mitad tardía del juego no tiene economía. Estaba escondida adentro de un ticket de prioridad `low` y post-vertical-slice, que es el peor lugar para el recurso del que cuelga todo lo demás.\n\n**Qué hay que construir:**\n1. **Los restos persisten al amanecer.** Un alien derribado de noche deja algo levantable que sobrevive al `DawnStarted` — no un drop que se recoge en el momento del kill.\n2. **El barrido**, como trabajo de día: los trabajadores salen y juntan comida y piezas. Cuánto junta cada uno y en cuánto tiempo va a data (`TBD`).\n3. **`pieza_alien` como recurso de pleno derecho** en `ResourceLedger` (TECH §2): se almacena, cuenta para objetivos (TASK-017) y se gasta en mejoras.\n4. **Es robable.** Está guardada en el refugio y los ladrones se la llevan como cualquier recurso — el laboratorio guarda las que no se investigaron. Se apoya en la ventana de robo de TASK-012, sin caso especial (3–5 s, D3).\n5. **Coop-ready:** el barrido es del rancho; con dos héroes se reparte, no se duplica.\n\n**Los tres efectos de diseño que hay que preservar** (de las notas de la ficha) — sirven como test de que la implementación no perdió el punto:\n- La noche mala **duele el doble**: perdés gente Y no juntás piezas.\n- La noche bien peleada **se paga sola**.\n- El \"muro\" del late game se construye **con los restos de quienes te vinieron a robar**.\n\n**No inventar balance:** `produccion`, `consumo_por_unidad` y `capacidad` de la ficha son `TBD`, y cuántas piezas cuesta cada mejora también. La ficha está en `estado: propuesta` y sin validar.",
+  "acceptance_criteria": [
+    "Un alien derribado de noche deja restos que siguen en el mapa al amanecer y son levantables de día.",
+    "En `DawnStarted` los trabajadores salen a recolectar y el rancho gana comida y `pieza_alien`; la cantidad depende de forma observable de cuántos aliens se derribaron esa noche.",
+    "Una noche sin bajas alien produce cero piezas, y eso es visible para el jugador (no es un silencio).",
+    "`pieza_alien` existe en `ResourceLedger`: se almacena, se consulta para condiciones de objetivo y se gasta en mejoras.",
+    "Una `pieza_alien` guardada en un refugio puede ser robada por un enemigo con la misma ventana de robo que cualquier otro recurso, sin código a medida.",
+    "Ningún valor de producción, consumo o capacidad está hardcodeado en C#: todos vienen del Resource generado desde la ficha.",
+    "La ficha `pieza_alien` se genera a `data/resources/` y `python3 tools/wiki_to_resources.py --check` sigue en verde."
+  ],
+  "status": "todo",
+  "priority": "medium",
+  "labels": [
+    "godot",
+    "economia",
+    "progresion",
+    "mecanica-v04"
+  ],
+  "assignee": null,
+  "depends_on": [
+    "TASK-012"
+  ],
+  "verification_tier": "tdd",
+  "linked_commits": [],
+  "linked_prs": [],
+  "comments": [
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "Ticket nuevo, salido del cierre de las decisiones (commit `8f06ea9`). **No estaba en el encargo original de esta pasada** — apareció al revisar qué dejó cada decisión cerrada.\n\nD5 no fue solo elegir entre \"estructura o arma T3\": trajo un recurso nuevo (`pieza_alien`) y una mecánica de día nueva (el barrido del amanecer), y las dos habían quedado descritas solo adentro de TASK-016, que es `low` y post-vertical-slice. Ahí el recurso del que dependen el árbol de talentos, las mejoras y el campo de fuerza no se produce nunca.\n\nSe abre en `medium` y sin esperar al vertical slice, con TASK-016 dependiendo de él. Si Mato prefiere que el barrido también sea post-slice, se baja — pero que sea una decisión y no un descuido de archivo."
+    }
+  ],
+  "created_at": "2026-08-29T18:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
+  "jira_key": null
+}

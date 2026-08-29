@@ -1,11 +1,13 @@
 {
   "key": "TASK-017",
   "title": "Desbloqueos por objetivos: el científico llega cuando sostenés X vacas",
-  "description": "Cambio de mecánica de Mato (agosto 2026). Tabla canónica: [`docs/WIKI.md §8`](../docs/WIKI.md); resumen en GDD §6.4.\n\nAlgunas entidades no se compran ni se investigan: **se ganan cumpliendo un objetivo del rancho.** El caso canónico es el científico, que llega cuando el rancho sostiene **X vacas vivas**. Es la manera del juego de decir que criar ganado también es progresión tecnológica.\n\n**Qué hay que construir:**\n1. Un sistema de **objetivos** genérico: condición observable sobre el estado del run (\"X vacas vivas\", \"N noches sobrevividas\", \"M componentes investigados\") → recompensa (llega una unidad, se habilita un edificio).\n2. El objetivo `objetivo_cientifico` como primer caso real, con su aviso al jugador (que se vea venir, no que aparezca de la nada).\n3. Los candidatos `objetivo_sheriff` y `objetivo_doctor` quedan declarados pero sin condición: siguen `TBD` en la wiki.\n4. **Coop-ready:** el objetivo es del rancho, no de un héroe.\n\n**⚠️ DECISIÓN ABIERTA D4:** cuántas vacas exactamente. No se inventa (regla 4 del proyecto): el sistema se construye parametrizado y el número entra cuando Mato lo cierre.\n\n**Deuda de modelado:** los objetivos hoy son una tabla en la wiki, no un tipo de ficha. Si este sistema crece, conviene darles esquema propio — anotado en el backlog de fichas de la wiki (§10).",
+  "description": "Cambio de mecánica de Mato (agosto 2026). Tabla canónica: [`docs/WIKI.md §8`](../docs/WIKI.md); resumen en GDD §6.4.\n\nAlgunas entidades no se compran ni se investigan: **se ganan cumpliendo un objetivo del rancho.** El caso canónico es el científico, que llega cuando el rancho sostiene **X vacas vivas**. Es la manera del juego de decir que criar ganado también es progresión tecnológica.\n\n**Qué hay que construir:**\n1. Un sistema de **objetivos** genérico: condición observable sobre el estado del run (\"X vacas vivas\", \"N noches sobrevividas\", \"M componentes investigados\") → recompensa (llega una unidad, se habilita un edificio).\n2. El objetivo `objetivo_cientifico` como primer caso real, con su aviso al jugador (que se vea venir, no que aparezca de la nada).\n3. Los candidatos `objetivo_sheriff` y `objetivo_doctor` quedan declarados pero sin condición: siguen `TBD` en la wiki.\n4. **Coop-ready:** el objetivo es del rancho, no de un héroe.\n5. El objetivo [`desbloqueo_campo_fuerza`](../docs/WIKI.md) como segundo caso del mismo sistema: científico en el rancho **+** X piezas alien. Sirve para probar que el sistema soporta condiciones compuestas y no solo \"contá vacas\" (lo consume TASK-016).\n\n**✅ D4 CERRADA — pero cerrada como encargo, no como número.** Mato **no sabe** cuántas vacas traen al científico y no quiere elegirlo a ciegas. Pidió una **fase de balance con checkpoints de progresión**: el equipo **propone la curva**, él la **aprueba**. Eso vive en **`TASK-021`**, no acá. Ver [`docs/WIKI.md §9.2`](../docs/WIKI.md).\n\n**Qué significa para este ticket:** no cambia nada de lo que hay que construir, y **no lo bloquea**. Este ticket hace el sistema de objetivos **parametrizado**; TASK-021 le dice con qué llenarlo. Se pueden hacer en cualquier orden. Lo que sí cambia es la forma del dato: el objetivo del científico **no es un umbral único** de vacas, es el **último de una secuencia de checkpoints** — el modelo tiene que soportar una condición compuesta y ordenada, no un solo `>= X`.\n\n**✅ El rol del científico quedó fijado por D5:** es la **bisagra del run**. Su llegada abre **todas** las mejoras, que se pagan en [`pieza_alien`](../docs/WIKI.md); antes de él las piezas se acumulan sin uso. Ese peso es la razón por la que su umbral no puede ser un número elegido de memoria.\n\n**Deuda de modelado:** los objetivos hoy son una tabla en la wiki, no un tipo de ficha. Si este sistema crece, conviene darles esquema propio — anotado en el backlog de fichas de la wiki (§10).",
   "acceptance_criteria": [
     "Existe un sistema de objetivos con condición evaluable y recompensa, alimentado desde data.",
-    "Al alcanzar el umbral de vacas configurado, el científico llega al pueblo y el laboratorio queda disponible.",
-    "El umbral es un parámetro de data, NO un literal en C#, y está marcado como pendiente de D4.",
+    "El sistema soporta objetivos con condición COMPUESTA y ordenada (una secuencia de checkpoints, no un único umbral), porque así es la forma que TASK-021 le va a dar al objetivo del científico.",
+    "Al cumplirse la condición configurada, el científico llega al pueblo, el laboratorio queda disponible y se abren las mejoras que se pagan en piezas alien.",
+    "El umbral y los checkpoints son parámetros de data, NO literales en C#, y quedan vacíos/`TBD` hasta que Mato apruebe la curva de TASK-021.",
+    "Un segundo objetivo (`desbloqueo_campo_fuerza`: científico + X piezas alien) se declara con el mismo sistema, sin código a medida.",
     "El jugador recibe un aviso previo del objetivo en curso (no aparece sin contexto).",
     "El objetivo se evalúa sobre el estado del rancho y funciona igual con 1 o 2 héroes.",
     "Perder vacas por debajo del umbral no revierte un desbloqueo ya otorgado (decidido: los desbloqueos no se pierden)."
@@ -15,8 +17,7 @@
   "labels": [
     "godot",
     "progresion",
-    "mecanica-v04",
-    "decision-abierta"
+    "mecanica-v04"
   ],
   "assignee": null,
   "depends_on": [
@@ -30,9 +31,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T00:00:00Z",
       "body": "Ticket nuevo del cambio de mecánica de v0.4. Depende de TASK-014 porque sin la cadena del ganado no hay \"X vacas vivas\" que contar.\n\nEl criterio \"los desbloqueos no se pierden\" es una lectura de diseño, no un dicho de Mato: si te roban las vacas después de que llegó el científico, el científico no se va. Si Mato prefiere lo contrario, se cambia — está anotado acá para que sea visible y no quede escondido en el código."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "**D4 salió de este ticket y se fue a `TASK-021`.** Mato no contestó \"cuántas vacas\": pidió una fase de balance que le proponga una **curva de checkpoints**, para aprobarla. Este ticket ya no espera un número — construye el sistema que va a consumir esa curva.\n\nSalió la etiqueta `decision-abierta`: acá no queda ninguna pregunta abierta, queda una dependencia de contenido que **no bloquea**.\n\nEl cambio real de alcance es de forma: el objetivo del científico deja de ser `vacas >= X` y pasa a ser **una secuencia ordenada de checkpoints**. Modelarlo como umbral único ahora significa rehacerlo cuando Mato apruebe la curva, así que el criterio de condición compuesta entra desde el principio.\n\nD5 además le puso peso al ticket: el científico no trae solo el laboratorio, **abre todas las mejoras** y las piezas alien recién ahí valen algo. Y `desbloqueo_campo_fuerza` se suma como segundo caso del mismo sistema — dos casos reales prueban el diseño mejor que uno."
     }
   ],
   "created_at": "2026-08-29T00:00:00Z",
-  "updated_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
   "jira_key": null
 }

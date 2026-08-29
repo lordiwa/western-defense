@@ -1,15 +1,16 @@
 {
   "key": "TASK-020",
   "title": "Reconciliar los enemigos diseñados contra muros con el rancho abierto",
-  "description": "Trabajo de wiki derivado del cambio de mecánica de v0.4. Tres enemigos **canon** se habían diseñado contra la barricada y quedaron sin su premisa cuando desaparecieron los muros por defecto. En la wiki v0.2 pasaron a `estado: propuesta` con un mecanismo reescrito **provisional**, que hay que validar o reemplazar:\n\n| Enemigo | Mecanismo viejo | Reescritura provisional |\n|---|---|---|\n| `manos_largas` | Roba por encima de barricadas bajas sin romperlas | Roba desde afuera del refugio, por la ventana, sin cruzar la puerta |\n| `toro_de_marte` | Embiste muros con carga telegrafiada | Embiste torres y las puertas de los refugios; reventarlos expone lo de adentro |\n| `el_ganadero` | Arranca barricadas y las usa de arma | Arranca del suelo las torres colocadas y las usa de arma |\n\nAdemás `caparazon` y `demoledor` pasaron a `propuesta` por el cambio de blanco de la categoría TANQUE (de muros a torres y edificios).\n\n**Qué hay que hacer:** validar cada mecanismo contra la regla de oro (¿qué roba, cómo lo roba, cómo se evita?), ajustar `como_roba` / `contramedida` / `notas_diseno`, y devolver a `canon` lo que sobreviva. Lo que no sobreviva, se rediseña o se archiva.\n\n**⚠️ Depende de TASK-018** — de D2 para los tres enemigos diseñados contra barricadas, y de D1 para `caparazon` y `demoledor`: si los muros vuelven como opción de partida, estos tres enemigos necesitan comportamiento en los dos modos. Si se descartan, la reescritura provisional pasa a ser la definitiva.",
+  "description": "Trabajo de wiki derivado del cambio de mecánica de v0.4. Tres enemigos **canon** se habían diseñado contra la barricada y quedaron sin su premisa cuando desaparecieron los muros por defecto. En la wiki v0.2 pasaron a `estado: propuesta` con un mecanismo reescrito **provisional**, que hay que validar o reemplazar:\n\n| Enemigo | Mecanismo viejo | Reescritura provisional |\n|---|---|---|\n| `manos_largas` | Roba por encima de barricadas bajas sin romperlas | Roba desde afuera del refugio, por la ventana, sin cruzar la puerta |\n| `toro_de_marte` | Embiste muros con carga telegrafiada | Embiste torres y las puertas de los refugios; reventarlos expone lo de adentro |\n| `el_ganadero` | Arranca barricadas y las usa de arma | Arranca del suelo las torres colocadas y las usa de arma |\n\nAdemás `caparazon` y `demoledor` pasaron a `propuesta` por el cambio de blanco de la categoría TANQUE (de muros a torres y edificios).\n\n**Qué hay que hacer:** validar cada mecanismo contra la regla de oro (¿qué roba, cómo lo roba, cómo se evita?), ajustar `como_roba` / `contramedida` / `notas_diseno`, y devolver a `canon` lo que sobreviva. Lo que no sobreviva, se rediseña o se archiva.\n\n**✅ DESBLOQUEADO — D1 y D2 cerradas (29/08/2026).** Las dos decisiones que este ticket esperaba ya están registradas en [`docs/WIKI.md §9.1`](../docs/WIKI.md):\n\n- **D2 — sin muros, y sin variante clásica.** No vuelven los muros ni como modo de partida. La [`barricada`](../docs/WIKI.md) queda **archivada**. Para los tres enemigos de arriba eso significa que **la reescritura provisional pasa a ser la definitiva**: no hay que documentar un segundo modo \"con muros\", hay que validar el mecanismo del rancho abierto y dejarlo `canon` (o rediseñarlo si no se sostiene).\n- **D1 — variante A, los aliens atacan las torres primero.** `caparazon` y `demoledor` ya tienen premisa: la torre es un blanco real, así que absorber su fuego (`caparazon`) y reventarla (`demoledor`) son roles que existen. Falta validar que cada uno conteste la regla de oro con ese blanco nuevo.\n\n**El blanco nuevo de los cinco es el mismo:** torres y edificios-refugio. Ya no hay perímetro que romper — se entra caminando, y lo que se \"rompe\" es o la torre que estorba o la puerta del refugio que esconde el botín. La validación es contra ese mundo, no contra el de las barricadas.",
   "acceptance_criteria": [
     "Cada uno de los cinco enemigos afectados tiene un mecanismo que contesta las tres preguntas de la regla de oro sin depender de que exista un muro.",
     "Los que se validen vuelven a `estado: canon`; los que no, quedan documentados como rediseño pendiente o archivados.",
-    "Si D2 mantiene los muros como opción, cada ficha describe su comportamiento en los dos modos.",
+    "Ninguna ficha describe un modo alternativo \"con muros\": D2 los descartó y la `barricada` está archivada. Toda referencia a barricadas en las cinco fichas quedó reemplazada por el blanco nuevo (torres y edificios-refugio).",
+    "`caparazon` y `demoledor` describen su comportamiento contra torres asumiendo variante A (el alien ataca la torre primero), no contra un muro ni contra una torre que se ignora.",
     "`python3 tools/wiki_to_resources.py --check` en verde y el índice regenerado.",
     "GDD §10.1 y §10.3 quedan alineados con las fichas."
   ],
-  "status": "blocked",
+  "status": "todo",
   "priority": "medium",
   "labels": [
     "wiki",
@@ -17,9 +18,7 @@
     "mecanica-v04"
   ],
   "assignee": null,
-  "depends_on": [
-    "TASK-018"
-  ],
+  "depends_on": [],
   "verification_tier": "uat-only",
   "linked_commits": [],
   "linked_prs": [],
@@ -33,9 +32,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T00:00:00Z",
       "body": "Dependencia unificada en TASK-018, que agrupa las seis decisiones abiertas. Este ticket necesita dos de ellas: D2 (si vuelven los muros) para los tres enemigos diseñados contra barricadas, y D1 (qué hacen los aliens con las torres) para `caparazon` y `demoledor`, que cambiaron de blanco pero no de premisa."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T18:00:00Z",
+      "body": "**Desbloqueado.** Las dos decisiones que esperaba están cerradas (commit `8f06ea9`): D2 = sin muros ni variante clásica, D1 = variante A. `blocked` → `todo` y `depends_on` vacío.\n\nEl trabajo se simplificó: no hay que escribir comportamiento dual (con y sin muros) para `manos_largas`, `toro_de_marte` y `el_ganadero` — la reescritura provisional es la única lectura posible y solo hay que validarla. Para `caparazon` y `demoledor`, la variante A les devuelve la premisa que el cambio de mecánica les había sacado: la torre es un blanco que vale la pena atacar y vale la pena tapar.\n\nOjo con una trampa: el commit `8f06ea9` ya reescribió las fichas hacia el rancho abierto. Este ticket **no es reescribirlas de nuevo** — es pasarles la regla de oro una por una y decidir cuáles vuelven a `canon`. Cinco fichas siguen en `propuesta` justamente porque esa validación no se hizo."
     }
   ],
   "created_at": "2026-08-29T00:00:00Z",
-  "updated_at": "2026-08-29T00:00:00Z",
+  "updated_at": "2026-08-29T18:00:00Z",
   "jira_key": null
 }
