@@ -252,8 +252,14 @@ No se pidió que fuera configurable por dificultad ni por tipo de enemigo: varia
 - Algunas entidades no se compran ni se investigan: **se ganan cumpliendo un objetivo del rancho.** El caso canónico: **el científico llega cuando sostenés X vacas vivas.**
 - Es la manera del juego de decir que criar ganado *también* es progresión tecnológica: el ranchero que prospera atrae a la gente que lo hace prosperar más.
 - **El científico es la bisagra del run** (§13.1 D5): su llegada **abre las mejoras**, y todas las mejoras se pagan en piezas alien. Antes de él las piezas se acumulan sin uso.
-- **Cuántas vacas es una fase de balance, no una decisión suelta** (§13.1 D4). No es un número que alguien elija de memoria: es el final de una **curva de checkpoints de progresión** que hay que cumplir antes de que el científico aparezca. La curva la propone `TASK-021` y la aprueba Mato; hasta entonces el umbral vive como parámetro de data y sigue `TBD`.
-- El patrón es extensible — otras unidades y edificios pueden colgar de objetivos propios (sheriff, doctor: candidatos, todavía `TBD`), y el **campo de fuerza** ya cuelga de uno: científico + X piezas alien.
+- **La curva de checkpoints está aprobada** (§13.1 D4, 29 de agosto de 2026). El científico no llega por un número suelto de vacas: llega al final de **cuatro compuertas** que hay que cumplir en orden, cada una sobre un eje distinto y cada una abriendo algo visible:
+  1. **C1 — sobrevivencia:** sostener un rebaño chico. Abre la lectura de la curva: el tablón del Town Center con las cuatro compuertas.
+  2. **C2 — comunidad:** sostener la población sin que te vacíen la taberna. Abre **el doctor** — *"para que pueda sobrevivir hasta el final"*.
+  3. **C3 — capacidad económica:** juntar piezas alien en el barrido del amanecer. Amplía el barrido: más piezas por derribo y alcance a los restos lejanos.
+  4. **C4 — sobrevivencia otra vez, pero bajo fuego:** sostener un rebaño grande, con C1–C3 ya cumplidas. Abre **el científico**, y con él todas las mejoras.
+  Lo aprobado es la **forma**: cuántas vacas, cuánta gente y cuántas piezas siguen `TBD` y salen del prototipo. Tabla canónica en [`WIKI.md §8.1`](WIKI.md#81-curva-de-progresión-del-científico--canon-d4-aprobada-por-mato).
+- **El jugador ve la curva mientras juega.** Un tablón en el Town Center: la compuerta cumplida tachada, la actual con barra y número, las futuras con título visible y cifra en gris. Se resuelve **al amanecer**, nunca en mitad de la noche, y avisa tanto cuando falta poco como **cuando retrocedés** por un robo — que es el hook del juego dicho por la UI. Una compuerta cumplida no se pierde; lo que se reinicia es la ventana de sostenimiento de la que está en curso.
+- El patrón es extensible — otras unidades y edificios pueden colgar de objetivos propios (el `sheriff` sigue siendo candidato, `TBD`), y el **campo de fuerza** ya cuelga de uno: científico + X piezas alien.
 - Tabla canónica de objetivos: [`WIKI.md §8`](WIKI.md#8-objetivos-de-desbloqueo). Todavía **no son un tipo de ficha**: son una tabla, y volverlos entidades está en el backlog.
 
 ### 6.5 Niveles de edificio — un árbol de talentos por edificio (v0.4)
@@ -331,6 +337,7 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
   - **Luna nueva → creciente:** noches estándar.
   - **Luna llena:** los aliens canalizan la energía lunar y llegan **transformados/potenciados** (concepto hombre-lobo, sin lobos): más fuertes, variantes especiales, posible mini-jefe.
 - La luna llena funciona como el "examen" periódico del run: telegrafiada con días de anticipación, fuerza a preparar defensas para picos, no solo para el goteo nocturno.
+- **El respiro post-luna-llena (decidido, §13.1 D4).** Después de cada luna llena, las **2–3 noches siguientes son más suaves** — menos intensidad de oleada— para que el rancho se recupere del pico. La referencia declarada es *Kingdom*: pico, respiro, pico más alto. Es la única forma de piedad que tiene el juego, y no toca la progresión: **no relaja ninguna compuerta de la curva del científico** (§6.4), baja la presión de las noches. La razón es que el robo castiga en espiral (§5.3), y una espiral sin valle no se sale nunca: el respiro es el tramo donde se puede revertir **jugando**. Cuántas noches exactas y cuánto baja la intensidad son `TBD` ([`WIKI.md §8.2`](WIKI.md#82-el-respiro-post-luna-llena--la-piedad-decidida-por-mato)).
 - **Por definir:** duración del ciclo (¿cada 6–8 noches?) y si la luna llena coincide con hitos del escalado.
 
 ---
@@ -415,10 +422,11 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 
 ### 13.1 Decisiones del diseño defensivo — cerradas por Mato
 
-> Salieron del cambio de mecánica de v0.4. **Mato cerró cinco el 29 de agosto de
-> 2026**; la sexta (D4) dejó de ser una pregunta y pasó a ser una fase de
-> balance. El registro canónico —con el detalle de cada una y las fichas que
-> toca— está en [`WIKI.md §9`](WIKI.md#9-decisiones-registradas-y-lo-que-sigue-abierto);
+> Salieron del cambio de mecánica de v0.4. **Mato cerró las seis el 29 de agosto
+> de 2026**: cinco con una respuesta directa y la sexta (D4) pasando por una fase
+> de balance que él mismo pidió y aprobó el mismo día. El registro canónico —con
+> el detalle de cada una y las fichas que toca— está en
+> [`WIKI.md §9`](WIKI.md#9-decisiones-registradas-y-lo-que-sigue-abierto);
 > esto es el resumen.
 
 **Resueltas (29 de agosto de 2026)**
@@ -426,20 +434,23 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 - ✅ **D1 — Variante A: los aliens atacan las torres primero.** No las ignoran ni es configurable: el alien resuelve la torre que lo engancha antes de seguir al refugio, así que colocar una torre es elegir *dónde se pelea* (§6.3)
 - ✅ **D2 — No hay muros, ni siquiera como variante.** El rancho queda abierto: la defensa es refugio + torres. `barricada` se archiva y los tres enemigos diseñados contra ella se rediseñan (`TASK-020`) (§6.1, §6.3)
 - ✅ **D3 — 3–5 s por cosa robada, aleatorio**, sea aldeano, comida o vaca; los aliens grandes se llevan **dos** cosas y tardan más (multiplicador pendiente de balance). Revisa el 1–3 s / 2 s de v0.4 (§6.3)
+- ✅ **D4 — La curva de progresión del científico, aprobada.** No fue un número elegido a ciegas: pasó por una fase de balance (`TASK-021`), el equipo propuso la forma y Mato la aprobó en tres puntos — **cuatro compuertas** sobre tres ejes (sobrevivencia, comunidad, capacidad económica) con el científico al final; el **`doctor` se desbloquea en la segunda compuerta**, *"para que pueda sobrevivir hasta el final"*; y la piedad va **ON en una forma concreta**: tras la luna llena, **2–3 noches suaves** para recuperarse, *"como Kingdom"* (§6.4, §9). **Lo aprobado es la forma: los parámetros siguen `TBD`** y se calibran en el prototipo
 - ✅ **D5 — El campo de fuerza es una estructura, y un desbloqueo post-científico.** Las mejoras se pagan en **piezas alien**, recogidas de mañana en el **barrido del amanecer** sobre las naves caídas (§8.1)
 - ✅ **D6 — Árbol de talentos por edificio**, que se abre clickeando ese edificio: lo que comprás no vale ni para otro edificio del mismo tipo. No hay árbol global; la progresión *es* el layout (§6.5)
 
 **Lo que sigue abierto**
 
-| # | Estado | Qué falta |
-|---|---|---|
-| **D4** — cuántas vacas hacen llegar al científico (§6.4) | ⏳ **Convertida en fase de balance** (`TASK-021`) | No es un número que se elija a ciegas: el equipo propone una **curva de checkpoints** de progresión y Mato la aprueba. Hasta entonces el umbral vive como parámetro de data (`TASK-017`) y sigue `TBD` |
+**Nada.** Las seis decisiones del cambio de mecánica están cerradas. Lo que
+queda de D4 no es una decisión sino **calibración numérica**: los parámetros de
+la curva (`P1_vacas`, `P4_vacas`, `N_objetivo`, el respiro…) se fijan con el
+juego andando (`TASK-010` / `TASK-005`), no en la mesa. Tabla de parámetros en
+[`WIKI.md §9.2`](WIKI.md#92-d4--la-forma-está-aprobada-los-números-son-del-prototipo).
 
 ### 13.2 Preguntas de fondo (venían de v0.3)
 1. Lista final de edificios y sus árboles de mejora. (§6.2, §6.5)
 2. ¿Armas alien = clase nueva o mejora de equipo? (§7)
 3. Nombre y tamaño del sistema de meta-progresión. (§8.3) — *el **eje** ya está decidido: las tres clases del héroe (§4.3). Falta el nombre de los puntos, el tamaño del árbol y cuántos héroes por clase*
-4. Duración exacta del ciclo lunar y curvas de dificultad. (§9)
+4. Duración exacta del ciclo lunar y curvas de dificultad. (§9) — *el **respiro post-luna-llena** ya está decidido (§13.1 D4): 2–3 noches suaves después de cada llena. Falta el largo del ciclo y cuánto baja la intensidad*
 5. Economía: ¿confirmamos la ausencia de oro tras el primer prototipo?
 6. Nombre definitivo del juego.
 
@@ -493,4 +504,4 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 
 ---
 
-*Documento vivo. Siguiente iteración: v0.5 con las decisiones de §13.1 ya cerradas — falta la curva de balance de D4 (`TASK-021`) y validar el prototipo del core loop.*
+*Documento vivo. Siguiente iteración: v0.5 con las seis decisiones de §13.1 cerradas —incluida la curva de progresión de D4, aprobada en su forma— y el prototipo del core loop validado, que es de donde salen los números que siguen `TBD`.*

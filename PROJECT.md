@@ -85,16 +85,18 @@ por una de dos ramas (refugio+defensa o doble refugio); y algunas entidades se
 desbloquean cumpliendo objetivos (el científico llega con X vacas).
 
 Las **seis decisiones** que dejó ese cambio (D1–D6) están **cerradas**: Mato
-respondió cinco el 29 de agosto de 2026 y la sexta (D4) pasó a ser una fase de
-balance. `TASK-018` está `done`. El registro canónico es
-[`docs/WIKI.md §9`](docs/WIKI.md), con resumen en GDD §13.1.
+respondió cinco el 29 de agosto de 2026 y la sexta (D4) pasó por una fase de
+balance que aprobó ese mismo día. `TASK-018` y `TASK-021` están `done`. El
+registro canónico es [`docs/WIKI.md §9`](docs/WIKI.md), con resumen en GDD §13.1.
+**No queda ninguna decisión abierta**; lo que queda de D4 es calibración
+numérica, y sale del prototipo.
 
 | Decisión | Qué se decidió | Qué destrabó |
 |---|---|---|
 | **D1** ✅ | Variante A: los aliens **atacan las torres primero** y resuelven la que los engancha antes de ir al refugio | **`TASK-013` destrabado** (`todo`) |
 | **D2** ✅ | **Sin muros**, ni siquiera como variante: rancho abierto, `barricada` archivada | **`TASK-020` destrabado** (`todo`) — los 5 enemigos en `propuesta` |
 | **D3** ✅ | **3–5 s por cosa robada**, igual para aldeano, comida y vaca; los grandes se llevan dos | `TASK-014` deja de usar provisional |
-| **D4** ⏳ | **No es decisión, es balance**: la curva de checkpoints la propone `TASK-021` y la aprueba Mato. **Propuesta escrita** (cuatro compuertas, WIKI §8.1) — **espera a Mato** | El umbral sigue `TBD` como parámetro de data en `TASK-017` |
+| **D4** ✅ | **Curva de progresión aprobada** (`TASK-021`): cuatro compuertas sobre tres ejes —sobrevivencia, comunidad, capacidad económica— con el científico al final (WIKI §8.1); el **`doctor` se desbloquea en C2**; y la piedad va **ON** como **respiro post-luna-llena: 2–3 noches suaves** tras cada llena, *"como Kingdom"* (WIKI §8.2) | `TASK-017` ya sabe qué forma consumir (secuencia ordenada, no umbral único). **Los valores siguen `TBD`**: se calibran en el prototipo (`TASK-010` / `TASK-005`) |
 | **D5** ✅ | El campo de fuerza es **estructura** y desbloqueo post-científico, pagado en `pieza_alien` (barrido del amanecer) | `TASK-016` sigue post-vertical-slice |
 | **D6** ✅ | **Árbol de talentos por edificio**, sin árbol global | `TASK-015` implementa por edificio, sin bandera |
 
@@ -126,7 +128,7 @@ reglas que no se negocian.
 
 | Frente | Arranca por |
 |---|---|
-| **Decisiones (Mato)** | ~~`TASK-018`~~ ✅ (D1–D6 cerradas) → `TASK-021` (curva de progresión de D4, la aprueba Mato) |
+| **Decisiones (Mato)** | ~~`TASK-018`~~ ✅ (D1–D6 cerradas) → ~~`TASK-021`~~ ✅ (curva de D4 aprobada). **Sin pendientes**: lo que sigue es calibrar números en el prototipo |
 | Documentación | ~~`TASK-001`~~ ✅ → ~~`TASK-003`~~ ✅ → `TASK-019` (alinear TECH con v0.4) → `TASK-002` (cerrar GDD §13.2) |
 | Juego | `TASK-006` (proyecto Godot, semana 1) → `TASK-007` (spike de split screen, riesgo #1) → `TASK-012` (edificios-refugio, el núcleo de v0.4) → `TASK-023` (clases del héroe) |
 | Meta-juego | `TASK-023` (las tres clases en la run) → `TASK-024` (roguelite de héroes entre runs) |

@@ -11,16 +11,19 @@
 > ser "pasar el muro" para ser "entrar al refugio y tardar en sacar lo que hay"
 > ([§5.0](#50-reglas-de-los-edificios-de-noche-cambio-canónico)).
 >
-> **Mato cerró cinco de las seis decisiones abiertas (29 de agosto de 2026):**
-> las torres se atacan (variante A), no hay muros ni variante clásica, el robo
-> tarda **3–5 s por cosa** y los aliens grandes se llevan **dos**, el campo de
-> fuerza es un **desbloqueo post-científico que se paga con piezas alien** —
-> y esas piezas se juntan en un **barrido diurno** nuevo—, y el árbol de talentos
-> es **por edificio**. El resultado está registrado en
-> [§9](#9-decisiones-registradas-y-lo-que-sigue-abierto). Lo único que sigue
-> abierto es **D4**, que dejó de ser una pregunta y pasó a ser una **fase de
-> balance** (`TASK-021`). Resumen de diseño en
-> [GDD §6](GDD.md#6-el-rancho-base).
+> **Mato cerró las seis decisiones abiertas (29 de agosto de 2026):** las torres
+> se atacan (variante A), no hay muros ni variante clásica, el robo tarda
+> **3–5 s por cosa** y los aliens grandes se llevan **dos**, el campo de fuerza
+> es un **desbloqueo post-científico que se paga con piezas alien** —y esas
+> piezas se juntan en un **barrido diurno** nuevo—, y el árbol de talentos es
+> **por edificio**. La sexta (**D4**) pasó por una fase de balance y también
+> quedó cerrada: la **curva de progresión del científico** está aprobada en su
+> forma —cuatro compuertas, el `doctor` en la segunda y un **respiro de 2–3
+> noches suaves tras la luna llena**— con **todos sus valores todavía `TBD`**
+> (`TASK-021`). El resultado está registrado en
+> [§9](#9-decisiones-registradas-y-lo-que-sigue-abierto), la curva en
+> [§8.1](#81-curva-de-progresión-del-científico--canon-d4-aprobada-por-mato).
+> Resumen de diseño en [GDD §6](GDD.md#6-el-rancho-base).
 >
 > **Además (29 de agosto de 2026): el héroe tiene clase.** Mato definió **tres
 > clases** —Sheriff (ataque), Alcalde (economía), Carpintero (defensa y
@@ -308,7 +311,7 @@ raptable: true
 stats: {vida: baja, dano: 0, cadencia: n/a, rango: n/a, velocidad: baja}
 costo: {madera: 0, chatarra: 0, comida_upkeep: TBD}
 mejoras: [asistente (segunda cola de investigación)]
-notas_diseno: Si te lo raptan, la investigación se DETIENE. Es la unidad más valiosa y más frágil — protegerlo es una decisión de layout. Desde v0.2 su llegada es un OBJETIVO explícito y no un umbral difuso de renombre — el ranchero que junta vacas se gana al científico, que es la manera del juego de decir "criar ganado también es progresión tecnológica". El número de vacas es TBD (§9, D4).
+notas_diseno: Si te lo raptan, la investigación se DETIENE. Es la unidad más valiosa y más frágil — protegerlo es una decisión de layout. Desde v0.2 su llegada es un OBJETIVO explícito y no un umbral difuso de renombre — el ranchero que junta vacas se gana al científico, que es la manera del juego de decir "criar ganado también es progresión tecnológica". Con D4 aprobada su llegada dejó de ser un umbral suelto: es la CUARTA y última compuerta de la curva de progresión (§8.1), y exige tener cumplidas las tres previas. El número de vacas sigue TBD (§9.2).
 estado: canon
 ```
 
@@ -336,7 +339,8 @@ id: doctor
 nombre: Doctor / Curandero
 tipo: unidad_jugador
 rol: economico
-obtencion: Recluta especial
+obtencion: Objetivo de desbloqueo — llega cuando el rancho sostiene su población sin perder gente (§8.1, compuerta C2 cp_poblacion_sostenida)
+desbloqueo_objetivo: objetivo_doctor
 funcion_dia: Cura unidades heridas; acelera la recuperación del héroe Malherido
 funcion_noche: Atiende un puesto médico tras las líneas
 arma_base: ninguna
@@ -344,7 +348,7 @@ raptable: true
 stats: {vida: TBD, dano: 0, cadencia: n/a, rango: n/a, velocidad: TBD}
 costo: {madera: 0, chatarra: TBD, comida_upkeep: TBD}
 mejoras: [elixires dudosos (buff temporal aleatorio, tono Weird West)]
-notas_diseno: Conecta con el sistema de derribo del héroe (GDD §4.1).
+notas_diseno: Conecta con el sistema de derribo del héroe (GDD §4.1). D4 le dio su desbloqueo definitivo — Mato confirmó que el doctor llega en la SEGUNDA compuerta de la curva de progresión (§8.1), la de población sostenida, "para que pueda sobrevivir hasta el final". Es la recompensa de defender gente, que es lo que más duele perder: el eje que premia lo mismo que te lo hace ganar. Los umbrales de C2 (P2_poblacion, P2_perdidas_max, P2_ventana) siguen pendientes de balance (§9.2).
 estado: propuesta
 ```
 
@@ -1166,7 +1170,7 @@ robable: si — el platillo_sonda la levanta con rayo tractor y el ratero entra 
 funcion_dia: Pasta en el radio de la granja y convierte pasto en comida
 funcion_noche: La guardan en el establo; adentro está a salvo del abductor pero expuesta al ladrón que entre a robar
 stats: {produccion: TBD, consumo_por_unidad: TBD, capacidad: TBD}
-notas_diseno: FICHA NUEVA, sin validar — estaba pendiente en el backlog de la wiki desde v0.1. La vaca es la unidad de medida emocional del juego: es lo que se ve flotando en el rayo tractor y es lo que desbloquea gente (el científico llega cuando el rancho sostiene X vacas, GDD §6.4). El hambre le agrega la segunda forma de perderla: no te la roban, se te muere de a poco porque construiste mal. Si un abductor cargado cae, la vaca cae viva (§2.2). Con D3 cerrada, sacarla de un establo cuesta 3-5 s como cualquier otro robo: no se pierde antes de que la torre dispare. El X de "X vacas" NO se inventa acá — sale de la fase de balance de progresión (TASK-021), que le propone a Mato una curva de checkpoints.
+notas_diseno: FICHA NUEVA, sin validar — estaba pendiente en el backlog de la wiki desde v0.1. La vaca es la unidad de medida emocional del juego: es lo que se ve flotando en el rayo tractor y es lo que desbloquea gente (el científico llega cuando el rancho sostiene X vacas, GDD §6.4). El hambre le agrega la segunda forma de perderla: no te la roban, se te muere de a poco porque construiste mal. Si un abductor cargado cae, la vaca cae viva (§2.2). Con D3 cerrada, sacarla de un establo cuesta 3-5 s como cualquier otro robo: no se pierde antes de que la torre dispare. El X de "X vacas" NO se inventa acá: la curva de checkpoints ya está aprobada (D4, §8.1) y la vaca aparece en DOS de sus cuatro compuertas — C1 pide un rebaño chico sostenido, C4 uno grande bajo fuego. Los dos umbrales siguen pendientes de balance y salen del prototipo (§9.2).
 estado: propuesta
 ```
 
@@ -1197,28 +1201,30 @@ estado: propuesta
 
 | id del objetivo | Condición | Desbloquea | Estado |
 |---|---|---|---|
-| `objetivo_cientifico` | **Última compuerta** de la curva de progresión (§8.1): sostener **X vacas vivas**, con las tres compuertas previas ya cumplidas. X y la curva = `TBD`, los propone `TASK-021` y los aprueba Mato — ver §9.2 | [`cientifico`](#16-cientifico) — y con él el `laboratorio` y **las mejoras**, que se pagan en [`pieza_alien`](#73-pieza_alien) | propuesta |
+| `objetivo_cientifico` | **Última compuerta (C4)** de la curva de progresión (§8.1): sostener **X vacas vivas**, con las tres compuertas previas ya cumplidas. **La forma es canon** (Mato la aprobó el 29 de agosto de 2026); **X sigue `TBD`** — sale del prototipo, ver §9.2 | [`cientifico`](#16-cientifico) — y con él el `laboratorio` y **las mejoras**, que se pagan en [`pieza_alien`](#73-pieza_alien) | **forma canon** · valores `TBD` |
 | `desbloqueo_campo_fuerza` | Tener el `cientifico` en el rancho **y** juntar **X piezas alien** (X = `TBD`) | [`campo_fuerza_alien`](#59-campo_fuerza_alien) | propuesta |
 | `objetivo_sheriff` | `TBD` — candidato: sobrevivir N noches sin perder gente | [`sheriff`](#19-sheriff) | propuesta |
-| `objetivo_doctor` | `TBD` — candidato propuesto por `TASK-021`: la compuerta `cp_poblacion_sostenida` (§8.1). **Sin aprobar** | [`doctor`](#18-doctor) | propuesta |
+| `objetivo_doctor` | **La compuerta C2 `cp_poblacion_sostenida`** (§8.1): sostener población **y** no perder más de `P2_perdidas_max` personas en la ventana. **Confirmado por Mato** el 29 de agosto de 2026 — *"el Doctor se desbloquea en la compuerta 2, sí; es para que pueda sobrevivir hasta el final"*. Los valores siguen `TBD` (§9.2) | [`doctor`](#18-doctor) | **forma canon** · valores `TBD` |
 
 - Un objetivo **no se compra**: se cumple jugando. Es la manera de que criar
   ganado o proteger gente sea progresión y no solo economía.
 - **El científico es la bisagra del run** (D5): antes de él las piezas alien se
   acumulan sin uso; con él se abren las mejoras y recién ahí las piezas valen
   algo. Por eso su umbral no es un número suelto sino el final de una **curva de
-  checkpoints** — es lo que `TASK-021` tiene que proponerle a Mato.
+  checkpoints** (§8.1), **aprobada por Mato** el 29 de agosto de 2026
+  (`TASK-021`).
 - Los objetivos todavía **no son un tipo de ficha**: viven en esta tabla hasta
   que haya suficientes como para que valga un esquema propio (§10).
 - Ninguna condición numérica se inventa acá: las X son `TBD` hasta balance
   (regla 1 de §0).
 
-### 8.1 Curva de progresión del científico — PROPUESTA (D4, `TASK-021`)
+### 8.1 Curva de progresión del científico — CANON (D4, aprobada por Mato)
 
-> **Estado: `propuesta`, pendiente de aprobación de Mato.** Esto es la *forma*
-> de la curva, no sus valores: **ningún número de esta subsección está
-> decidido**. Los parámetros viven en §9.2 y todos son `TBD`. Hasta que Mato
-> apruebe, nada de acá es canon.
+> **Estado: la FORMA es canon** — Mato la aprobó el 29 de agosto de 2026
+> (`TASK-021`, D4). Lo aprobado es la *forma*: cuatro compuertas, tres ejes, el
+> `doctor` en C2 y el respiro post-luna-llena. **Ningún número de esta
+> subsección está decidido**: los parámetros viven en §9.2, todos `TBD`, y se
+> calibran en el prototipo (`TASK-010` / `TASK-005`).
 
 **Cuatro compuertas ordenadas, tres ejes distintos, el científico al final** —
 no un umbral único de vacas. Cada compuerta se evalúa **al amanecer** (en el
@@ -1230,7 +1236,7 @@ jugar el juego entero antes de la bisagra.
 | # | id | Eje | Condición (parametrizada) | Abre |
 |---|---|---|---|---|
 | **C1** | `cp_ganado_inicial` | Ganado sostenido (bajo) | `vacas_vivas >= P1_vacas` sostenido `P1_amaneceres` amaneceres consecutivos | **La curva se vuelve visible**: el aviso del profesor aparece en el [`town_center`](#51-town_center) con el tablón de las cuatro compuertas |
-| **C2** | `cp_poblacion_sostenida` | Población sostenida | `poblacion_viva >= P2_poblacion` **y** `personas_robadas <= P2_perdidas_max` en las últimas `P2_ventana` noches | El [`doctor`](#18-doctor) — candidato para el `objetivo_doctor` de §8 |
+| **C2** | `cp_poblacion_sostenida` | Población sostenida | `poblacion_viva >= P2_poblacion` **y** `personas_robadas <= P2_perdidas_max` en las últimas `P2_ventana` noches | El [`doctor`](#18-doctor) — **confirmado por Mato**: es el `objetivo_doctor` de §8, y llega acá para que el jugador *pueda sobrevivir hasta el final* |
 | **C3** | `cp_piezas_barrido` | Piezas alien acumuladas | `piezas_alien_recolectadas_acumuladas >= P3_piezas` (acumulado del run, **no** stock actual) | El **barrido del amanecer rinde más**: el rancho desmonta naves grandes y alcanza los restos lejanos ([`pieza_alien`](#73-pieza_alien)) |
 | **C4** | `objetivo_cientifico` | Ganado sostenido (alto) | `vacas_vivas >= P4_vacas` sostenido `P4_amaneceres` amaneceres consecutivos, **con C1–C3 cumplidas** | El [`cientifico`](#16-cientifico) → [`laboratorio`](#55-laboratorio), árboles de talento (§5.0.4) y **todas las mejoras** post-científico (D5) |
 
@@ -1242,9 +1248,11 @@ que haber hecho antes de que ese número cuente.
 **Ejes descartados**, y por qué:
 
 - **Noches sobrevividas** — no entra como compuerta: es un temporizador
-  disfrazado, se cumple solo y premia esconderse. Entra en dos roles
-  subordinados: como **unidad de medida** del "sostenido" (se cuenta en
-  amaneceres consecutivos) y como el techo de piedad opcional `P_piedad` (§9.2).
+  disfrazado, se cumple solo y premia esconderse. Entra en **un** rol
+  subordinado: como **unidad de medida** del "sostenido" (se cuenta en
+  amaneceres consecutivos). El techo de piedad por número de noches que se le
+  había propuesto a Mato **quedó descartado**: la piedad existe, pero colgada
+  del ciclo lunar y no de un contador de noches (§8.2).
 - **Recursos acumulados** (madera, comida en depósito) — mide paciencia, se
   farmea sin riesgo y ya está implícito: sin economía no se llega a `P4_vacas`.
 - **Aliens derribados** — se solapa con C3 y premia farmear spawns baratos. Las
@@ -1271,14 +1279,54 @@ una unidad y C3 una capacidad económica. Si hiciera falta más peso en el early
 la palanca es mover una mejora barata a pre-científico — y eso **sí** sería
 tocar D5.
 
+### 8.2 El respiro post-luna-llena — la piedad, decidida por Mato
+
+> **Decisión de Mato, 29 de agosto de 2026** (`TASK-021`, D4): *"darles 2 o 3
+> noches suaves después de la luna llena para que se recuperen, como Kingdom"*.
+> La forma es canon; las magnitudes son `TBD` (§9.2).
+
+**La piedad va ON, pero no como techo.** Al equipo se le había ocurrido un
+*techo de piedad* —pasadas N noches, la curva se relaja sola y el científico
+llega igual—, y esa forma **queda descartada**: rescataba al jugador atascado
+por reloj y le sacaba sentido a las cuatro compuertas. Lo que entra en su lugar
+es otra cosa, y no toca la curva:
+
+**Tras cada luna llena, las `P_respiro_noches` noches siguientes son más
+suaves** — menos intensidad de oleada (`P_respiro_intensidad`), para que el
+rancho se recupere del pico antes de que el escalado siga subiendo.
+
+- **Cuelga del ciclo lunar, no de un contador de noches.** El ancla es la luna
+  llena (GDD §9), que ya está telegrafiada con días de anticipación. No hay
+  condición oculta ni rescate silencioso: el jugador ve venir el examen *y* ve
+  venir el descanso.
+- **No relaja ninguna compuerta.** C1–C4 se cumplen igual, con los mismos
+  umbrales. El respiro cambia la **presión de las oleadas**, no la curva: si el
+  jugador está atascado, le da noches para rehacer el rebaño y repoblar la
+  taberna, no le regala el científico.
+- **Por qué esta forma y no la otra:** el juego castiga en espiral a propósito
+  (regla 3 del proyecto), y una espiral sin valle no se sale nunca. El respiro
+  le da al jugador el tramo en el que la espiral se puede revertir **jugando**;
+  el techo de piedad se la revertía sin jugar.
+- **Referencia declarada:** *Kingdom*. El ciclo de sangre y calma es el ritmo
+  que Mato quiere — pico, respiro, pico más alto.
+- **Coop-ready:** es una propiedad de la noche, no de un jugador. Con 1 o 2
+  héroes el respiro es el mismo.
+- **Consume:** el sistema de oleadas (§6) y el ciclo lunar de GDD §9. El
+  modificador lunar de la ficha de oleada ya es el lugar donde vive este valor;
+  lo que agrega esta decisión es que el modificador de las noches
+  inmediatamente posteriores a la llena es **menor que el de una noche
+  estándar**, no igual.
+
 ---
 
 ## 9. Decisiones registradas (y lo que sigue abierto)
 
-> Las seis preguntas que dejó el cambio de mecánica. **Mato respondió cinco el
-> 29 de agosto de 2026**; la sexta (D4) dejó de ser una pregunta y pasó a ser una
-> **fase de balance**. Cada ficha que dependía de una la sigue referenciando por
-> su `Dn`, ahora como decisión y no como pendiente.
+> Las seis preguntas que dejó el cambio de mecánica. **Las seis están cerradas
+> al 29 de agosto de 2026**: cinco se respondieron directo y la sexta (D4) pasó
+> por una fase de balance —`TASK-021` propuso la curva, Mato la aprobó ese mismo
+> día—. Cada ficha que dependía de una la sigue referenciando por su `Dn`, ahora
+> como decisión y no como pendiente. **No queda ninguna decisión abierta**; lo
+> que queda es calibración numérica, y esa es del prototipo (§9.2).
 
 ### 9.1 Decisiones cerradas
 
@@ -1287,30 +1335,27 @@ tocar D5.
 | **D1** ✅ | **Variante A: los aliens atacan las torres primero.** No las ignoran — resuelven la torre que los engancha antes de llegar a los edificios. No se pidió que fuera configurable: variante A es el comportamiento único | La torre es un obstáculo y es gastable; colocarla es elegir *dónde se pelea*, no solo a qué refugio cubrís. El `caparazon` como escudo móvil queda confirmado | [§5.0](#50-reglas-de-los-edificios-de-noche-cambio-canónico) punto 6, [`torre_vigilancia`](#56-torre_vigilancia) (→ `canon`), [`caparazon`](#232-caparazon), [`demoledor`](#233-demoledor), §2.3 |
 | **D2** ✅ | **Sin muros, y sin variante clásica.** No hay muros iniciales ni modo *Kingdom* opcional. Los aliens se mueven, entran y disparan libremente; la defensa es **refugio + torres**. Gente, vacas y recursos se refugian en los edificios que los admiten o en el `town_center` | La [`barricada`](#58-barricada) pasa a `archivada`. Los tres enemigos diseñados contra ella se rediseñan para el rancho abierto: no hay barricadas que romper | §5.0 punto 2, [`barricada`](#58-barricada), [`manos_largas`](#213-manos_largas), [`toro_de_marte`](#231-toro_de_marte), [`el_ganadero`](#252-el_ganadero) |
 | **D3** ✅ | **3–5 s por cosa robada, aleatorio** — aldeano, comida o vaca, el mismo rango para las tres. **Los aliens grandes se llevan DOS cosas y tardan más** (multiplicador `TBD`) | **Revisa el 1–3 s / 2 s anterior**, que ya no rige. El establo es defendible: la vaca no se pierde antes de que la torre dispare | §5.0 punto 3, esquema de oleada (§0), [`oleada_ejemplo`](#61-oleada_ejemplo), [`platillo_sonda`](#221-platillo_sonda), [`platillo_abductor`](#222-platillo_abductor), [`ratero_gris`](#211-ratero_gris), [`coyote_plateado`](#212-coyote_plateado), [`establo`](#53-establo), [`vaca`](#72-vaca) |
+| **D4** ✅ | **La curva de progresión del científico, aprobada** (29/08/2026, `TASK-021`). Tres respuestas: (1) **la forma va** — cuatro compuertas sobre tres ejes (C1 sobrevivencia/ganado, C2 comunidad/población, C3 capacidad económica/piezas), con el científico en C4; (2) **el `doctor` se desbloquea en C2**, *"es para que pueda sobrevivir hasta el final"*; (3) **la piedad va ON en una forma concreta**: tras la luna llena, **2–3 noches suaves** para recuperarse, *"como Kingdom"* — **no** el techo de piedad por número de noches que se le había propuesto | La curva deja de ser propuesta y pasa a ser la forma canónica de la progresión. `objetivo_doctor` deja de ser `TBD`: es `cp_poblacion_sostenida`. Aparece el **respiro post-luna-llena** como mecánica del ciclo lunar. **Los once parámetros siguen `TBD`**: lo aprobado es la forma, los números salen del prototipo (§9.2) | [§8.1](#81-curva-de-progresión-del-científico--canon-d4-aprobada-por-mato), [§8.2](#82-el-respiro-post-luna-llena--la-piedad-decidida-por-mato), §8 (`objetivo_cientifico`, `objetivo_doctor`), §9.2 (parámetros), [`cientifico`](#16-cientifico), [`doctor`](#18-doctor), [`vaca`](#72-vaca) |
 | **D5** ✅ | **El campo de fuerza es una estructura y un desbloqueo post-científico.** Cuando llega el científico se abren las mejoras; las mejoras se pagan con **X piezas alien**. Mecánica nueva: **de mañana, tras defender de noche, la gente sale a recolectar comida Y piezas de las naves alien caídas** | Ficha nueva [`pieza_alien`](#73-pieza_alien) (§7.3) y el **barrido del amanecer** como parte del día. El "muro" del late game se construye con los restos de quienes te vinieron a robar | §7.3, [`campo_fuerza_alien`](#59-campo_fuerza_alien), [`laboratorio`](#55-laboratorio), §8 (`desbloqueo_campo_fuerza`) |
 | **D6** ✅ | **Árbol de talentos POR EDIFICIO.** Se abre **clickeando el edificio**; lo que comprás vale para ese edificio y para ningún otro, ni del mismo tipo. No hay árbol global | La progresión deja de ser una compra por tipo y pasa a ser la estrategia de layout del jugador. La bifurcación `refugio_y_defensa` / `doble_refugio` es la primera rama de ese árbol | §5.0 punto 4, esquema de edificio (§0), todas las fichas de §5 |
 
-### 9.2 Lo que sigue abierto — D4 no es una decisión, es balance
+### 9.2 D4 — la forma está aprobada, los números son del prototipo
 
-| # | Estado | Qué pidió Mato |
+| # | Estado | Qué decidió Mato |
 |---|---|---|
-| **D4** ⏳ | **Convertida en fase de balance** (`TASK-021`) | Mato **no sabe** cuántas vacas desbloquean al científico y no quiere elegir un número a ciegas: pidió una **fase de balance con checkpoints** de progresión que haya que cumplir antes de que el científico llegue. El equipo **propone la curva**; Mato la **aprueba**. Hasta entonces el umbral sigue `TBD` y vive como parámetro de data (`TASK-017`) |
+| **D4** ✅ | **Forma aprobada** (`TASK-021`, 29/08/2026) · **valores `TBD`** | Mato no eligió un número de vacas a ciegas: pidió una fase de balance, el equipo propuso la curva y él la **aprobó en tres puntos** — (1) **la forma**: cuatro compuertas sobre tres ejes (sobrevivencia, comunidad, capacidad económica); (2) el **`doctor` en C2**; (3) la **piedad ON** como respiro post-luna-llena de 2–3 noches suaves (§8.2), descartando el techo por número de noches |
 
-**El número de vacas no se inventa** (regla 5 del proyecto). Lo que `TASK-021`
-entrega es la *forma* de la curva —qué checkpoints, en qué orden, qué abre cada
-uno— con los valores como parámetros a completar.
-
-**Estado al 29 de agosto de 2026: la propuesta está escrita y espera a Mato.**
-La forma vive en [§8.1](#81-curva-de-progresión-del-científico--propuesta-d4-task-021):
+**Lo aprobado es la forma, no los valores** (regla 5 del proyecto). La curva
+canónica vive en [§8.1](#81-curva-de-progresión-del-científico--canon-d4-aprobada-por-mato):
 cuatro compuertas (`cp_ganado_inicial` → `cp_poblacion_sostenida` →
 `cp_piezas_barrido` → `objetivo_cientifico`) sobre tres ejes —ganado sostenido,
 población sostenida y piezas alien—, con *noches sobrevividas* descartada como
-compuerta. **Nada de eso es canon todavía**: `TASK-021` sigue en `todo` con la
-etiqueta `aprobacion-mato`.
+compuerta. El respiro post-luna-llena está en
+[§8.2](#82-el-respiro-post-luna-llena--la-piedad-decidida-por-mato).
 
-Los parámetros de esa curva, **todos `TBD`**. El rango es de arranque para el
-prototipo, **no un valor aprobado** — se calibra en `TASK-010` / `TASK-005` con
-el juego andando:
+**Lo que sigue pendiente son estos parámetros, todos `TBD`.** El rango es de
+arranque para el prototipo, **no un valor aprobado** — se calibra en `TASK-010` /
+`TASK-005` con el juego andando:
 
 | Parámetro | Unidad | Valor | Rango de arranque (sin aprobar) |
 |---|---|---|---|
@@ -1323,12 +1368,20 @@ el juego andando:
 | `P4_vacas` | vacas vivas | `TBD` | 8–14 (≈ 3–4 × `P1_vacas`); debe exigir granja extra, el pasto es el freno (§7.1) |
 | `P4_amaneceres` | amaneceres consecutivos | `TBD` | 2–4 — el parámetro más sensible de la curva |
 | `P_aviso` | distancia al objetivo para avisar | `TBD` | falta ≤1 unidad, o ≤20–25 % |
-| `P_piedad` *(opcional)* | noches hasta relajar la curva | `TBD` | 12–18, **default OFF** — pregunta abierta para Mato |
+| `P_respiro_noches` | noches suaves después de cada luna llena | `TBD` | **2–3 — rango fijado por Mato** (§8.2), no de arranque; el valor exacto dentro del rango sale del prototipo |
+| `P_respiro_intensidad` | intensidad de oleada en esas noches | `TBD` | por debajo de una noche estándar del mismo tramo — **cuánto**, sin rango: depende de la curva de oleadas (`TASK-008`) |
 | `N_objetivo` | noche en la que llega el científico jugando bien | `TBD` | 6–10 — **el único número que importa calibrar**; los otros son medios para caer en esta ventana |
 
-**Las tres preguntas que `TASK-021` le hace a Mato:** (1) ¿cuatro compuertas y
-estos tres ejes? (2) ¿el `doctor` como recompensa de C2, o se reserva? (3)
-¿techo de piedad OFF —la recomendación del equipo— u ON?
+**Las tres preguntas que `TASK-021` le hizo a Mato, y sus respuestas
+(29/08/2026):** (1) *¿cuatro compuertas y estos tres ejes?* → **sí, la forma se
+aprueba** tal cual, con los ejes leídos como sobrevivencia (C1), comunidad (C2)
+y capacidad económica (C3). (2) *¿el `doctor` como recompensa de C2?* → **sí**,
+*"es para que pueda sobrevivir hasta el final"*. (3) *¿techo de piedad OFF u
+ON?* → **ON, pero en otra forma**: no un techo por número de noches, sino
+**2–3 noches suaves después de la luna llena**, *"como Kingdom"* (§8.2).
+
+**Los números no se contestaron, y era lo correcto:** salen del prototipo
+apuntando a `N_objetivo` (noches 6–10).
 
 ### 9.3 Cómo se cierra una decisión
 

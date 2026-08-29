@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T20:00:00Z",
+  "generated_at": "2026-08-29T23:15:00Z",
   "tasks": [
     {
       "key": "TASK-001",
@@ -124,7 +124,7 @@
     {
       "key": "TASK-021",
       "title": "BALANCE DE PROGRESIÓN (D4) — proponerle a Mato la curva de checkpoints que trae al científico",
-      "status": "todo",
+      "status": "done",
       "priority": "medium"
     },
     {

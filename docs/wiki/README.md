@@ -39,7 +39,7 @@ Documentos hermanos: [GDD](../GDD.md) · [TECH](../TECH.md) ·
 | [`vaquero_ganado`](../WIKI.md#15-vaquero_ganado) | Vaquero de ganado | mixto | Peón + Establo construido | 🧪 propuesta | 5 |
 | [`cientifico`](../WIKI.md#16-cientifico) | Científico / Profesor | investigacion | Objetivo de desbloqueo — llega al pueblo cuando el rancho sostiene X vacas vivas (§8, objetivo_cientifico). También puede encontrarse explorando | ✅ canon | 2 |
 | [`dinamitero`](../WIKI.md#17-dinamitero) | Dinamitero | defensivo | Recluta especial / edificio minero (por definir) | 🧪 propuesta | 4 |
-| [`doctor`](../WIKI.md#18-doctor) | Doctor / Curandero | economico | Recluta especial | 🧪 propuesta | 4 |
+| [`doctor`](../WIKI.md#18-doctor) | Doctor / Curandero | economico | Objetivo de desbloqueo — llega cuando el rancho sostiene su población sin perder gente (§8.1, compuerta C2 cp_poblacion_sostenida) | 🧪 propuesta | 4 |
 | [`sheriff`](../WIKI.md#19-sheriff) | Sheriff | defensivo | Evento / nivel de pueblo alto | 🧪 propuesta | 6 |
 
 ## Clases del héroe
