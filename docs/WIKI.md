@@ -1428,6 +1428,14 @@ peleás mejor: matarlos antes (ataque), reponer más rápido lo que te sacaron
   se gastan en **mejorar** la clase que jugás o en **desbloquear héroes nuevos**
   que pertenecen a una de las tres. Las tres clases son el eje fijo; los héroes,
   el contenido que crece.
+- **Las clases reutilizan lo que ya existe** (decisión de Mato, 29 de agosto de
+  2026): **no traen componentes propios ni un sistema paralelo**. La clase es una
+  ficha más —`clase_heroe`, mismo pipeline `wiki → datos` que el resto— y el bonus
+  se aplica sobre los sistemas ya definidos: el daño de torres, edificios y
+  unidades, la producción de la economía, y la vida, la `capacidad_refugio` y la
+  ventana de robo de [§5.0](#50-reglas-de-los-edificios-de-noche-cambio-canónico).
+  Ninguna clase agrega entradas al registro de componentes de
+  [§3](#3-registro-de-componentes-drops). Se implementa en `TASK-023`.
 - **Ningún número está decidido.** `magnitud_bonus` y `escalado_por_nivel` son
   `TBD` en las tres fichas (regla 1 de [§0](#0-instrucciones-para-sistemas-de-ia)).
 

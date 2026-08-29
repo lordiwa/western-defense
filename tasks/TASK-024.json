@@ -35,9 +35,14 @@
       "author": "orchestrator",
       "at": "2026-08-29T20:00:00Z",
       "body": "Ticket nuevo, mitad roguelite de la decisión de clases (29/08/2026). No había ningún ticket de meta-progresión en el backlog: GDD §8.3 era prosa sin dueño y §13.2 punto 3 sigue abierto. Depende de TASK-023 porque el árbol meta no tiene qué mejorar hasta que los tres ejes de bonus existan en la run.\n\nDos cosas para Mato antes de que este ticket se pueda cerrar del todo: si los **héroes concretos** pasan a ser un tipo de ficha de la wiki (hoy anotado en el backlog de WIKI §10) y el nombre de los puntos del meta."
+    },
+    {
+      "author": "orchestrator",
+      "at": "2026-08-29T21:30:00Z",
+      "body": "La decisión de Mato del 29/08/2026 sobre componentes (registrada en TASK-023) alcanza al **punto 4** de este ticket: si los héroes concretos llegan a ser un tipo de ficha propio de la wiki (hoy en el backlog de WIKI §10), tienen que entrar por el **mismo pipeline y la misma maquinaria de fichas/componentes** que ya existe — un séptimo/octavo tipo del pipeline, no un sistema aparte. Lo mismo vale para las mejoras permanentes del punto 3: suben el `magnitud_bonus`/`escalado_por_nivel` de la ficha de clase, no introducen un eje ni un componente nuevo. El resto del alcance no cambia y sigue `todo`."
     }
   ],
   "created_at": "2026-08-29T20:00:00Z",
-  "updated_at": "2026-08-29T20:00:00Z",
+  "updated_at": "2026-08-29T21:30:00Z",
   "jira_key": null
 }
