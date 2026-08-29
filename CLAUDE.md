@@ -25,7 +25,9 @@ Este archivo define cómo trabajar en este repo.
 3. **El robo duele más que la muerte.** Los enemigos roban (no destruyen); el
    fallo es una espiral, no un game over instantáneo. Desde v0.4 roban **a los
    edificios**: no hay muros, cada edificio es refugio o defensa de noche, y
-   sacar cada víctima les lleva tiempo (1–3 s por persona, 2 s por recurso).
+   sacar cada víctima les lleva tiempo (**3–5 s por cosa** — aldeano, comida o
+   vaca, el mismo rango para las tres; los aliens grandes se llevan dos y tardan
+   más, D3).
    Esa ventana es toda la defensa del juego. Ver WIKI §5.0 (normativo).
 4. **Las decisiones abiertas son de Mato.** WIKI §9 (D1–D6) y GDD §13.1 listan
    preguntas que ningún agente contesta por su cuenta, ni por deducción ni por

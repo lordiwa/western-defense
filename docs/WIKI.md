@@ -1197,10 +1197,10 @@ estado: propuesta
 
 | id del objetivo | Condición | Desbloquea | Estado |
 |---|---|---|---|
-| `objetivo_cientifico` | Sostener **X vacas vivas** en el rancho, más los checkpoints de progresión previos (X y la curva = `TBD`, los propone `TASK-021` y los aprueba Mato — ver §9) | [`cientifico`](#16-cientifico) — y con él el `laboratorio` y **las mejoras**, que se pagan en [`pieza_alien`](#73-pieza_alien) | propuesta |
+| `objetivo_cientifico` | **Última compuerta** de la curva de progresión (§8.1): sostener **X vacas vivas**, con las tres compuertas previas ya cumplidas. X y la curva = `TBD`, los propone `TASK-021` y los aprueba Mato — ver §9.2 | [`cientifico`](#16-cientifico) — y con él el `laboratorio` y **las mejoras**, que se pagan en [`pieza_alien`](#73-pieza_alien) | propuesta |
 | `desbloqueo_campo_fuerza` | Tener el `cientifico` en el rancho **y** juntar **X piezas alien** (X = `TBD`) | [`campo_fuerza_alien`](#59-campo_fuerza_alien) | propuesta |
 | `objetivo_sheriff` | `TBD` — candidato: sobrevivir N noches sin perder gente | [`sheriff`](#19-sheriff) | propuesta |
-| `objetivo_doctor` | `TBD` | [`doctor`](#18-doctor) | propuesta |
+| `objetivo_doctor` | `TBD` — candidato propuesto por `TASK-021`: la compuerta `cp_poblacion_sostenida` (§8.1). **Sin aprobar** | [`doctor`](#18-doctor) | propuesta |
 
 - Un objetivo **no se compra**: se cumple jugando. Es la manera de que criar
   ganado o proteger gente sea progresión y no solo economía.
@@ -1212,6 +1212,64 @@ estado: propuesta
   que haya suficientes como para que valga un esquema propio (§10).
 - Ninguna condición numérica se inventa acá: las X son `TBD` hasta balance
   (regla 1 de §0).
+
+### 8.1 Curva de progresión del científico — PROPUESTA (D4, `TASK-021`)
+
+> **Estado: `propuesta`, pendiente de aprobación de Mato.** Esto es la *forma*
+> de la curva, no sus valores: **ningún número de esta subsección está
+> decidido**. Los parámetros viven en §9.2 y todos son `TBD`. Hasta que Mato
+> apruebe, nada de acá es canon.
+
+**Cuatro compuertas ordenadas, tres ejes distintos, el científico al final** —
+no un umbral único de vacas. Cada compuerta se evalúa **al amanecer** (en el
+barrido, §7.3), abre algo visible y premia un comportamiento que las otras no
+premian: **construir** (ganado), **defender gente** (población) y **matar**
+(piezas alien). Un solo eje se optimiza y se rompe; tres en secuencia obligan a
+jugar el juego entero antes de la bisagra.
+
+| # | id | Eje | Condición (parametrizada) | Abre |
+|---|---|---|---|---|
+| **C1** | `cp_ganado_inicial` | Ganado sostenido (bajo) | `vacas_vivas >= P1_vacas` sostenido `P1_amaneceres` amaneceres consecutivos | **La curva se vuelve visible**: el aviso del profesor aparece en el [`town_center`](#51-town_center) con el tablón de las cuatro compuertas |
+| **C2** | `cp_poblacion_sostenida` | Población sostenida | `poblacion_viva >= P2_poblacion` **y** `personas_robadas <= P2_perdidas_max` en las últimas `P2_ventana` noches | El [`doctor`](#18-doctor) — candidato para el `objetivo_doctor` de §8 |
+| **C3** | `cp_piezas_barrido` | Piezas alien acumuladas | `piezas_alien_recolectadas_acumuladas >= P3_piezas` (acumulado del run, **no** stock actual) | El **barrido del amanecer rinde más**: el rancho desmonta naves grandes y alcanza los restos lejanos ([`pieza_alien`](#73-pieza_alien)) |
+| **C4** | `objetivo_cientifico` | Ganado sostenido (alto) | `vacas_vivas >= P4_vacas` sostenido `P4_amaneceres` amaneceres consecutivos, **con C1–C3 cumplidas** | El [`cientifico`](#16-cientifico) → [`laboratorio`](#55-laboratorio), árboles de talento (§5.0.4) y **todas las mejoras** post-científico (D5) |
+
+**Por qué C4 vuelve al eje de C1.** No es repetición: C1 pregunta *¿sabés
+criar?*, C4 pregunta *¿podés sostenerlo bajo fuego?*. La frase de Mato queda
+intacta —el científico **sí** llega por vacas—; lo que se agrega es lo que hay
+que haber hecho antes de que ese número cuente.
+
+**Ejes descartados**, y por qué:
+
+- **Noches sobrevividas** — no entra como compuerta: es un temporizador
+  disfrazado, se cumple solo y premia esconderse. Entra en dos roles
+  subordinados: como **unidad de medida** del "sostenido" (se cuenta en
+  amaneceres consecutivos) y como el techo de piedad opcional `P_piedad` (§9.2).
+- **Recursos acumulados** (madera, comida en depósito) — mide paciencia, se
+  farmea sin riesgo y ya está implícito: sin economía no se llega a `P4_vacas`.
+- **Aliens derribados** — se solapa con C3 y premia farmear spawns baratos. Las
+  piezas cuentan lo mismo *y* exigen sobrevivir hasta la mañana para juntarlas.
+- **Nivel de pueblo / renombre** — es justo lo que v0.2 sacó del juego.
+- **Cualquier eje del héroe** — rompe coop (regla 7): las cuatro condiciones son
+  del **rancho**, no de un jugador.
+
+**Pedir piezas antes del científico no es circular, es el punto.** Las piezas se
+**juntan** desde la noche 1 (D5); el científico habilita **gastarlas**. C3 le da
+lectura al único tramo muerto del diseño: mientras no tenés en qué gastarlas,
+cuentan para traer a quien te deja gastarlas.
+
+**Cómo la ve el jugador** (alimenta el aviso previo de `TASK-017`): un **tablón**
+en el `town_center` con las cuatro compuertas —la cumplida tachada, la actual con
+barra y número, las futuras con título visible y cifra en gris—; se **resuelve al
+amanecer**, nunca en mitad de la noche; avisa cuando falta poco (`P_aviso`) **y
+cuando retrocedés** por un robo. Una compuerta cumplida **no se pierde**; lo que
+se reinicia es la ventana de sostenimiento de la compuerta en curso.
+
+**Riesgo anotado:** las mejoras y los árboles de talento cuelgan del
+`laboratorio`, o sea de C4, así que C1–C3 dan poco poder tangible. Por eso C2 da
+una unidad y C3 una capacidad económica. Si hiciera falta más peso en el early,
+la palanca es mover una mejora barata a pre-científico — y eso **sí** sería
+tocar D5.
 
 ---
 
@@ -1241,6 +1299,36 @@ estado: propuesta
 **El número de vacas no se inventa** (regla 5 del proyecto). Lo que `TASK-021`
 entrega es la *forma* de la curva —qué checkpoints, en qué orden, qué abre cada
 uno— con los valores como parámetros a completar.
+
+**Estado al 29 de agosto de 2026: la propuesta está escrita y espera a Mato.**
+La forma vive en [§8.1](#81-curva-de-progresión-del-científico--propuesta-d4-task-021):
+cuatro compuertas (`cp_ganado_inicial` → `cp_poblacion_sostenida` →
+`cp_piezas_barrido` → `objetivo_cientifico`) sobre tres ejes —ganado sostenido,
+población sostenida y piezas alien—, con *noches sobrevividas* descartada como
+compuerta. **Nada de eso es canon todavía**: `TASK-021` sigue en `todo` con la
+etiqueta `aprobacion-mato`.
+
+Los parámetros de esa curva, **todos `TBD`**. El rango es de arranque para el
+prototipo, **no un valor aprobado** — se calibra en `TASK-010` / `TASK-005` con
+el juego andando:
+
+| Parámetro | Unidad | Valor | Rango de arranque (sin aprobar) |
+|---|---|---|---|
+| `P1_vacas` | vacas vivas | `TBD` | 2–4 |
+| `P1_amaneceres` | amaneceres consecutivos | `TBD` | 1–2 |
+| `P2_poblacion` | aldeanos vivos en el rancho | `TBD` | 5–8 (atado a `taberna.capacidad_refugio`, `TBD`) |
+| `P2_perdidas_max` | personas robadas en la ventana | `TBD` | 0–1 |
+| `P2_ventana` | noches (ventana móvil) | `TBD` | 2–3 |
+| `P3_piezas` | piezas alien acumuladas en el run | `TBD` | el barrido de 2–4 noches bien defendidas — **relativo**, porque `pieza_alien.produccion` es `TBD` |
+| `P4_vacas` | vacas vivas | `TBD` | 8–14 (≈ 3–4 × `P1_vacas`); debe exigir granja extra, el pasto es el freno (§7.1) |
+| `P4_amaneceres` | amaneceres consecutivos | `TBD` | 2–4 — el parámetro más sensible de la curva |
+| `P_aviso` | distancia al objetivo para avisar | `TBD` | falta ≤1 unidad, o ≤20–25 % |
+| `P_piedad` *(opcional)* | noches hasta relajar la curva | `TBD` | 12–18, **default OFF** — pregunta abierta para Mato |
+| `N_objetivo` | noche en la que llega el científico jugando bien | `TBD` | 6–10 — **el único número que importa calibrar**; los otros son medios para caer en esta ventana |
+
+**Las tres preguntas que `TASK-021` le hace a Mato:** (1) ¿cuatro compuertas y
+estos tres ejes? (2) ¿el `doctor` como recompensa de C2, o se reserva? (3)
+¿techo de piedad OFF —la recomendación del equipo— u ON?
 
 ### 9.3 Cómo se cierra una decisión
 

@@ -23,8 +23,8 @@ defendiéndote de los aliens **con sus propias armas**.
 
 Desde el cambio de mecánica de v0.4 el robo es más concreto: **no hay muros.**
 El rancho está abierto y de noche cada edificio se vuelve refugio o defensa. El
-alien entra al refugio y **tarda** en sacar lo que hay (1–3 s por persona, 2 s
-por recurso). No le impedís entrar: le cobrás esos segundos con torres que
+alien entra al refugio y **tarda** en sacar lo que hay (**3–5 s por cosa**, sea
+aldeano, comida o vaca; los grandes se llevan dos y tardan más — D3). No le impedís entrar: le cobrás esos segundos con torres que
 colocás donde quieras. Y si lo matás cargado, suelta el botín.
 
 ## Documentos canónicos
@@ -94,7 +94,7 @@ balance. `TASK-018` está `done`. El registro canónico es
 | **D1** ✅ | Variante A: los aliens **atacan las torres primero** y resuelven la que los engancha antes de ir al refugio | **`TASK-013` destrabado** (`todo`) |
 | **D2** ✅ | **Sin muros**, ni siquiera como variante: rancho abierto, `barricada` archivada | **`TASK-020` destrabado** (`todo`) — los 5 enemigos en `propuesta` |
 | **D3** ✅ | **3–5 s por cosa robada**, igual para aldeano, comida y vaca; los grandes se llevan dos | `TASK-014` deja de usar provisional |
-| **D4** ⏳ | **No es decisión, es balance**: la curva de checkpoints la propone `TASK-021` y la aprueba Mato | El umbral sigue `TBD` como parámetro de data en `TASK-017` |
+| **D4** ⏳ | **No es decisión, es balance**: la curva de checkpoints la propone `TASK-021` y la aprueba Mato. **Propuesta escrita** (cuatro compuertas, WIKI §8.1) — **espera a Mato** | El umbral sigue `TBD` como parámetro de data en `TASK-017` |
 | **D5** ✅ | El campo de fuerza es **estructura** y desbloqueo post-científico, pagado en `pieza_alien` (barrido del amanecer) | `TASK-016` sigue post-vertical-slice |
 | **D6** ✅ | **Árbol de talentos por edificio**, sin árbol global | `TASK-015` implementa por edificio, sin bandera |
 
