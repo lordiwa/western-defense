@@ -84,20 +84,19 @@ prioridad de objetivo; el ganado come pasto y pasa hambre; los edificios suben
 por una de dos ramas (refugio+defensa o doble refugio); y algunas entidades se
 desbloquean cumpliendo objetivos (el científico llega con X vacas).
 
-Quedan **seis decisiones abiertas** (D1–D6) que ningún agente resuelve por su
-cuenta — están en [`docs/WIKI.md §9`](docs/WIKI.md), en GDD §13.1 y tienen dueño
-en `TASK-018`, asignado a Mato. Se pueden cerrar de a una: solo las dos primeras
-frenan trabajo; las otras cuatro viajan adentro del ticket que las necesita, con
-la instrucción de parametrizar en vez de asumir.
+Las **seis decisiones** que dejó ese cambio (D1–D6) están **cerradas**: Mato
+respondió cinco el 29 de agosto de 2026 y la sexta (D4) pasó a ser una fase de
+balance. `TASK-018` está `done`. El registro canónico es
+[`docs/WIKI.md §9`](docs/WIKI.md), con resumen en GDD §13.1.
 
-| Decisión | Qué frena |
-|---|---|
-| **D1** — ¿los aliens atacan las torres o las ignoran? | **`TASK-013` está detenido.** La más urgente |
-| **D2** — ¿entran los muros clásicos como opción? | **`TASK-020` está detenido** (los 5 enemigos que volvieron a `propuesta`) |
-| **D3** — ¿cuánto tarda robarse una vaca? | nada: `TASK-014` usa un provisional marcado |
-| **D4** — ¿cuántas vacas traen al científico? | nada: en `TASK-017` el umbral es un parámetro de data |
-| **D5** — campo de fuerza, ¿estructura o arma T3? | nada: `TASK-016` es post-vertical-slice |
-| **D6** — rama de nivel, ¿por edificio o global? | nada: `TASK-015` implementa por edificio tras una bandera |
+| Decisión | Qué se decidió | Qué destrabó |
+|---|---|---|
+| **D1** ✅ | Variante A: los aliens **atacan las torres primero** y resuelven la que los engancha antes de ir al refugio | **`TASK-013` destrabado** (`todo`) |
+| **D2** ✅ | **Sin muros**, ni siquiera como variante: rancho abierto, `barricada` archivada | **`TASK-020` destrabado** (`todo`) — los 5 enemigos en `propuesta` |
+| **D3** ✅ | **3–5 s por cosa robada**, igual para aldeano, comida y vaca; los grandes se llevan dos | `TASK-014` deja de usar provisional |
+| **D4** ⏳ | **No es decisión, es balance**: la curva de checkpoints la propone `TASK-021` y la aprueba Mato | El umbral sigue `TBD` como parámetro de data en `TASK-017` |
+| **D5** ✅ | El campo de fuerza es **estructura** y desbloqueo post-científico, pagado en `pieza_alien` (barrido del amanecer) | `TASK-016` sigue post-vertical-slice |
+| **D6** ✅ | **Árbol de talentos por edificio**, sin árbol global | `TASK-015` implementa por edificio, sin bandera |
 
 ### Clases del héroe (29 de agosto de 2026)
 
@@ -127,7 +126,7 @@ reglas que no se negocian.
 
 | Frente | Arranca por |
 |---|---|
-| **Decisiones (Mato)** | `TASK-018` (D1–D6) — D1 desbloquea `TASK-013`, D2 desbloquea `TASK-020` |
+| **Decisiones (Mato)** | ~~`TASK-018`~~ ✅ (D1–D6 cerradas) → `TASK-021` (curva de progresión de D4, la aprueba Mato) |
 | Documentación | ~~`TASK-001`~~ ✅ → ~~`TASK-003`~~ ✅ → `TASK-019` (alinear TECH con v0.4) → `TASK-002` (cerrar GDD §13.2) |
 | Juego | `TASK-006` (proyecto Godot, semana 1) → `TASK-007` (spike de split screen, riesgo #1) → `TASK-012` (edificios-refugio, el núcleo de v0.4) → `TASK-023` (clases del héroe) |
 | Meta-juego | `TASK-023` (las tres clases en la run) → `TASK-024` (roguelite de héroes entre runs) |

@@ -413,20 +413,27 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 
 ## 13. Preguntas Abiertas (para v0.5)
 
-### 13.1 Decisiones que bloquean el diseño defensivo (para Mato)
+### 13.1 Decisiones del diseño defensivo — cerradas por Mato
 
-> Salieron del cambio de mecánica de v0.4. **Ninguna se resuelve sin él**: ni la
-> wiki ni este documento asumen una respuesta. Tabla espejo en
-> [`WIKI.md §9`](WIKI.md#9-decisiones-abiertas-para-el-equipo).
+> Salieron del cambio de mecánica de v0.4. **Mato cerró cinco el 29 de agosto de
+> 2026**; la sexta (D4) dejó de ser una pregunta y pasó a ser una fase de
+> balance. El registro canónico —con el detalle de cada una y las fichas que
+> toca— está en [`WIKI.md §9`](WIKI.md#9-decisiones-registradas-y-lo-que-sigue-abierto);
+> esto es el resumen.
 
-| # | Decisión | Por qué bloquea |
+**Resueltas (29 de agosto de 2026)**
+
+- ✅ **D1 — Variante A: los aliens atacan las torres primero.** No las ignoran ni es configurable: el alien resuelve la torre que lo engancha antes de seguir al refugio, así que colocar una torre es elegir *dónde se pelea* (§6.3)
+- ✅ **D2 — No hay muros, ni siquiera como variante.** El rancho queda abierto: la defensa es refugio + torres. `barricada` se archiva y los tres enemigos diseñados contra ella se rediseñan (`TASK-020`) (§6.1, §6.3)
+- ✅ **D3 — 3–5 s por cosa robada, aleatorio**, sea aldeano, comida o vaca; los aliens grandes se llevan **dos** cosas y tardan más (multiplicador pendiente de balance). Revisa el 1–3 s / 2 s de v0.4 (§6.3)
+- ✅ **D5 — El campo de fuerza es una estructura, y un desbloqueo post-científico.** Las mejoras se pagan en **piezas alien**, recogidas de mañana en el **barrido del amanecer** sobre las naves caídas (§8.1)
+- ✅ **D6 — Árbol de talentos por edificio**, que se abre clickeando ese edificio: lo que comprás no vale ni para otro edificio del mismo tipo. No hay árbol global; la progresión *es* el layout (§6.5)
+
+**Lo que sigue abierto**
+
+| # | Estado | Qué falta |
 |---|---|---|
-| **D1** | **Variante A o B de las torres.** (A) los aliens **atacan las torres primero** — la torre es un obstáculo que hay que resolver; (B) las torres **no detienen a nadie** — los aliens van directo a los edificios y la torre solo les dispara mientras roban. ¿Y es **configurable** (dificultad, tipo de enemigo) o se elige una sola? | Cambia dónde conviene poner una torre, qué significa la prioridad de objetivo, y si el *Caparazón* funciona como escudo móvil |
-| **D2** | **¿Entran los muros clásicos estilo *Kingdom* como opción de partida?** | De eso depende si `barricada` se archiva y si hay que rediseñar *Manos Largas*, *Toro de Marte* y *El Ganadero* |
-| **D3** | **Tiempo de robo del ganado.** Persona (1–3 s) y recurso (2 s) están decididos; la vaca no | Sin él, el establo no se puede balancear ni el `platillo_sonda` cerrar |
-| **D4** | **Cuántas vacas hacen llegar al científico** (§6.4) | Es el primer objetivo de desbloqueo y marca el ritmo del árbol tecnológico |
-| **D5** | **El campo de fuerza: ¿estructura o arma T3 montada en torre?** | Decide si el late game tiene una "muralla alien" o solo torres mejores |
-| **D6** | **La rama de nivel, ¿se elige por edificio o sube global?** (§6.5) | Cambia el costo de la progresión y cuánto micro tiene el jugador |
+| **D4** — cuántas vacas hacen llegar al científico (§6.4) | ⏳ **Convertida en fase de balance** (`TASK-021`) | No es un número que se elija a ciegas: el equipo propone una **curva de checkpoints** de progresión y Mato la aprueba. Hasta entonces el umbral vive como parámetro de data (`TASK-017`) y sigue `TBD` |
 
 ### 13.2 Preguntas de fondo (venían de v0.3)
 1. Lista final de edificios y sus árboles de mejora. (§6.2, §6.5)
@@ -443,7 +450,7 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 ### Resueltas en v0.4
 - ✅ **Sin muros por defecto:** el rancho está abierto; la defensa son edificios-refugio + torres colocables (§6.1, §6.3)
 - ✅ **Los edificios tienen dos vidas:** función económica de día, refugio o defensa de noche (§6.2)
-- ✅ **El robo lleva tiempo y esa ventana es el juego:** 1–3 s por persona, 2 s por recurso; matarlo cargado le hace soltar el botín (§6.3)
+- ✅ **El robo lleva tiempo y esa ventana es el juego:** matarlo cargado le hace soltar el botín (§6.3). *El 1–3 s / 2 s de v0.4 quedó revisado por D3: hoy son 3–5 s para todo*
 - ✅ **Torres colocables libremente y configurables** por prioridad de objetivo (§6.3)
 - ✅ **El ganado come:** cadena pasto → vaca → comida, con hambre si el rebaño crece más rápido que las granjas (§5.4)
 - ✅ **Los edificios suben de nivel** por una de dos ramas excluyentes: refugio+defensa o doble refugio (§6.5)
@@ -486,4 +493,4 @@ La primera bifurcación de ese árbol son las dos ramas canónicas, y son excluy
 
 ---
 
-*Documento vivo. Siguiente iteración: v0.5 tras resolver las decisiones de §13.1 con Mato y validar el prototipo del core loop.*
+*Documento vivo. Siguiente iteración: v0.5 con las decisiones de §13.1 ya cerradas — falta la curva de balance de D4 (`TASK-021`) y validar el prototipo del core loop.*
